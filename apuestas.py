@@ -127,6 +127,7 @@ class Apuestas():
 				print(p[0]+' '*(ml-l),'| ',float(p[1][0]),float(p[1][1]),' | ')
 
 if __name__=='__main__':
-	a=Apuestas()
-	a.comparar()
-	a.print()
+	#a=Apuestas()
+	#a.comparar()
+	#a.print()
+	pass
