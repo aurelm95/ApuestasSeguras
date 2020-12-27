@@ -1,0 +1,170 @@
+Buscando partidos en williamhill...
+Buscando partidos en betfair...
+Betfair(): En el partido: Bautista Agut - M Cuevas  no se ha podido leer el precio:
+ 
+51.0
+Buscando partidos en betstars...
+Comparando...
+
+Apuesta segura:
+Veronika Kudermetova  vs  Veronika Kudermetova
+                     | williamhill | otra
+|-------------------- ---------------------------
+|Veronika Kudermetova  |  1.4 2.5
+|-------------------- ---------------------------
+|Veronika Kudermetova  |  2.75 1.44
+|-------------------- ---------------------------
+Apostando 1 euro en wh por Veronika Kudermetova  y  0.4  en la otra casa por Veronika Kudermetova
+1* 1.4 -1.4 = -1.1102230246251565e-16 >0
+0.4 * 1.44 -1.4 = -0.8240000000000001 >0
+
+Apuesta segura:
+Barbora Krejcikova  vs  Barbora Krejcikova
+                   | williamhill | otra
+|------------------ ---------------------------
+|Barbora Krejcikova  |  2.0 1.6
+|------------------ ---------------------------
+|Barbora Krejcikova  |  1.73 2.15
+|------------------ ---------------------------
+Apostando 1 euro en wh por Barbora Krejcikova  y  1.0  en la otra casa por Barbora Krejcikova
+1* 2.0 -2.0 = 0.0 >0
+1.0 * 2.15 -2.0 = 0.1499999999999999 >0
+
+Apuesta segura:
+Arina Rodionova  vs  Arina Rodionova
+                | williamhill | otra
+|--------------- ---------------------------
+|Arina Rodionova  |  3.5 1.25
+|--------------- ---------------------------
+|Arina Rodionova  |  1.29 3.5
+|--------------- ---------------------------
+Apostando 1 euro en wh por Arina Rodionova  y  2.5  en la otra casa por Arina Rodionova
+1* 3.5 -3.5 = 0.0 >0
+2.5 * 3.5 -3.5 = 5.25 >0
+
+Apuesta segura:
+Kateryna Bondarenko  vs  Kateryna Bondarenko
+                    | williamhill | otra
+|------------------- ---------------------------
+|Kateryna Bondarenko  |  2.6 1.53
+|------------------- ---------------------------
+|Kateryna Bondarenko  |  1.5 2.3
+|------------------- ---------------------------
+Apostando 1 euro en wh por Kateryna Bondarenko  y  1.6  en la otra casa por Kateryna Bondarenko
+1* 2.6 -2.6 = 0.0 >0
+1.6 * 2.3 -2.6 = 1.0799999999999996 >0
+
+Apuesta segura:
+Sara Sorribes  vs  Sara Sorribes
+              | williamhill | otra
+|------------- ---------------------------
+|Sara Sorribes  |  2.6 1.44
+|------------- ---------------------------
+|Sara Sorribes  |  1.5 2.5
+|------------- ---------------------------
+Apostando 1 euro en wh por Sara Sorribes  y  1.6  en la otra casa por Sara Sorribes
+1* 2.6 -2.6 = 0.0 >0
+1.6 * 2.5 -2.6 = 1.4 >0
+
+Williamhill: 95 partidos
+Betfair    : 114 partidos
+Betstars   : 30 partidos
+Han habido 69 coincidencias
+Seguras: 5
+
+
+Mandando mensaje al telegram...
+
+TABLA:
+
+                                              | williamhill | betfair | betstars
+--------------------------------------------- ---------------------------
+Fabio Fognini vs Casper Ruud                  |  0.62 1.3  |  0.7 1.2  |  1.2 0.67
+Steve Darcis vs Cameron Norrie                |  2.1 0.36  |  2.25 0.35  |  0.33 2.25
+Jan-Lennard Struff vs Michail Pervolarakis    |  0.03 11.0  |  0.02 14.0  |  12.0 0.03
+David Goffin vs Daniel Evans                  |  0.4 1.9  |  0.36 2.2  |  0.0 0.0
+Alexander Zverev vs Stefanos Tsitsipas        |  1.6 0.5  |  0.0 0.0  |  0.0 0.0
+Karen Khachanov vs Taylor Fritz               |  0.44 1.75  |  0.48 1.7  |  0.0 0.0
+Daniil Medvedev vs John Isner                 |  0.33 2.3  |  0.3 2.6  |  0.0 0.0
+Marin Cilic vs Kamil Majchrzak                |  0.22 3.2  |  0.24 3.2  |  0.0 0.0
+Lloyd Harris vs Nicolas Jarry                 |  0.57 1.2  |  0.0 0.0  |  0.0 0.0
+Borna Coric vs Hubert Hurkacz                 |  0.62 1.3  |  0.7 1.2  |  0.0 0.0
+Kevin Anderson vs Cristian Garin              |  0.44 1.75  |  0.48 1.7  |  0.0 0.0
+Yoshihito Nishioka vs Nikoloz Basilashvili    |  0.91 0.91  |  0.95 0.87  |  0.0 0.0
+Dennis Novak vs Guido Pella                   |  1.38 0.5  |  1.45 0.57  |  0.0 0.0
+Dusan Lajovic vs Benoit Paire                 |  1.75 0.44  |  1.55 0.53  |  0.0 0.0
+Dominic Thiem vs Diego Schwartzman            |  0.5 1.6  |  0.48 1.7  |  0.0 0.0
+Roberto Bautista vs Martin Cuevas             |  0.02 16.0  |  0.0 0.0  |  0.0 0.0
+Rafael Nadal vs Pablo Cuevas                  |  0.02 16.0  |  0.0 0.0  |  0.0 0.0
+Veronika Kudermetova vs Natalia Vikhlyantseva |  0.4 1.75  |  0.38 1.7  |  0.44 1.5
+Yulia Putintseva vs Madison Brengle           |  0.36 2.0  |  0.28 2.2  |  2.5 0.25
+Anna Karolina vs Marta Kostyuk                |  2.0 0.36  |  0.0 0.0  |  0.25 2.5
+Jasmine Paolini vs Nicole Gibbs               |  1.25 0.57  |  1.2 0.55  |  0.55 1.25
+Timea Babos vs Margarita Gasparyan            |  0.83 0.83  |  0.0 0.0  |  0.7 1.0
+Barbora Krejcikova vs Irina-Camelia Begu      |  1.0 0.73  |  1.05 0.65  |  1.15 0.6
+Anna-Lena Friedsam vs Varvara Gracheva        |  0.67 1.1  |  0.55 1.2  |  1.2 0.57
+Arina Rodionova vs Greet Minnen               |  2.5 0.29  |  0.0 0.0  |  2.5 0.25
+Corentin Moutet vs Alexei Popyrin             |  1.2 0.62  |  1.2 0.55  |  0.0 0.0
+Mikael Ymer vs Alejandro Davidovich           |  0.62 1.2  |  0.0 0.0  |  0.0 0.0
+Gregoire Barrere vs Thiago Monteiro           |  0.73 1.0  |  0.0 0.0  |  0.0 0.0
+Marton Fucsovics vs Jiri Vesely               |  0.62 1.2  |  0.5 1.3  |  0.0 0.0
+Samantha Stosur vs Angelique Kerber           |  2.5 0.3  |  3.0 0.24  |  0.0 0.0
+Elina Svitolina vs Danielle Collins           |  0.12 5.0  |  0.12 5.5  |  0.0 0.0
+Alison Riske vs Karolina Muchova              |  1.38 0.57  |  1.45 0.54  |  0.0 0.0
+Anastasia Pavlyuchenkova vs Petra Kvitova     |  2.1 0.36  |  2.1 0.36  |  0.0 0.0
+Sofia Kenin vs Anastasija Sevastova           |  0.5 1.6  |  0.46 1.7  |  0.0 0.0
+Anett Kontaveit vs Su-Wei Hsieh               |  0.8 1.0  |  0.75 1.05  |  0.0 0.0
+Johanna Konta vs Barbora Strycova             |  0.5 1.6  |  0.4 1.9  |  0.0 0.0
+Maria Sakkari vs Naomi Osaka                  |  2.1 0.36  |  0.0 0.0  |  0.0 0.0
+Kiki Bertens vs Dayana Yastremska             |  0.91 0.91  |  1.0 0.8  |  0.0 0.0
+Ajla Tomljanovic vs Priscilla Hon             |  0.44 1.75  |  0.44 1.75  |  0.0 0.0
+Lesia Tsurenko vs Elise Mertens               |  3.5 0.2  |  3.5 0.22  |  0.2 2.8
+Katerina Siniakova vs Ekaterina Alexandrova   |  1.5 0.53  |  1.65 0.5  |  0.47 1.45
+Kateryna Bondarenko vs Misaki Doi             |  1.6 0.5  |  1.8 0.46  |  1.3 0.53
+Sorana Cirstea vs Xiyu Wang                   |  0.67 1.2  |  0.0 0.0  |  1.0 0.7
+Shuai Zhang vs Magda Linette                  |  0.67 1.2  |  0.0 0.0  |  1.25 0.55
+Sara Sorribes vs Yafan Wang                   |  1.6 0.5  |  0.0 0.0  |  1.5 0.44
+Yingying Duan vs Zarina Diyas                 |  3.2 0.22  |  3.25 0.24  |  0.0 0.0
+Belinda Bencic vs Anna Blinkova               |  0.5 1.6  |  0.46 1.8  |  0.0 0.0
+Shuai Peng vs Lin Zhu                         |  0.91 0.91  |  0.0 0.0  |  0.0 0.0
+Qiang Wang vs Ons Jabeur                      |  0.62 1.3  |  0.0 0.0  |  0.0 0.0
+Elena Rybakina vs Saisai Zheng                |  0.91 0.91  |  0.0 0.0  |  0.0 0.0
+Catherine Bellis vs Jessica Pegula            |  0.57 1.38  |  0.58 1.3  |  0.0 0.0
+Carla Suárez vs Daria Kasatkina               |  1.38 0.57  |  0.0 0.0  |  0.0 0.0
+Taylor Townsend vs Caroline Garcia            |  0.91 0.91  |  0.86 0.92  |  0.0 0.0
+Jil Teichmann vs Valentina Ivanov             |  0.03 11.0  |  0.0 0.0  |  0.0 0.0
+Rebecca Peterson vs Tamara Zidansek           |  0.36 2.1  |  0.34 2.0  |  0.0 0.0
+Cori Gauff vs Viktoria Kuzmova                |  0.67 1.2  |  0.65 1.1  |  0.0 0.0
+Eugenie Bouchard vs Kirsten Flipkens          |  1.6 0.5  |  1.5 0.45  |  0.0 0.0
+Caroline Wozniacki vs Paige Mary              |  0.03 11.0  |  0.0 0.0  |  0.0 0.0
+Alison Van vs Petra Martic                    |  1.75 0.44  |  0.0 0.0  |  0.0 0.0
+Amanda Anisimova vs Kateryna Kozlova          |  0.29 2.6  |  0.28 2.7  |  0.0 0.0
+Serena Williams vs S. Kuznetsova              |  0.22 3.2  |  0.0 0.0  |  0.0 0.0
+Akira Santillan vs Hyeon Chung                |  2.1 0.3  |  0.0 0.0  |  0.0 0.0
+Blaz Rola vs Ilya Ivashka                     |  1.38 0.5  |  1.5 0.44  |  0.0 0.0
+Marius Copil vs Andrew Harris                 |  0.67 1.05  |  0.0 0.0  |  0.0 0.0
+Emilio Gómez vs Aleksandar Vukic              |  0.7 1.0  |  0.0 0.0  |  0.0 0.0
+Matthew Ebden vs Mitchell Krueger             |  0.67 1.05  |  0.6 1.1  |  0.0 0.0
+Filip Horansky vs Alex Bolt                   |  2.4 0.25  |  3.0 0.18  |  0.0 0.0
+Elias Ymer vs Danilo Petrovic                 |  0.57 1.2  |  0.0 0.0  |  0.0 0.0
+Yannick Maden vs G. García                    |  0.7 1.0  |  0.0 0.0  |  0.0 0.0
+Prajnesh Gunneswaran vs Jason Kubler          |  1.0 0.7  |  0.95 0.72  |  0.0 0.0
+Emil Ruusuvuori vs Ramkumar Ramanathan        |  0.25 2.4  |  0.0 0.0  |  0.0 0.0
+Darian King vs Jason Jung                     |  1.5 0.44  |  0.0 0.0  |  0.0 0.0
+Juan Pablo vs Bradley Klahn                   |  2.4 0.25  |  0.0 0.0  |  0.0 0.0
+Max Purcell vs Zhizhen Zhang                  |  1.0 0.7  |  0.0 0.0  |  0.0 0.0
+Oscar Otte vs Lorenzo Giustino                |  0.2 2.8  |  0.18 3.0  |  0.0 0.0
+Roberto Marcora vs Carlos Taberner            |  1.0 0.7  |  1.0 0.68  |  0.0 0.0
+Holger Vitus vs Matthias Bachinger            |  1.9 0.33  |  0.0 0.0  |  0.0 0.0
+Alexey Vatutin vs Maxime Cressy               |  1.05 0.67  |  1.05 0.65  |  0.0 0.0
+Quentin Halys vs Alexandre Muller             |  0.83 0.83  |  0.0 0.0  |  0.0 0.0
+Lukas Rosol vs Marco Trungelliti              |  0.67 1.05  |  0.5 1.3  |  0.0 0.0
+J.j. Wolf vs Facundo Mena                     |  0.17 3.33  |  0.0 0.0  |  0.0 0.0
+Tristan Lamasine vs Bernabé Zapata            |  0.67 1.05  |  0.0 0.0  |  0.0 0.0
+Enzo Couacaud vs Dmitry Popko                 |  1.0 0.7  |  1.0 0.68  |  0.0 0.0
+Matteo Viola vs Andrea Collarini              |  0.67 1.05  |  0.65 1.05  |  0.0 0.0
+Maximilian Marterer vs Ernests Gulbis         |  0.5 1.38  |  0.5 1.3  |  0.0 0.0
+Yan Bai vs Hugo Gaston                        |  1.38 0.5  |  0.0 0.0  |  0.0 0.0
+Elliot Benchetrit vs Blaz Kavcic              |  1.2 0.57  |  1.5 0.44  |  0.0 0.0
+Harold Mayot vs Colin Sinclair                |  0.3 2.1  |  0.0 0.0  |  0.0 0.0
+Lin Zhu vs Zarina Diyas                       |  1.2 0.57  |  0.0 0.0  |  0.0 0.0
