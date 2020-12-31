@@ -104,3 +104,7 @@ class Bet365():
 		for partido in self.DATA:
 			print(partido)
 
+if __name__=='__main__':
+	b=Bet365()
+	b.buscar_partidos()
+	b.print()

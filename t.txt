@@ -168,3 +168,4 @@ Yan Bai vs Hugo Gaston                        |  1.38 0.5  |  0.0 0.0  |  0.0 0.
 Elliot Benchetrit vs Blaz Kavcic              |  1.2 0.57  |  1.5 0.44  |  0.0 0.0
 Harold Mayot vs Colin Sinclair                |  0.3 2.1  |  0.0 0.0  |  0.0 0.0
 Lin Zhu vs Zarina Diyas                       |  1.2 0.57  |  0.0 0.0  |  0.0 0.0
+

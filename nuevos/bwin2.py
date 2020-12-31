@@ -2,6 +2,8 @@
 import requests
 from fractions import Fraction
 
+from data_classes import Dato
+
 class Bwin():
 	def __init__(self):
 		# https://curl.trillworks.com/
@@ -34,11 +36,9 @@ class Bwin():
 
 	def buscar_partidos(self):
 		self.r = self.s.post('https://cds-api.bwin.es/bettingoffer/lobby/sport', headers=self.headers, params=self.params, data=self.data)
-		true=True
-		false=False
-		exec('self.l='+self.r.text)
+		self.j=self.r.json()
 		
-		for p in self.l['highlights']:
+		for p in self.j['highlights']:
 			e1=p['games'][0]['results'][0]
 			# Note that due to the usual issues with binary floating-point (see Floating Point Arithmetic: Issues and Limitations), the argument to Fraction(1.1) is not exactly equal to 11/10, and so Fraction(1.1) does not return Fraction(11, 10) as one might expect.
 			# https://docs.python.org/2/library/fractions.html
@@ -48,12 +48,13 @@ class Bwin():
 			e2=p['games'][0]['results'][1]
 			odds2=Fraction(int(e2['odds']*100))/100
 			j2=e2['name']['value']
-			self.DATA.append([[j1,j2],odds1,odds2])
+			dobles=True if '/' in j1 else False
+			self.DATA.append(Dato(j1,j2,odds1,odds2,dobles=dobles))
 			#print(j1,"vs",j2,odds1,odds2)
 
 	def print(self):
 		for p in self.DATA:
-			print(p[0][0],"vs",p[0][1],p[1],p[2])
+			print(p)
 
 
 
