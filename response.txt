@@ -1,0 +1,27 @@
+url = 'https://free-proxy-list.net/'
+response = requests.get(url)
+soup=BeautifulSoup(response.text,features="html5lib")
+filas=soup.find_all('tr')
+filas=[f for f in filas if f.find('td')!=None]
+print(len(filas),"proxies encontrados en:",url)
+filas=filas[:25]
+proxies={"proxies":[]}
+for f in filas:
+	diccionario={}
+	tds=f.find_all('td')
+	diccionario['ip']=tds[0].text
+	diccionario['puerto']=tds[1].text
+	diccionario['codigo_pais']=tds[2].text
+	diccionario['pais']=tds[3].text
+	diccionario['anonimidad']=tds[4].text
+	diccionario['google']=tds[5].text
+	diccionario['https']=tds[6].text
+	diccionario['last checked']=tds[7].text
+	proxies["proxies"].append(diccionario)
+proxies['comentarios']={
+	'source':url,
+	'extraido':time.asctime()
+}
+f=open(os.getcwd()+'/herramientas_scraping/downloaded_proxies.json','w')
+json.dump(proxies, f)
+f.close()

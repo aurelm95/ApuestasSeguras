@@ -78,6 +78,8 @@ class Apuestas():
 			if not metido:
 				self.DATA.append(Evento(dato,'bwin'))
 
+	def buscar_apuestas_seguras(self):
+		pass
 
 	def print_simple(self):		
 		print("\n\nPrinteando partidos en williamhill...")

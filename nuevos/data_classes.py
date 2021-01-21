@@ -25,11 +25,16 @@ class Evento():
 		self.j2=dato.j2
 		self.dobles=dato.dobles
 
+		self.segura=False
+
 		# Los guardo como unas odds de la web
 		self.odds={web:[dato.odds1,dato.odds2]}
 	
 	def nuevas_odds(self,dato,web):
 		self.odds[web]=[dato.odds1,dato.odds2]
+
+	def apuesta_segura(self):
+		pass
 
 	def __str__(self):
 		return str(self.j1)+' vs '+str(self.j2)+' | '+str(self.odds) 

@@ -32,7 +32,7 @@ class Williamhill():
 	def print(self):
 		print("\nWilliamHill:",len(self.DATA),"partidos\n")
 		for partido in self.DATA:
-			print(partido)	
+			print(partido)
 		
 if __name__=='__main__':
 	w=Williamhill()

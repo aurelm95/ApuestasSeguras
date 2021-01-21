@@ -2,10 +2,12 @@ import requests # https://pypi.org/project/requests/
 #from bs4 import BeautifulSoup # https://www.crummy.com/software/BeautifulSoup/bs4/doc/
 import re
 from fractions import Fraction
+import random
 
 class Bet365():
 	def __init__(self):
 		self.s=requests.Session()
+		self.DATA=[]
 
 		self.cookies = {
 				'pstk': 'AD488D7CFABAABEAA803000E04845AAF000003',
@@ -13,7 +15,7 @@ class Bet365():
 				'aps03': 'cf=N^&cg=4^&cst=0^&ct=171^&hd=N^&lng=3^&oty=2^&tzi=4',
 		}
 
-		self.s.headers = {
+		self.headers = {
 			'Connection': 'keep-alive',
 			'sec-ch-ua': '^\\^Google',
 			'sec-ch-ua-mobile': '?0',
@@ -37,11 +39,9 @@ class Bet365():
 		#response = requests.get('https://www.bet365.es/SportsBook.API/web', headers=headers, params=params, cookies=cookies)
 
 	
-	def buscar_partidos(self):
-		# Vuelvo a hacer la peticion y limpio los datos anteriores
-		self.respuesta=self.s.get('https://www.bet365.es/SportsBook.API/web?lid=3&zid=0&pd=%23AS%23B13%23&cid=171&ctid=171')
-		self.texto=self.respuesta.text
-		self.DATA=[]
+	def parsear_partidos(self):
+		self.texto=self.r.text
+		
 
 		# Los nombres de los partidos son de la forma:
 		# EX=Dougaz/Mansouri v Hemery/Meraut;
@@ -89,6 +89,37 @@ class Bet365():
 		for k in range(n):
 			self.DATA.append([partidos[k],ODDs[k],ODDs[k+n]])
 
+	def buscar_partidos(self):
+		self.headers_list=[]
+		# Headers chrome portatil
+		headers = {
+			'Connection': 'keep-alive',
+			'Upgrade-Insecure-Requests': '1',
+			'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36',
+			'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+			'Accept-Encoding': 'gzip, deflate, br',
+			'Accept-Language': 'es-ES,es;q=0.9',
+		}
+		self.headers_list.append(headers)
+		
+		# Headers mozilla portatil
+		headers = {
+			'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:84.0) Gecko/20100101 Firefox/84.0',
+			'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+			'Accept-Language': 'es-ES,es;q=0.8,en-US;q=0.5,en;q=0.3',
+			'DNT': '1',
+			'Connection': 'keep-alive',
+			'Upgrade-Insecure-Requests': '1',
+		}
+		self.headers_list.append(headers)
+
+
+		self.r = requests.get('https://www.bet365.es/SportsBook.API/web?lid=3&zid=0&pd=%23AS%23B13%23&cid=171&ctid=171', headers=self.headers_list[random.randint(0,1)])
+		if self.r.status_code==200:
+			self.texto=self.r.text
+		else:
+			print("ERROR: response code:",self.r.status_code)
+
 	def print(self):
 		print("\nBet365:",len(self.DATA),"partidos\n")
 		for partido in self.DATA:
@@ -96,5 +127,5 @@ class Bet365():
 
 if __name__=='__main__':
 	b=Bet365()
-	b.buscar_partidos()
-	b.print()
+	#b.buscar_partidos()
+	#b.print()
