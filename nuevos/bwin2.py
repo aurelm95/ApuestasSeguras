@@ -2,7 +2,7 @@
 import requests
 from fractions import Fraction
 
-from data_classes import Dato
+from nuevos.data_classes import Dato
 
 class Bwin():
 	def __init__(self):
@@ -11,6 +11,7 @@ class Bwin():
 		# he tenido que retocarlo manualmente para que me devuelva
 		# la respuesta bien codificada
 		self.s=requests.Session()
+		self.nombre="bwin"
 		self.DATA=[]
 		self.headers = {
 		    'origin': 'https://sports.m.bwin.es',
@@ -51,6 +52,11 @@ class Bwin():
 			dobles=True if '/' in j1 else False
 			self.DATA.append(Dato(j1,j2,odds1,odds2,dobles=dobles))
 			#print(j1,"vs",j2,odds1,odds2)
+
+	def guardar_html(self):
+		f=open('API/htmls/'+self.nombre+'.html','w')
+		f.write(self.r.text)
+		f.close()
 
 	def print(self):
 		for p in self.DATA:

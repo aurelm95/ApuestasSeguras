@@ -1,0 +1,40 @@
+for dato in a.betstars.DATA:
+	metido=False
+	for evento in self.DATA:
+		if dato.j1==evento.j1 and dato.j2==evento.j2:
+			evento.nuevas_odds(dato,'betstars')
+			metido=True
+			break
+		elif dato.j1==evento.j1 and dato.j2==evento.j1:
+			pass
+	if not metido:
+		self.DATA.append(Evento(dato,'betstars'))
+
+for dato in self.betfair.DATA:
+	if dato.dobles: continue
+	n1=dato.j1.split(' ') # n1=['D','Pichler']
+	n2=dato.j2.split(' ')
+	metido=False
+	for evento in self.DATA:
+		if n1[0] in evento.j1 and n1[1] in evento.j1 and n2[0] in evento.j2 and n2[1] in evento.j2:
+			evento.nuevas_odds(dato,'betfair')
+			metido=True
+			break
+	if not metido:
+		self.DATA.append(Evento(dato,'betfair'))
+
+# williamhill: David Pichler  bwin: D. Pichler
+for dato in self.bwin.DATA:
+	if dato.dobles: continue
+	n1=dato.j1.split(' ') # n1=['D.','Pichler']
+	n2=dato.j2.split(' ')
+	metido=False
+	for evento in self.DATA:
+		if n1[0].replace('.','') in evento.j1 and n1[1] in evento.j1 and n2[0].replace('.','') in evento.j2 and n2[1] in evento.j2:
+			evento.nuevas_odds(dato,'bwin')
+			metido=True
+			break
+	if not metido:
+		self.DATA.append(Evento(dato,'bwin'))
+
+if 

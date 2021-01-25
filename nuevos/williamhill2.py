@@ -2,12 +2,13 @@ import requests
 from bs4 import BeautifulSoup
 from fractions import Fraction
 
-from data_classes import Dato
+from nuevos.data_classes import Dato
 
 
 class Williamhill():
 	def __init__(self):
-		self.s=requests.Session()	
+		self.s=requests.Session()
+		self.nombre="williamhill"
 		self.DATA=[]	
 
 	def buscar_partidos(self):
@@ -20,14 +21,23 @@ class Williamhill():
 		# eventos es una lista con cadauno de "los partidos"
 		self.eventos=self.soup.find_all('div',{'class':'event'})
 		for e in self.eventos:
-			nombres=e.find('a').find_all('span')
-			n1=nombres[0].text
-			n2=nombres[1].text
-			dobles=True if '/' in n1 else False
-			b=e.find_all('button')
-			precio1=Fraction(b[0].text)
-			precio2=Fraction(b[1].text)
-			self.DATA.append(Dato(n1,n2,precio1,precio2,dobles=dobles))
+			try:
+				nombres=e.find('a').find_all('span')
+				n1=nombres[0].text
+				n2=nombres[1].text
+				dobles=True if '/' in n1 else False
+				b=e.find_all('button')
+				precio1=Fraction(b[0].text)
+				precio2=Fraction(b[1].text)
+				self.DATA.append(Dato(n1,n2,precio1,precio2,dobles=dobles))
+			except Exception as e:
+				print("ERROR: u partido no se ha podido parsear")
+				print(e)
+
+	def guardar_html(self):
+		f=open('API/htmls/'+self.nombre+'.html','w')
+		f.write(self.respuesta.text)
+		f.close()
 
 	def print(self):
 		print("\nWilliamHill:",len(self.DATA),"partidos\n")

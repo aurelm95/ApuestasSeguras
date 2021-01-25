@@ -1,11 +1,13 @@
-import williamhill2 as williamhill
-import betstars2 as betstars
-import betfair2 as betfair
-import bwin2 as bwin
+import nuevos.williamhill2 as williamhill
+import nuevos.betstars2 as betstars
+import nuevos.betfair2 as betfair
+import nuevos.bwin2 as bwin
 #import telegram_bot
 
-from data_classes import Dato
-from data_classes import Evento
+from nuevos.data_classes import Dato
+from nuevos.data_classes import Evento
+
+import json
 
 class Apuestas():
 	def __init__(self):
@@ -77,6 +79,37 @@ class Apuestas():
 					break
 			if not metido:
 				self.DATA.append(Evento(dato,'bwin'))
+
+	def comparar2(self):
+		for dato in self.williamhill.DATA:
+			self.DATA.append(Evento(dato,'williamhill'))
+		objetos=[self.betstars,self.betfair,self.bwin]
+		for o in objetos:
+			for dato in o.DATA:
+				for evento in self.DATA:
+					metido=evento.nuevo_dato(dato,o.nombre)
+					if metido: break
+				if not metido:
+					self.DATA.append(Evento(dato,o.nombre))
+
+	def actualizar_json(self):
+		self.j={}
+		for e in self.DATA:
+			odds={}
+			for web in list(e.odds.keys()):
+				d1=round(float(e.odds[web][0]),2)
+				d2=round(float(e.odds[web][1]),2)
+				odds[web]=str(d1)+' - '+str(d2)
+			self.j[e.j1+' vs '+e.j2]=odds
+		f=open('API/tenis.json','w')
+		json.dump(self.j,f)
+		f.close()
+
+	def guardar_html(self):
+		self.williamhill.guardar_html()
+		self.betstars.guardar_html()
+		self.betfair.guardar_html()
+		self.bwin.guardar_html()
 
 	def buscar_apuestas_seguras(self):
 		pass

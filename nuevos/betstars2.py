@@ -4,11 +4,12 @@ import requests
 import time
 from fractions import Fraction
 
-from data_classes import Dato
+from nuevos.data_classes import Dato
 
 class Betstars():
 	def __init__(self):
 		self.s=requests.Session()
+		self.nombre='betstars'
 		self.DATA=[]
 
 	def buscar_partidos(self):
@@ -48,6 +49,11 @@ class Betstars():
 					nombre=[e1.split(' '),e2.split(' ')]
 				d=Dato(e1,e2,Fraction(odds[0]),Fraction(odds[1]),dobles=bool(doble))
 				self.DATA.append(d)
+
+	def guardar_html(self):
+		f=open('API/htmls/'+self.nombre+'.html','w')
+		f.write(self.r.text)
+		f.close()
 
 	def print(self):
 		for p in self.DATA:

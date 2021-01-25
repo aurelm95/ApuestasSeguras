@@ -6,13 +6,17 @@ import time
 from bs4 import BeautifulSoup
 import base64
 
-def download_proxies_free_proxy():
+# Tambien se pueden sacar proxies de aqui:
+# http://es.proxies.su/?country=ES
+# https://es.proxies.su/?anonymity_type=elite&country=ES
+
+def download_proxies_free_proxy(spain=False):
 	url = 'https://free-proxy-list.net/'
 	response = requests.get(url)
 	soup=BeautifulSoup(response.text,features="html5lib")
 	filas=soup.find_all('tr')
 	filas=[f for f in filas if f.find('td')!=None and f.find('th')==None]
-	print(len(filas),"proxies encontrados en:",url)
+	print('Aproximadamente',len(filas),"proxies encontrados en:",url)
 	#filas=filas[:25]
 	proxies={"proxies":[]}
 	for f in filas:
@@ -27,32 +31,45 @@ def download_proxies_free_proxy():
 			diccionario['google']=tds[5].text
 			diccionario['https']=tds[6].text
 			diccionario['last checked']=tds[7].text
-			print(diccionario['pais'])
-			if diccionario['pais']=='Spain':
+			#print(diccionario['pais'])
+			if len(diccionario['pais'])<=3: 
+				#print(f)
+				continue
+			if diccionario['pais']=='Spain' or not spain:
 				proxies["proxies"].append(diccionario)
 		except Exception as e:
 			print(e)
 			print(f)
-	print(len(proxies['proxies']),"proxies en españa")
+	print(len(proxies['proxies']),"proxies parseados. españa=",spain)
 	proxies['comentarios']={
 		'source':url,
 		'extraido':time.asctime()
 	}
-	f=open(os.getcwd()+'/herramientas_scraping/downloaded_proxies.json','w')
+	f=open(os.getcwd()+'/herramientas_scraping/proxies.json','w')
 	json.dump(proxies, f)
 	f.close()
 
 
-def download_proxies_free_proxy2():
-	url = 'http://free-proxy.cz/en/proxylist/country/ES/http/ping/level1'
-	#url = 'http://free-proxy.cz/en/proxylist/'
-	response = requests.get(url)
+def download_proxies_free_proxy2(spain=False):
+	url='http://free-proxy.cz/en/proxylist/country/all/http/ping/level1'
+	if spain:	url = url.replace('all','ES')
+	headers = {
+    'Connection': 'keep-alive',
+    'Upgrade-Insecure-Requests': '1',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 Edg/87.0.664.60',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+    'Accept-Language': 'es',
+	}
+	response = requests.get(url, headers=headers, verify=False)
 	soup=BeautifulSoup(response.text,features="html5lib")
 	filas=soup.find('table',{'id':'proxy_list'}).find('tbody').find_all('tr')
+	print('Aproximadamente',len(filas),"proxies encontrados en:",url)
 	proxies={'proxies':[]}
 	for f in filas:
 		diccionario={}
 		tds=f.find_all('td')
+		if tds==[]:
+			continue
 		javascript=tds[0].text
 		#print("javascript:",javascript)
 		if 'adsbygoogle' in javascript:
@@ -64,8 +81,8 @@ def download_proxies_free_proxy2():
 		diccionario['puerto']=tds[1].text
 		diccionario['protocol']=tds[2].text
 		diccionario['pais']=tds[3].text
-		print(diccionario['pais'])
-		if 'Spain' not in diccionario['pais']:
+		#print(diccionario['pais'])
+		if spain and 'Spain' not in diccionario['pais']:
 			continue
 		diccionario['region']=tds[4].text
 		diccionario['ciudad']=tds[5].text
@@ -79,7 +96,7 @@ def download_proxies_free_proxy2():
 		'source':url,
 		'extraido':time.asctime()
 	}
-	f=open(os.getcwd()+'/herramientas_scraping/downloaded_proxies.json','w')
+	f=open(os.getcwd()+'/herramientas_scraping/proxies2.json','w')
 	json.dump(proxies, f)
 	f.close()
 
@@ -90,29 +107,27 @@ def proxy_info(proxy=None):
 	return soup
 
 
-
-# Tambien se pueden sacar proxies de aqui:
-# http://es.proxies.su/?country=ES
-# https://es.proxies.su/?anonymity_type=elite&country=ES
-
 def get_mi_ip(proxy=None):
 	url = 'https://httpbin.org/ip'
 	response=''
 	if proxy==None:
 		response = requests.get(url)
 	else:
-		response = requests.get(url,proxies=proxy)
+		response = requests.get(url,proxies=proxy,verify=False, timeout=10)
 	print(response.json())
 	return response.json()
 
-def get_random_proxy(nombre='proxies'):
-	j=json.load(open(os.getcwd()+'/herramientas_scraping/'+nombre+'.json','r'))['mdict']
-	r_ip=random.choice(list(j.keys()))
-	r_p=j[r_ip]
-	s=str(r_ip)+':'+str(r_p)
+def get_random_proxy(nombre='proxies',p=True):
+	j=json.load(open(os.getcwd()+'/herramientas_scraping/'+nombre+'.json','r'))['proxies']
+	if len(j)==0:
+		print('No hay proxies para extraer')
+		return None
+	proxy=random.choice(j)
+	if p==True: print(proxy)
+	s=proxy['ip']+':'+proxy['puerto']
 	proxy = {
-	'http':  s,
-	'https': s,
+	'http':  'http://'+s,
+	'https': 'https://'+s
 	}
 	return proxy
 

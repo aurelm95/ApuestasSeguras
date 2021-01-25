@@ -1,27 +1,33 @@
-url = 'https://free-proxy-list.net/'
-response = requests.get(url)
-soup=BeautifulSoup(response.text,features="html5lib")
-filas=soup.find_all('tr')
-filas=[f for f in filas if f.find('td')!=None]
-print(len(filas),"proxies encontrados en:",url)
-filas=filas[:25]
-proxies={"proxies":[]}
-for f in filas:
-	diccionario={}
-	tds=f.find_all('td')
-	diccionario['ip']=tds[0].text
-	diccionario['puerto']=tds[1].text
-	diccionario['codigo_pais']=tds[2].text
-	diccionario['pais']=tds[3].text
-	diccionario['anonimidad']=tds[4].text
-	diccionario['google']=tds[5].text
-	diccionario['https']=tds[6].text
-	diccionario['last checked']=tds[7].text
-	proxies["proxies"].append(diccionario)
-proxies['comentarios']={
-	'source':url,
-	'extraido':time.asctime()
-}
-f=open(os.getcwd()+'/herramientas_scraping/downloaded_proxies.json','w')
-json.dump(proxies, f)
-f.close()
+n=len(re.findall("EX=",b.texto))
+partidos=[]
+for k in range(n):
+	comienzo=b.texto.find("EX=")
+	final=b.texto.find(";",comienzo)
+	nombre=b.texto[comienzo+3:final]
+	if '-' in nombre:
+		nombre=nombre[nombre.rfind('-')+2:]
+	nombre=nombre.replace(' v ','  -  ')
+	partidos.append(nombre)
+	b.texto=b.texto[final:]
+	#print(partidos[k])
+
+# Ahora hay que buscar los ODDs de las apuestas.
+# Son de la forma: OD=1/2; 
+# Primero se encuentran los ODDs de la pimera columa
+# y luego los de la segunda
+ODDs=[]
+for k in range(2*n):
+	comienzo=b.texto.find("OD=")
+	final=b.texto.find(";",comienzo)
+	string=b.texto[comienzo+3:final]
+	# string es de la forma "11/7" hay que pasarlo a float
+	'''numerador=string[:string.find('/')]
+	denominador=string[string.find('/')+1:]
+	ODDs.append(round(1+float(int(numerador)/int(denominador)),2))'''
+	ODDs.append(Fraction(string))
+	b.texto=b.texto[final:]
+	#print(ODDs[k])
+
+# Finalmente lo guardo todo en la misma lista
+for k in range(n):
+	b.DATA.append([partidos[k],ODDs[k],ODDs[k+n]])

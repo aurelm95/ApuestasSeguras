@@ -32,9 +32,9 @@ mis_headers=[
 
 # https://www.scrapehero.com/how-to-fake-and-rotate-user-agents-using-python-3/
 # This data was created by using the curl method explained above
-def get_header(mis_headers):
+def get_header(headers=mis_headers):
 	# Create ordered dict from Headers above
-	headers = random.choice(mis_headers)
+	headers = random.choice(headers)
 	h = OrderedDict()
 	for header,value in headers.items():
 			h[header]=value					
