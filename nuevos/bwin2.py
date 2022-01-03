@@ -2,9 +2,9 @@
 import requests
 from fractions import Fraction
 
-from nuevos.data_classes import Dato
+from data_classes import Dato, CasaDeApuestas
 
-class Bwin():
+class Bwin(CasaDeApuestas):
 	def __init__(self):
 		# https://curl.trillworks.com/
 		# importante el "accept-encoding": "text/html",
@@ -53,14 +53,7 @@ class Bwin():
 			self.DATA.append(Dato(j1,j2,odds1,odds2,dobles=dobles))
 			#print(j1,"vs",j2,odds1,odds2)
 
-	def guardar_html(self):
-		f=open('API/htmls/'+self.nombre+'.html','w')
-		f.write(self.r.text)
-		f.close()
 
-	def print(self):
-		for p in self.DATA:
-			print(p)
 
 
 

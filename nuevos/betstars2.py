@@ -4,7 +4,7 @@ import requests
 import time
 from fractions import Fraction
 
-from nuevos.data_classes import Dato
+from data_classes import Dato
 
 class Betstars():
 	def __init__(self):

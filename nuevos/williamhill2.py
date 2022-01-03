@@ -1,11 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
 from fractions import Fraction
+import json
 
-from nuevos.data_classes import Dato
+
+from data_classes import Dato, CasaDeApuestas
 
 
-class Williamhill():
+class Williamhill(CasaDeApuestas):
 	def __init__(self):
 		self.s=requests.Session()
 		self.nombre="williamhill"
@@ -31,20 +33,11 @@ class Williamhill():
 				precio2=Fraction(b[1].text)
 				self.DATA.append(Dato(n1,n2,precio1,precio2,dobles=dobles))
 			except Exception as e:
-				print("ERROR: u partido no se ha podido parsear")
+				print("ERROR: un partido no se ha podido parsear")
 				print(e)
 
-	def guardar_html(self):
-		f=open('API/htmls/'+self.nombre+'.html','w')
-		f.write(self.respuesta.text)
-		f.close()
-
-	def print(self):
-		print("\nWilliamHill:",len(self.DATA),"partidos\n")
-		for partido in self.DATA:
-			print(partido)
 		
 if __name__=='__main__':
 	w=Williamhill()
-	w.buscar_partidos2()
+	w.buscar_partidos()
 	w.print()	

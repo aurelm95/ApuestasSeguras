@@ -1,0 +1,13 @@
+usar la herencia de clases para no volver a escribir los metodos
+
+habran clases abstractas en python??
+
+
+bet365 hay que acabarlo o que??
+
+
+mejorar readme y demas
+
+
+
+ver como organizar el tema del tegram bot. hacer mi propio paquete??

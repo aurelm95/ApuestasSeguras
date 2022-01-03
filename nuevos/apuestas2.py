@@ -1,11 +1,10 @@
-import nuevos.williamhill2 as williamhill
-import nuevos.betstars2 as betstars
-import nuevos.betfair2 as betfair
-import nuevos.bwin2 as bwin
+import williamhill2 as williamhill
+import betstars2 as betstars
+import betfair2 as betfair
+import bwin2 as bwin
 #import telegram_bot
 
-from nuevos.data_classes import Dato
-from nuevos.data_classes import Evento
+from data_classes import Dato, Evento
 
 import json
 
@@ -19,7 +18,6 @@ class Apuestas():
 		self.DATA=[]
 		self.webs=['williamhill','betstars','betfair','bwin']
 		
-
 	def buscar_partidos(self):
 		print("Buscando partidos en williamhill...")
 		self.williamhill.buscar_partidos()

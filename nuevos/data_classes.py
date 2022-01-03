@@ -1,3 +1,31 @@
+import time
+import json
+
+class CasaDeApuestas():
+	def __init__(self):
+		self.nombre=None
+		self.DATA=[]
+		self.respuesta=None
+
+	def guardar_html(self):
+		f=open('htmls/'+self.nombre+'.html','w')
+		f.write(self.respuesta.text)
+		f.close()
+
+	def guardar_data_en_json(self):
+		self.j={'timestamp':time.time(),'web':self.nombre}
+		self.j['DATA']=[dato.to_dict() for dato in self.DATA]
+		f=open(self.nombre+'.json','w')
+		json.dump(self.j,f)
+		f.close()
+
+
+	def print(self):
+		print("\n"+self.nombre+":",len(self.DATA),"partidos\n")
+		for partido in self.DATA:
+			print(partido)
+
+
 class Dato():
 	def __init__(self,j1,j2,odds1,odds2,dobles=False):
 		self.j1=j1
@@ -17,6 +45,9 @@ class Dato():
 
 	def reverse(self):
 		return Dato(self.j2,self.j1,self.odds2,self.odds1)
+	
+	def to_dict(self):
+		return {'j1':self.j1,'j2':self.j2,'odds1':float(self.odds1),'odds2':float(self.odds2),'dobles':self.dobles}
 
 	def __str__(self):
 		if not self.dobles:
