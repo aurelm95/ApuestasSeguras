@@ -26,6 +26,27 @@ class CasaDeApuestas():
 			print(partido)
 
 
+class NombreJugador():
+	def __init__(self,nombre_completo):
+		self.nombre=None
+		self.apellido=None
+		self.inical_nombre=None
+		self.inicial_apellido=None
+	
+	def __eq__(self, other):
+		if self.apellido==other.apellido:
+			if self.nombre==other.nombre:
+				return True
+			if self.inical_nombre==other.inical_nombre:
+				return True
+		return False
+
+class NombreEquipo():
+	def __init__(self,nombre_completo):
+		self.dobles=None
+		self.j1=NombreJugador(nombre_completo)
+		self.j2=NombreJugador(nombre_completo)
+
 class Dato():
 	def __init__(self,j1,j2,odds1,odds2,dobles=False):
 		self.j1=j1
@@ -44,12 +65,12 @@ class Dato():
 			self.j2=n[1][1:]+' '+n[0]
 
 	def reverse(self):
-		return Dato(self.j2,self.j1,self.odds2,self.odds1)
+		return Dato(self.j2,self.j1,self.odds2,self.odds1,dobles=self.dobles)
 	
 	def to_dict(self):
 		return {'j1':self.j1,'j2':self.j2,'odds1':{'numerator':self.odds1.numerator,'denominator':self.odds1.denominator},'odds2':{'numerator':self.odds2.numerator,'denominator':self.odds2.denominator},'dobles':self.dobles}
 
-	def __str__(self):
+	def __repr__(self):
 		if not self.dobles:
 			return self.j1+' vs '+self.j2+' | '+str(self.odds1)+' - '+str(self.odds2)
 		return str(self.j1)+' vs '+str(self.j2)+' | '+str(self.odds1)+' - '+str(self.odds2)
@@ -74,6 +95,9 @@ class Evento():
 		pass
 
 	def nuevo_dato(self,dato,web):
+		if self.dobles!=dato.dobles: return False
+		if dato.dobles: return False
+		print("nuevo_dato():",dato)
 		if self.j1==dato.j1 and self.j2==self.j2:
 			self.odds[web]=[dato.odds1,dato.odds2]
 			return True

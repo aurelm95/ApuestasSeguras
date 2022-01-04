@@ -97,9 +97,10 @@ class Apuestas():
 		for dato in self.williamhill.DATA:
 			self.DATA.append(Evento(dato,'williamhill'))
 		objetos=[self.betstars,self.betfair,self.bwin]
-		objetos=[self.betstars]
+		objetos=[self.betfair]
 		for o in objetos:
 			for dato in o.DATA:
+				if dato.dobles: continue
 				for evento in self.DATA:
 					metido=evento.nuevo_dato(dato,o.nombre)
 					if metido: break
