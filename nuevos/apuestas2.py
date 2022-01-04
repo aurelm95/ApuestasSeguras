@@ -4,9 +4,10 @@ import betfair2 as betfair
 import bwin2 as bwin
 #import telegram_bot
 
-from data_classes import Dato, Evento
+from data_classes import Dato, Evento 
 
 import json
+from fractions import Fraction
 
 class Apuestas():
 	def __init__(self):
@@ -21,16 +22,30 @@ class Apuestas():
 	def buscar_partidos(self):
 		print("Buscando partidos en williamhill...")
 		self.williamhill.buscar_partidos()
+		self.williamhill.guardar_data_en_json()
 
 		print("Buscando partidos en betstars...")
 		self.betstars.buscar_partidos()
+		self.betstars.guardar_data_en_json()
 
 		print("Buscando partidos en betfair...")
 		self.betfair.buscar_partidos()
+		self.betfair.guardar_data_en_json()
 
 		print("Buscando partidos en bwin...")
 		self.bwin.buscar_partidos()
+		self.bwin.guardar_data_en_json()
 
+	# para development/debug
+	def cargar_partidos(self):
+		for casa in [self.williamhill,self.betstars,self.betfair,self.bwin]:
+			f=open(casa.nombre+".json","r")
+			j=json.load(f)
+			f.close()
+			for d in j['DATA']:
+				casa.DATA.append(Dato(d['j1'],d['j2'],Fraction(d['odds1']['numerator'],d['odds1']['denominator']),Fraction(d['odds2']['numerator'],d['odds2']['denominator']),d['dobles']))
+
+	# deprecated, usar mejor el comparar2
 	def comparar(self):
 		# Pongo como base los numbre de williamhill porque son completos
 		for dato in self.williamhill.DATA:
@@ -82,6 +97,7 @@ class Apuestas():
 		for dato in self.williamhill.DATA:
 			self.DATA.append(Evento(dato,'williamhill'))
 		objetos=[self.betstars,self.betfair,self.bwin]
+		objetos=[self.betstars]
 		for o in objetos:
 			for dato in o.DATA:
 				for evento in self.DATA:
@@ -89,6 +105,10 @@ class Apuestas():
 					if metido: break
 				if not metido:
 					self.DATA.append(Evento(dato,o.nombre))
+
+	def ordenar_eventos_alfabeticamente(self):
+		# https://stackoverflow.com/questions/403421/how-to-sort-a-list-of-objects-based-on-an-attribute-of-the-objects
+		self.DATA.sort(key=lambda x: x.j1)
 
 	def actualizar_json(self):
 		self.j={}
@@ -125,8 +145,8 @@ class Apuestas():
 		print("\n\nPrinteando partidos en bwin...")
 		self.bwin.print()
 
-	def pretty_print(self):
-		print('\n')
+	def pretty_print(self,archivo="pretty_print.txt"):
+		TEXT="\n"
 		ml=max([len(str(e.j1)+' vs '+str(e.j2)) for e in self.DATA])+1
 		encabezado='Partidos'
 		encabezado+=' '*(ml-len(encabezado))
@@ -136,8 +156,10 @@ class Apuestas():
 			encabezado+=' | '+w
 			encabezado+=' '*(lca-len(w))
 			linea+='-+-'+'-'*lca
-		print(encabezado)
-		print(linea)
+		# print(encabezado)
+		# print(linea)
+		TEXT+=encabezado+'\n'
+		TEXT+=linea+'\n'
 		for e in self.DATA:
 			linea=str(e.j1)+' vs '+str(e.j2)
 			linea+=' '*(ml-len(linea))
@@ -149,7 +171,13 @@ class Apuestas():
 					linea+=' '*(lca-len(odds))
 				else:
 					linea+=' '*lca
-			print(linea)
+			# print(linea)
+			TEXT+=linea+'\n'
+		
+		print(TEXT)
+		f=open(archivo,"w")
+		f.write(TEXT)
+		f.close()
 
 
 
@@ -157,8 +185,11 @@ class Apuestas():
 
 if __name__=='__main__':
 	a=Apuestas()
-	a.buscar_partidos()
-	a.comparar()
+	# a.buscar_partidos()
+	a.cargar_partidos()
+	a.comparar2()
+	a.ordenar_eventos_alfabeticamente()
 	a.pretty_print()
 	pass
+
 

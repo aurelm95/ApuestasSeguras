@@ -2,9 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 from fractions import Fraction
 
-from data_classes import Dato
+from data_classes import Dato, CasaDeApuestas
 
-class Betfair():
+class Betfair(CasaDeApuestas):
 	def __init__(self):
 		self.s=requests.Session()
 		self.nombre='betfair'
@@ -47,16 +47,6 @@ class Betfair():
 			except Exception as e:
 				print("ERROR: un partido no se ha podido parsear bien")
 				print(e)
-
-	def guardar_html(self):
-		f=open('API/htmls/'+self.nombre+'.html','w')
-		f.write(self.respuesta.text)
-		f.close()
-
-	def print(self):
-		print("hay ",len(self.partidos)," partidos")
-		for partido in self.DATA:
-			print(partido)
 
 if __name__=='__main__':
 	b=Betfair()

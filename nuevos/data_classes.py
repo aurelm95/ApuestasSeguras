@@ -47,7 +47,7 @@ class Dato():
 		return Dato(self.j2,self.j1,self.odds2,self.odds1)
 	
 	def to_dict(self):
-		return {'j1':self.j1,'j2':self.j2,'odds1':float(self.odds1),'odds2':float(self.odds2),'dobles':self.dobles}
+		return {'j1':self.j1,'j2':self.j2,'odds1':{'numerator':self.odds1.numerator,'denominator':self.odds1.denominator},'odds2':{'numerator':self.odds2.numerator,'denominator':self.odds2.denominator},'dobles':self.dobles}
 
 	def __str__(self):
 		if not self.dobles:
