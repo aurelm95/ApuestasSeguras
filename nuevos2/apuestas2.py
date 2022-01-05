@@ -7,6 +7,7 @@ import bwin2 as bwin
 from data_classes import Dato, Evento 
 
 import json
+import time
 from fractions import Fraction
 
 class Apuestas():
@@ -38,88 +39,32 @@ class Apuestas():
 
 	# para development/debug
 	def cargar_partidos(self):
-		for casa in [self.williamhill,self.betstars,self.betfair,self.bwin]:
-			f=open(casa.nombre+".json","r")
-			j=json.load(f)
-			f.close()
-			for d in j['DATA']:
-				casa.DATA.append(Dato(d['j1'],d['j2'],Fraction(d['odds1']['numerator'],d['odds1']['denominator']),Fraction(d['odds2']['numerator'],d['odds2']['denominator']),d['dobles']))
+		for casa in [self.williamhill, self.betstars, self.betfair, self.bwin]:
+			casa.cargar_data_de_json()
 
-	# deprecated, usar mejor el comparar2
 	def comparar(self):
-		# Pongo como base los numbre de williamhill porque son completos
 		for dato in self.williamhill.DATA:
 			self.DATA.append(Evento(dato,'williamhill'))
-		
-		# Los nombres de betstars son iguales que los de williamhill
-		# El problema es que a veces (no se porque) cambia el orden de los jugadores
-		for dato in self.betstars.DATA:
-			metido=False
-			for evento in self.DATA:
-				if dato.j1==evento.j1 and dato.j2==evento.j2:
-					evento.nuevas_odds(dato,'betstars')
-					metido=True
-					break
-				elif dato.j1==evento.j1 and dato.j2==evento.j1:
-					pass
-			if not metido:
-				self.DATA.append(Evento(dato,'betstars'))
-
-		# williamhill: David Pichler  betstars: D Pichler
-		for dato in self.betfair.DATA:
-			if dato.dobles: continue
-			n1=dato.j1.split(' ') # n1=['D','Pichler']
-			n2=dato.j2.split(' ')
-			metido=False
-			for evento in self.DATA:
-				if n1[0] in evento.j1 and n1[1] in evento.j1 and n2[0] in evento.j2 and n2[1] in evento.j2:
-					evento.nuevas_odds(dato,'betfair')
-					metido=True
-					break
-			if not metido:
-				self.DATA.append(Evento(dato,'betfair'))
-
-		# williamhill: David Pichler  bwin: D. Pichler
-		for dato in self.bwin.DATA:
-			if dato.dobles: continue
-			n1=dato.j1.split(' ') # n1=['D.','Pichler']
-			n2=dato.j2.split(' ')
-			metido=False
-			for evento in self.DATA:
-				if n1[0].replace('.','') in evento.j1 and n1[1] in evento.j1 and n2[0].replace('.','') in evento.j2 and n2[1] in evento.j2:
-					evento.nuevas_odds(dato,'bwin')
-					metido=True
-					break
-			if not metido:
-				self.DATA.append(Evento(dato,'bwin'))
-
-	def comparar2(self):
-		for dato in self.williamhill.DATA:
-			self.DATA.append(Evento(dato,'williamhill'))
-		objetos=[self.betstars,self.betfair,self.bwin]
-		objetos=[self.betfair]
-		for o in objetos:
-			for dato in o.DATA:
-				if dato.dobles: continue
+		casas=[self.betstars,self.betfair,self.bwin]
+		for casa in casas:
+			for dato in casa.DATA:
+				# if dato.dobles: continue
 				for evento in self.DATA:
-					metido=evento.nuevo_dato(dato,o.nombre)
+					# print("comparo:",evento,dato)
+					metido=evento.nuevo_dato(dato,casa.nombre)
+					# print("metido:",metido)
 					if metido: break
 				if not metido:
-					self.DATA.append(Evento(dato,o.nombre))
+					self.DATA.append(Evento(dato,casa.nombre))
 
+	# deprecated
 	def ordenar_eventos_alfabeticamente(self):
 		# https://stackoverflow.com/questions/403421/how-to-sort-a-list-of-objects-based-on-an-attribute-of-the-objects
 		self.DATA.sort(key=lambda x: x.j1)
 
 	def actualizar_json(self):
-		self.j={}
-		for e in self.DATA:
-			odds={}
-			for web in list(e.odds.keys()):
-				d1=round(float(e.odds[web][0]),2)
-				d2=round(float(e.odds[web][1]),2)
-				odds[web]=str(d1)+' - '+str(d2)
-			self.j[e.j1+' vs '+e.j2]=odds
+		self.j={'timestamp':time.time()}
+		self.j['DATA']=[evento.to_dict() for evento in self.DATA]
 		f=open('API/tenis.json','w')
 		json.dump(self.j,f)
 		f.close()
@@ -131,7 +76,8 @@ class Apuestas():
 		self.bwin.guardar_html()
 
 	def buscar_apuestas_seguras(self):
-		pass
+		for evento in self.DATA:
+			evento.apuesta_segura()
 
 	def print_simple(self):		
 		print("\n\nPrinteando partidos en williamhill...")
@@ -148,7 +94,7 @@ class Apuestas():
 
 	def pretty_print(self,archivo="pretty_print.txt"):
 		TEXT="\n"
-		ml=max([len(str(e.j1)+' vs '+str(e.j2)) for e in self.DATA])+1
+		ml=max([len(str(e.e1)+' vs '+str(e.e2)) for e in self.DATA])+1
 		encabezado='Partidos'
 		encabezado+=' '*(ml-len(encabezado))
 		linea='-'*ml
@@ -162,7 +108,7 @@ class Apuestas():
 		TEXT+=encabezado+'\n'
 		TEXT+=linea+'\n'
 		for e in self.DATA:
-			linea=str(e.j1)+' vs '+str(e.j2)
+			linea=str(e.e1)+' vs '+str(e.e2)
 			linea+=' '*(ml-len(linea))
 			for w in self.webs:
 				linea+=' | '
@@ -188,8 +134,9 @@ if __name__=='__main__':
 	a=Apuestas()
 	# a.buscar_partidos()
 	a.cargar_partidos()
-	a.comparar2()
-	a.ordenar_eventos_alfabeticamente()
+	a.comparar()
+	a.actualizar_json()
+	# a.ordenar_eventos_alfabeticamente()
 	a.pretty_print()
 	pass
 

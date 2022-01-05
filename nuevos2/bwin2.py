@@ -2,7 +2,7 @@
 import requests
 from fractions import Fraction
 
-from data_classes import Dato, CasaDeApuestas
+from data_classes import Dato, Jugador, Equipo, CasaDeApuestas
 
 class Bwin(CasaDeApuestas):
 	def __init__(self):
@@ -36,8 +36,8 @@ class Bwin(CasaDeApuestas):
 		self.data = '{"sportIds":"5","fixtureCategories":"Gridable,NonGridable,Other","offerMapping":"Filtered","offerCategories":"Gridable,Other","scoreboardMode":"Slim","marqueeRequest":{"marqueeData":[],"take":8},"fixtureTypes":"Standard"}'
 
 	def buscar_partidos(self):
-		self.r = self.s.post('https://cds-api.bwin.es/bettingoffer/lobby/sport', headers=self.headers, params=self.params, data=self.data)
-		self.j=self.r.json()
+		self.respuesta = self.s.post('https://cds-api.bwin.es/bettingoffer/lobby/sport', headers=self.headers, params=self.params, data=self.data)
+		self.j=self.respuesta.json()
 		
 		for p in self.j['highlights']:
 			e1=p['games'][0]['results'][0]
@@ -50,7 +50,41 @@ class Bwin(CasaDeApuestas):
 			odds2=Fraction(int(e2['odds']*100))/100
 			j2=e2['name']['value']
 			dobles=True if '/' in j1 else False
-			self.DATA.append(Dato(j1,j2,odds1,odds2,dobles=dobles))
+			try:
+				if dobles:
+					e1j1,e1j2=j1.split('/')
+
+					e1n1,e1a1=e1j1.split('. ')
+					e1j1=Jugador(inicial_nombre=e1n1,apellido=e1a1)
+
+					e1n2,e1a2=e1j2.split('. ')
+					e1j2=Jugador(inicial_nombre=e1n2,apellido=e1a2)
+
+					e2j1,e2j2=j2.split('/')
+
+					e2n1,e2a1=e2j1.split('. ')
+					e2j1=Jugador(inicial_nombre=e2n1,apellido=e2a1)
+
+					e2n2,e2a2=e2j2.split('. ')
+					e2j2=Jugador(inicial_nombre=e2n2,apellido=e2a2)
+
+					self.DATA.append(Dato(Equipo(e1j1,e1j2),Equipo(e2j1,e2j2),odds1,odds2,dobles=dobles))
+				
+				else:
+					# print("singles: j1:",j1,"j2:",j2)
+					n1,a1=j1.split('. ')
+					j1=Jugador(inicial_nombre=n1,apellido=a1)
+
+					n2,a2=j2.split('. ')
+					j2=Jugador(inicial_nombre=n2,apellido=a2)
+
+					self.DATA.append(Dato(Equipo(j1),Equipo(j2),odds1,odds2,dobles=dobles))
+			except Exception as e:
+				print(e)
+				pass
+
+
+			
 			#print(j1,"vs",j2,odds1,odds2)
 
 
@@ -60,6 +94,8 @@ class Bwin(CasaDeApuestas):
 if __name__=='__main__':
 	b=Bwin()
 	b.buscar_partidos()
+	b.guardar_html()
+	b.guardar_data_en_json()
 	b.print()
 
 

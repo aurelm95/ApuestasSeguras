@@ -1,0 +1,4 @@
+cosas por hacer:
+
+    - euristica apuesta segura
+    - que devuelva un csv con pandas o algo para posteriormente poder ponerlo en la web
