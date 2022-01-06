@@ -138,7 +138,8 @@ class Apuestas():
 		for evento in self.DATA:
 			linea={"Equipo 1":str(evento.e1),"Equipo 2":str(evento.e2)}
 			for web in list(evento.odds.keys()):
-				linea|={web+' 1':round(float(evento.odds[web][0]),2),web+' 2':round(float(evento.odds[web][1]),2)}
+				# linea|={web+' 1':round(float(evento.odds[web][0]),2),web+' 2':round(float(evento.odds[web][1]),2)}
+				linea.update({web+' 1':round(float(evento.odds[web][0]),2),web+' 2':round(float(evento.odds[web][1]),2)})
 			# print(linea)
 			df=df.append(linea,ignore_index=True)
 		return df
