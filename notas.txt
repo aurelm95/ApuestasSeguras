@@ -1,5 +1,0 @@
-cosas por hacer:
-
-    - euristica apuesta segura
-    - pensar que hacer con el tema del bot de telgram (este script no funciona. seguramente habra que ctualizar token o algo)
-    - usar logs en lugar de prints?

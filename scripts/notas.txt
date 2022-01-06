@@ -1,13 +1,8 @@
-usar la herencia de clases para no volver a escribir los metodos
+cosas por hacer:
 
-habran clases abstractas en python??
-
-
-bet365 hay que acabarlo o que??
-
-
-mejorar readme y demas
-
-
-
-ver como organizar el tema del tegram bot. hacer mi propio paquete??
+    - euristica apuesta segura
+    - pensar que hacer con el tema del bot de telgram (este script no funciona. seguramente habra que ctualizar token o algo)
+    - usar logs en lugar de prints?
+    - bet365 hay que acabarlo o que??
+    - mejorar readme y demas
+    - ver como organizar el tema del tegram bot. hacer mi propio paquete??
