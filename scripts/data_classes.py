@@ -1,6 +1,9 @@
+import os
 import time
 import json
 from fractions import Fraction
+
+
 
 class CasaDeApuestas():
 	def __init__(self):
@@ -9,24 +12,24 @@ class CasaDeApuestas():
 		self.respuesta=None
 
 	def guardar_html(self):
-		f=open('htmls/'+self.nombre+'.html','w', encoding="utf-8")
+		f=open(os.path.dirname(__file__)+'/htmls/'+self.nombre+'.html','w', encoding="utf-8")
 		f.write(self.respuesta.text)
 		f.close()
 	
 	def cargar_html(self):
-		f=open('htmls/'+self.nombre+'.html','r', encoding="utf-8")
+		f=open(os.path.dirname(__file__)+'/htmls/'+self.nombre+'.html','r', encoding="utf-8")
 		self.respuesta_text=f.read()
 		f.close()
 
 	def guardar_data_en_json(self):
 		self.j={'timestamp':time.time(),'web':self.nombre}
 		self.j['DATA']=[dato.to_dict() for dato in self.DATA]
-		f=open('jsons/'+self.nombre+'.json','w')
+		f=open(os.path.dirname(__file__)+'/jsons/'+self.nombre+'.json','w')
 		json.dump(self.j,f)
 		f.close()
 	
 	def cargar_data_de_json(self):
-		f=open('jsons/'+self.nombre+".json","r")
+		f=open(os.path.dirname(__file__)+'/jsons/'+self.nombre+".json","r")
 		j=json.load(f)
 		f.close()
 		for d in j['DATA']:

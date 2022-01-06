@@ -12,5 +12,5 @@ if __name__=='__main__':
     a.comparar()
     a.actualizar_json()
     # a.ordenar_eventos_alfabeticamente()
-    # a.pretty_print()
+    a.pretty_print()
     df=a.to_dataframe()

@@ -6,6 +6,7 @@ from . import bwin
 
 from .data_classes import Dato, Evento 
 
+import os
 import json
 import time
 from fractions import Fraction
@@ -71,7 +72,7 @@ class Apuestas():
 	def actualizar_json(self):
 		self.j={'timestamp':time.time()}
 		self.j['DATA']=[evento.to_dict() for evento in self.DATA]
-		f=open('jsons/tenis.json','w')
+		f=open(os.path.dirname(__file__)+'/jsons/tenis.json','w')
 		json.dump(self.j,f)
 		f.close()
 
