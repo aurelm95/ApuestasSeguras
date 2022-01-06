@@ -4,7 +4,7 @@ import requests
 import time
 from fractions import Fraction
 
-from data_classes import Dato, Jugador, Equipo, CasaDeApuestas
+from .data_classes import Dato, Jugador, Equipo, CasaDeApuestas
 
 class Betstars(CasaDeApuestas):
 	def __init__(self):

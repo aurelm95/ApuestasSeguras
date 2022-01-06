@@ -4,7 +4,7 @@ from fractions import Fraction
 import json
 
 
-from data_classes import Dato, Jugador, Equipo, CasaDeApuestas
+from .data_classes import Dato, Jugador, Equipo, CasaDeApuestas
 
 
 class Williamhill(CasaDeApuestas):

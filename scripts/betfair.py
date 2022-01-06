@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from fractions import Fraction
 
-from data_classes import Dato, Jugador, Equipo, CasaDeApuestas
+from .data_classes import Dato, Jugador, Equipo, CasaDeApuestas
 
 class Betfair(CasaDeApuestas):
 	def __init__(self):

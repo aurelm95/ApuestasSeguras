@@ -2,7 +2,7 @@
 import requests
 from fractions import Fraction
 
-from data_classes import Dato, Jugador, Equipo, CasaDeApuestas
+from .data_classes import Dato, Jugador, Equipo, CasaDeApuestas
 
 class Bwin(CasaDeApuestas):
 	def __init__(self):
