@@ -15,6 +15,17 @@ a.actualizar_json()
 # a.pretty_print()
 
 
+# Schedule
+# https://stackoverflow.com/questions/21214270/how-to-schedule-a-function-to-run-every-hour-on-flask
+# https://pypi.org/project/APScheduler/
+from apscheduler.schedulers.background import BackgroundScheduler
+
+def f(): print("Hola")
+
+schedule = BackgroundScheduler(daemon=True)
+schedule.add_job(f,'interval',seconds=5)
+schedule.start()
+
 
 app = Flask(__name__)
 

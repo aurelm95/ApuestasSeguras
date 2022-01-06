@@ -1,6 +1,5 @@
 cosas por hacer:
 
     - euristica apuesta segura
-    - que devuelva un csv con pandas o algo para posteriormente poder ponerlo en la web
-    - pensar que hacer con el tema del bot de telgram
+    - pensar que hacer con el tema del bot de telgram (este script no funciona. seguramente habra que ctualizar token o algo)
     - usar logs en lugar de prints?
