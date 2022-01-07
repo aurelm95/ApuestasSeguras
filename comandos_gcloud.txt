@@ -1,21 +1,21 @@
 SET PROJECT:
 
-    gcloud config set project ageless-command-181413
+    gcloud config set project apuestas-seguras
 
 PARA HACER DEPLOY:
 
-    gcloud app deploy app_smalledata_v2.yaml --version=1
+    gcloud app deploy app.yaml --version=1
 
     A veces es necesario indeicar el proyecto:
 
-    gcloud app deploy app_smalledata_v2.yaml --version=1 --project="ageless-command-181413"
+    gcloud app deploy app.yaml --version=1 --project="apuestas-seguras"
 
 PARA OBTENER LA URL DE LA WEB:
 
-    gcloud app browse -s smalledata-v1
+    gcloud app browse -s apuestas-seguras
     
     que da como resultado:
-    https://smalledata-v1-dot-ageless-command-181413.uc.r.appspot.com
+    https://apuestas-seguras.appspot.com
 
 PARA VER LOS LOGS DE LA CONSOLA:
 
