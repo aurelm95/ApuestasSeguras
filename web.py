@@ -59,4 +59,4 @@ def base_page():
 # print("nombre:",__name__)
 
 if __name__ == "__main__" or __name__=='API.web':
-	app.run(host='127.0.0.1', port=8080, debug=True)
+	app.run(host='0.0.0.0', port=8080, debug=True)

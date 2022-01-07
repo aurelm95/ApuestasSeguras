@@ -196,7 +196,8 @@ class Evento():
 				'odds1':{'numerator':self.odds[web][0].numerator,'denominator':self.odds[web][0].denominator},
 				'odds2':{'numerator':self.odds[web][1].numerator,'denominator':self.odds[web][1].denominator}
 			}
-		j|={'odds':odds,'dobles:':self.dobles,'segura':self.segura}
+		# j|={'odds':odds,'dobles:':self.dobles,'segura':self.segura}
+		j.update({'odds':odds,'dobles:':self.dobles,'segura':self.segura})
 		return j
 
 	def __repr__(self):
