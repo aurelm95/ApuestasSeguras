@@ -2,13 +2,15 @@ import requests
 import time
 # https://www.youtube.com/watch?v=q9YScw0YBB4
 # https://github.com/magnitopic/YouTubeCode/blob/master/TelegramBot
-# https://api.telegram.org/bot734567962:AAHxP5M7-rrOQLC0a1s6TQdh6AFHTsHc9yM/getUpdates
-token="734567962:AAHxP5M7-rrOQLC0a1s6TQdh6AFHTsHc9yM"
+# https://api.telegram.org/bot1421379418:AAHWPUo-fM6CNnoZT2A7Rs4VtLWiZceGShU/getUpdates
+token="1421379418:AAHWPUo-fM6CNnoZT2A7Rs4VtLWiZceGShU"
 link="https://api.telegram.org/bot{}/".format(token)
 #print link
 
-def enviar_mensaje(mensaje='k ase'):
-  params = {'chat_id': 797207234, 'text': mensaje, 'parse_mode': 'HTML'}
+agenda={'aure':1339004426,'marta':659119325}
+
+def enviar_mensaje(mensaje='k ase',destinatario='aure'):
+  params = {'chat_id': agenda[destinatario], 'text': mensaje, 'parse_mode': 'HTML'}
   s=requests.Session()
   r=s.post(link+'sendMessage',data=params)
 
@@ -33,7 +35,3 @@ def leer_mensajes():
 
 #enviar_mensaje()
 #leer_mensajes()
-
-
-
-
