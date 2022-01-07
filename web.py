@@ -19,11 +19,13 @@ a.actualizar_json()
 # https://stackoverflow.com/questions/21214270/how-to-schedule-a-function-to-run-every-hour-on-flask
 # https://pypi.org/project/APScheduler/
 from apscheduler.schedulers.background import BackgroundScheduler
-
-def f(): print("Hola")
+import telegram_bot
+def f():
+	# print("Hola")
+	telegram_bot.enviar_mensaje(mensaje="hola")
 
 schedule = BackgroundScheduler(daemon=True)
-schedule.add_job(f,'interval',seconds=5)
+schedule.add_job(f,'interval',minutes=2)
 schedule.start()
 
 
