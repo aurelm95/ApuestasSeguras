@@ -45,7 +45,7 @@ class Betstars(CasaDeApuestas):
 						e2j1,e2j2=e2.split(' / ')
 						e2n1,e2a1=e2j1.split(' ')
 						e2n2,e2a2=e2j2.split(' ')
-						e1=Equipo(
+						e2=Equipo(
 							Jugador(inicial_nombre=e2n1,apellido=e2a1),
 							Jugador(inicial_nombre=e2n2,apellido=e2n2)
 						)
