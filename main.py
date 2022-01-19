@@ -25,9 +25,9 @@ def f():
 	# print("Hola")
 	telegram_bot.enviar_mensaje(mensaje="hola")
 
-schedule = BackgroundScheduler(daemon=True)
-schedule.add_job(f,'interval',minutes=10)
-schedule.start()
+# schedule = BackgroundScheduler(daemon=True)
+# schedule.add_job(f,'interval',minutes=10)
+# schedule.start()
 
 
 app = Flask(__name__)
@@ -42,6 +42,10 @@ def base_page():
 	html=time.asctime()+'\n\n'+html
 	# html=html.replace('williamhill','<a href="https://sports.williamhill.es/betting/es-es/tenis/partidos/competici%C3%B3n/hoy">williamhill</a>')
 	return html
+
+@app.route('/check')
+def check():
+	telegram_bot.enviar_mensaje('check apuestas')
 
 # @app.route('/williamhill')
 # def williamhill():
@@ -60,6 +64,8 @@ def base_page():
 	# return open('API/htmls/bwin.html').read()
 
 # print("nombre:",__name__)
+
+print("RUNNING...")
 
 if __name__ == "__main__":
 	app.run(host='0.0.0.0', port=random.randint(2000, 9000))
