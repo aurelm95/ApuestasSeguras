@@ -25,7 +25,7 @@ def f():
 	telegram_bot.enviar_mensaje(mensaje="hola")
 
 schedule = BackgroundScheduler(daemon=True)
-schedule.add_job(f,'interval',minutes=2)
+schedule.add_job(f,'interval',minutes=10)
 schedule.start()
 
 
@@ -61,4 +61,5 @@ def base_page():
 # print("nombre:",__name__)
 
 if __name__ == "__main__" or __name__=='API.web':
-	app.run(host='0.0.0.0', port=8080, debug=True)
+	app.run(host='0.0.0.0', port=8080)
+	# app.run(host='0.0.0.0', port=8080, debug=True)
