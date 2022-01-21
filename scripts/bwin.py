@@ -3,6 +3,7 @@ import requests
 from fractions import Fraction
 
 from .data_classes import Dato, Jugador, Equipo, CasaDeApuestas
+from .logger import apuestas_logger as logger
 
 class Bwin(CasaDeApuestas):
 	def __init__(self):
@@ -80,7 +81,7 @@ class Bwin(CasaDeApuestas):
 
 					self.DATA.append(Dato(Equipo(j1),Equipo(j2),odds1,odds2,dobles=dobles))
 			except Exception as e:
-				print("\tERROR:",e)
+				logger.warning("No se ha podido parsear: "+str(e))
 				pass
 
 

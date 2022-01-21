@@ -5,6 +5,7 @@ import json
 
 
 from .data_classes import Dato, Jugador, Equipo, CasaDeApuestas
+from .logger import apuestas_logger as logger
 
 
 class Williamhill(CasaDeApuestas):
@@ -16,7 +17,7 @@ class Williamhill(CasaDeApuestas):
 	def buscar_partidos(self):
 		self.respuesta=self.s.get("https://sports.williamhill.es/betting/es-es/tenis/partidos/competici%C3%B3n/hoy")
 		if self.respuesta.status_code!=200:
-			print("Williamhill: ERROR: Response Code:",self.respuesta.status_code)
+			logger.error("Response Code: "+str(self.respuesta.status_code))
 			return 0
 		self.respuesta_text=self.respuesta.text
 	
@@ -35,7 +36,7 @@ class Williamhill(CasaDeApuestas):
 				if not dobles:
 					seleccion=False if ' ' in n1 else True # si es un equipode una seleccion nacional
 					if seleccion:
-						print("\twilliamhill: buscar_partidos(): se ha omitido un partido de selecciones:",n1)
+						logger.warning("se ha omitido un partido de selecciones: "+str(n1))
 						continue
 					n1,a1=n1.split(' ')
 					equipo1=Equipo(Jugador(nombre=n1,apellido=a1))

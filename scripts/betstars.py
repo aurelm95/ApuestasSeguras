@@ -5,6 +5,7 @@ import time
 from fractions import Fraction
 
 from .data_classes import Dato, Jugador, Equipo, CasaDeApuestas
+from .logger import apuestas_logger as logger
 
 class Betstars(CasaDeApuestas):
 	def __init__(self):
@@ -60,7 +61,7 @@ class Betstars(CasaDeApuestas):
 					d=Dato(e1,e2,Fraction(odds1),Fraction(odds2),dobles=doble)
 					self.DATA.append(d)
 				except Exception as e:
-					print("\te1:",e1,"e2:",e2,"dobles:",doble,"ERROR:",e)
+					logger.warning("e1: "+str(e1)+" e2: "+str(e2)+" dobles: "+str(doble)+" ERROR: "+str(e))
 					pass
 
 

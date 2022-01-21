@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from fractions import Fraction
 
 from .data_classes import Dato, Jugador, Equipo, CasaDeApuestas
+from .logger import apuestas_logger as logger
 
 class Betfair(CasaDeApuestas):
 	def __init__(self):
@@ -96,7 +97,7 @@ class Betfair(CasaDeApuestas):
 					self.DATA.append(Dato(Equipo(j1),Equipo(j2),p1,p2,dobles=dobles))
 				
 			except Exception as e:
-				print("\tERROR: un partido no se ha podido parsear bien:",e)
+				logger.warning("Un partido no se ha podido parsear bien: "+str(e))
 
 if __name__=='__main__':
 	b=Betfair()
