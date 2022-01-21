@@ -1,8 +1,9 @@
 cosas por hacer:
 
     - euristica apuesta segura
-    - pensar que hacer con el tema del bot de telgram (este script no funciona. seguramente habra que ctualizar token o algo)
+    - pensar que hacer con el tema del bot de telgram
     - usar logs en lugar de prints?
     - bet365 hay que acabarlo o que??
     - mejorar readme y demas
-    - ver como organizar el tema del tegram bot. hacer mi propio paquete??
+    - ver como organizar el tema del tegram bot (no deberia estar en este paquete de apuestas). hacer mi propio paquete??
+    - añadir hora del evento

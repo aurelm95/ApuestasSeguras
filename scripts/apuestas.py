@@ -4,13 +4,15 @@ from . import betfair
 from . import bwin
 #import telegram_bot
 
-from .data_classes import Dato, Evento 
+from .data_classes import Dato, Evento
+from .logger import apuestas_logger as logger
 
 import os
 import json
 import time
 from fractions import Fraction
 import pandas as pd
+
 
 class Apuestas():
 	def __init__(self):
@@ -23,30 +25,35 @@ class Apuestas():
 		self.webs=['williamhill','betstars','betfair','bwin']
 		
 	def buscar_partidos(self):
-		print("Buscando y parseando partidos en williamhill...")
+		logger.info("Buscando y parseando partidos en williamhill...")
 		self.williamhill.buscar_partidos()
 		self.williamhill.parsear_partidos()
+		logger.info("Guardando datos de williamhill en /json...")
 		self.williamhill.guardar_data_en_json()
-		print(len(self.williamhill.DATA),"partidos encontrados")
+		logger.info(str(len(self.williamhill.DATA))+" partidos encontrados")
 
-		print("Buscando y parseando partidos en betstars...")
+		logger.info("Buscando y parseando partidos en betstars...")
 		self.betstars.buscar_partidos()
+		logger.info("Guardando datos de betstars en /json...")
 		self.betstars.guardar_data_en_json()
-		print(len(self.williamhill.DATA),"partidos encontrados")
+		logger.info(str(len(self.betstars.DATA))+" partidos encontrados")
 
-		print("Buscando y parseando partidos en betfair...")
+		logger.info("Buscando y parseando partidos en betfair...")
 		self.betfair.buscar_partidos()
+		logger.info("Guardando datos de betfair en /json...")
 		self.betfair.guardar_data_en_json()
-		print(len(self.williamhill.DATA),"partidos encontrados")
+		logger.info(str(len(self.betfair.DATA))+" partidos encontrados")
 
-		print("Buscando y parseando partidos en bwin...")
+		logger.info("Buscando y parseando partidos en bwin...")
 		self.bwin.buscar_partidos()
+		logger.info("Guardando datos de bwin en /json...")
 		self.bwin.guardar_data_en_json()
-		print(len(self.williamhill.DATA),"partidos encontrados")
+		logger.info(str(len(self.bwin.DATA))+" partidos encontrados")
 
 	# para development/debug
 	def cargar_partidos(self):
 		for casa in [self.williamhill, self.betstars, self.betfair, self.bwin]:
+			logger.info("Cargando partidos de "+casa.nombre+"...")
 			casa.cargar_data_de_json()
 
 	def comparar(self):
@@ -84,7 +91,7 @@ class Apuestas():
 
 	def buscar_apuestas_seguras(self):
 		for evento in self.DATA:
-			evento.apuesta_segura()
+			evento.comprobar_apuesta_segura()
 
 	def print_simple(self):		
 		print("\n\nPrinteando partidos en williamhill...")
@@ -134,13 +141,14 @@ class Apuestas():
 		f.close()
 
 	def to_dataframe(self):
-		df = pd.DataFrame(columns=["Equipo 1","Equipo 2","williamhill 1","williamhill 2","betstars 1","betstars 2","betfair 1","betfar 2","bwin 1","bwin 2"])
+		df = pd.DataFrame(columns=["Equipo 1","Equipo 2","williamhill 1","williamhill 2","betstars 1","betstars 2","betfair 1","betfair 2","bwin 1","bwin 2","Esperanza"])
 		for evento in self.DATA:
 			linea={"Equipo 1":str(evento.e1),"Equipo 2":str(evento.e2)}
 			for web in list(evento.odds.keys()):
 				# linea|={web+' 1':round(float(evento.odds[web][0]),2),web+' 2':round(float(evento.odds[web][1]),2)}
 				linea.update({web+' 1':round(float(evento.odds[web][0]),2),web+' 2':round(float(evento.odds[web][1]),2)})
-			# print(linea)
+			# print(evento.esperanza, type(evento.esperanza))
+			linea['Esperanza']=evento.esperanza
 			df=df.append(linea,ignore_index=True)
 		return df
 
@@ -152,7 +160,8 @@ if __name__=='__main__':
 	# a.buscar_partidos()
 	a.cargar_partidos()
 	a.comparar()
-	a.actualizar_json()
+	a.buscar_apuestas_seguras()
+	# a.actualizar_json()
 	# a.ordenar_eventos_alfabeticamente()
 	# a.pretty_print()
 	df=a.to_dataframe()

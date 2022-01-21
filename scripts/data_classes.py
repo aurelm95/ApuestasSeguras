@@ -172,6 +172,7 @@ class Evento():
 		self.dobles=dato.dobles
 
 		self.segura=False
+		self.esperanza=0
 
 		# Los guardo como unas odds de la web
 		self.odds={web:[dato.odds1,dato.odds2]}
@@ -179,8 +180,15 @@ class Evento():
 	def nuevas_odds(self,dato,web):
 		self.odds[web]=[dato.odds1,dato.odds2]
 
-	def apuesta_segura(self):
-		pass
+	def comprobar_apuesta_segura(self):
+		for web1 in list(self.odds.keys()):
+			for web2 in list(self.odds.keys()):
+				if web1==web2: continue # asumo que nunca pasara
+				esperanza=(self.odds[web1][0]-1)*(self.odds[web2][1]-1)
+				self.esperanza=max(self.esperanza,float(esperanza))
+				if esperanza>1:
+					self.segura=True
+
 
 	def nuevo_dato(self,dato,web):
 		if self.e1==dato.e1 and self.e2==dato.e2:
@@ -198,8 +206,9 @@ class Evento():
 			}
 		# j|={'odds':odds,'dobles:':self.dobles,'segura':self.segura}
 		j.update({'odds':odds,'dobles:':self.dobles,'segura':self.segura})
+		j['esperanza']=self.esperanza
 		return j
 
 	def __repr__(self):
-		return str(self.e1)+' vs '+str(self.e2)+' | '+str(self.odds) 
+		return str(self.e1)+' vs '+str(self.e2)+' | '+str(self.odds)+' || '+str(self.esperanza) 
 		
