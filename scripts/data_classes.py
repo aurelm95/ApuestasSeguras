@@ -3,7 +3,7 @@ import time
 import json
 from fractions import Fraction
 
-
+from .logger import apuestas_logger as logger
 
 class CasaDeApuestas():
 	def __init__(self):
@@ -85,6 +85,7 @@ class CasaDeApuestas():
 					odds2=Fraction(d['odds2']['numerator'],d['odds2']['denominator']),
 					dobles=d['dobles']
 				))
+		logger.debug("Datos cargados")
 
 	def print(self):
 		print("\n"+self.nombre+":",len(self.DATA),"partidos\n")

@@ -7,24 +7,17 @@ import random
 
 from scripts.apuestas import Apuestas
 
-a=Apuestas()
-# a.buscar_partidos()
-a.cargar_partidos()
-a.comparar()
-a.actualizar_json()
-# a.ordenar_eventos_alfabeticamente()
-# a.pretty_print()
-
 
 if __name__=='__main__':
     a=Apuestas()
-    a.buscar_partidos()
-    # a.cargar_partidos()
+    # a.buscar_partidos()
+    a.cargar_partidos()
     a.comparar()
     a.buscar_apuestas_seguras()
-    a.actualizar_json()
+    # a.actualizar_json()
     # a.ordenar_eventos_alfabeticamente()
     # a.pretty_print()
     df=a.to_dataframe()
+    print(df)
     seguras=df[df['Esperanza']>1]
-    print("ApuestasSeguras:\n",seguras)
+    print("ApuestasSeguras:",seguras.values.shape[0])

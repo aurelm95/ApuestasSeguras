@@ -20,6 +20,7 @@ class Williamhill(CasaDeApuestas):
 			logger.error("Response Code: "+str(self.respuesta.status_code))
 			return 0
 		self.respuesta_text=self.respuesta.text
+		logger.debug("Response code: "+str(self.respuesta.status_code))
 	
 	def parsear_partidos(self):
 		self.soup=BeautifulSoup(self.respuesta_text,'html.parser')
@@ -61,6 +62,7 @@ class Williamhill(CasaDeApuestas):
 				# print("ERROR: un partido no se ha podido parsear")
 				# print(e)
 				pass
+		logger.debug("Partidos parseados")
 
 		
 if __name__=='__main__':

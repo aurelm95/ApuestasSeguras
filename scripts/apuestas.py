@@ -55,8 +55,10 @@ class Apuestas():
 		for casa in [self.williamhill, self.betstars, self.betfair, self.bwin]:
 			logger.info("Cargando partidos de "+casa.nombre+"...")
 			casa.cargar_data_de_json()
+		logger.debug("Datos cargados")
 
 	def comparar(self):
+		logger.debug("Comienza la comparación")
 		for dato in self.williamhill.DATA:
 			self.DATA.append(Evento(dato,'williamhill'))
 		casas=[self.betstars,self.betfair,self.bwin]

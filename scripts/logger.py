@@ -12,6 +12,7 @@ class MyFormatter(logging.Formatter):
 
     BASE_FORMAT='%(asctime)s: %(name)s.py: [%(levelname)s]: %(message)s'
     BASE_FORMAT='%(name)s.py: [%(levelname)s]: %(message)s'
+    BASE_FORMAT='%(pathname)-8s: [%(levelname)s]: %(message)s'
 
     def __init__(self, fmt=''):
         logging.Formatter.__init__(self, fmt)
@@ -41,8 +42,12 @@ stream_handler = logging.StreamHandler()
 stream_handler.setFormatter(MyFormatter())
 apuestas_logger.addHandler(stream_handler)
 
+# De los siguientes enlaces se pueden sacar buenos comandos para el formato
+# https://stackoverflow.com/questions/533048/how-to-log-source-file-name-and-line-number-in-python
+# https://stackoverflow.com/questions/28644821/how-to-specify-caller-file-name-in-python-logger/30257387
 
-
+# Del siguiente enlace se puede sacar como hacer que se pueda recortar el pathname para el logger
+# https://stackify.dev/323830-python-logging-how-do-i-truncate-the-pathname-to-just-the-last-few-characters
 
 if __name__=='__main__':
     apuestas_logger.info("info")
