@@ -22,7 +22,7 @@ if __name__=='__main__':
     # a.cargar_partidos()
     a.comparar()
     a.buscar_apuestas_seguras()
-    # a.actualizar_json()
+    a.actualizar_json()
     # a.ordenar_eventos_alfabeticamente()
     # a.pretty_print()
     df=a.to_dataframe()
