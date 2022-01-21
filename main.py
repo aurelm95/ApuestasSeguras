@@ -46,6 +46,7 @@ def base_page():
 @app.route('/check')
 def check():
 	telegram_bot.enviar_mensaje('check apuestas')
+	return 'check done'
 
 # @app.route('/williamhill')
 # def williamhill():
