@@ -6,12 +6,15 @@ import time
 import random
 
 from scripts.apuestas import Apuestas
+from scripts.williamhill import Williamhill
 
 
-if __name__=='__main__':
+
+
+if __name__=='__main__' and False:
     a=Apuestas()
-    a.buscar_partidos()
-    # a.cargar_partidos()
+    # a.buscar_partidos()
+    a.cargar_partidos()
     a.comparar()
     a.buscar_apuestas_seguras()
     # a.actualizar_json()
@@ -21,3 +24,7 @@ if __name__=='__main__':
     print(df)
     seguras=df[df['Esperanza']>1]
     print("ApuestasSeguras:",seguras.values.shape[0])
+
+if __name__=='__main__':
+    w=Williamhill
+    w.cargar_html()
