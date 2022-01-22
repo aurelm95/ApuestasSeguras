@@ -23,32 +23,40 @@ class Apuestas():
 		
 		self.DATA=[]
 		self.webs=['williamhill','betstars','betfair','bwin']
+		self.fecha_ultima_busqueda=None
 		
 	def buscar_partidos(self):
 		logger.info("Buscando y parseando partidos en williamhill...")
 		self.williamhill.buscar_partidos()
+		self.williamhill.guardar_html()
 		self.williamhill.parsear_partidos()
 		logger.info("Guardando datos de williamhill en /json...")
 		self.williamhill.guardar_data_en_json()
+		
 		logger.info(str(len(self.williamhill.DATA))+" partidos encontrados")
 
 		logger.info("Buscando y parseando partidos en betstars...")
 		self.betstars.buscar_partidos()
+		self.betstars.guardar_html()
 		logger.info("Guardando datos de betstars en /json...")
 		self.betstars.guardar_data_en_json()
 		logger.info(str(len(self.betstars.DATA))+" partidos encontrados")
 
 		logger.info("Buscando y parseando partidos en betfair...")
 		self.betfair.buscar_partidos()
+		self.betfair.guardar_html()
 		logger.info("Guardando datos de betfair en /json...")
 		self.betfair.guardar_data_en_json()
 		logger.info(str(len(self.betfair.DATA))+" partidos encontrados")
 
 		logger.info("Buscando y parseando partidos en bwin...")
 		self.bwin.buscar_partidos()
+		self.bwin.guardar_html()
 		logger.info("Guardando datos de bwin en /json...")
 		self.bwin.guardar_data_en_json()
 		logger.info(str(len(self.bwin.DATA))+" partidos encontrados")
+
+		self.fecha_ultima_busqueda=time.time()
 
 	# para development/debug
 	def cargar_partidos(self):
@@ -79,7 +87,7 @@ class Apuestas():
 		self.DATA.sort(key=lambda x: x.j1)
 
 	def actualizar_json(self):
-		self.j={'timestamp':time.time()}
+		self.j={'timestamp':self.fecha_ultima_busqueda}
 		self.j['DATA']=[evento.to_dict() for evento in self.DATA]
 		f=open(os.path.dirname(__file__)+'/jsons/tenis.json','w')
 		json.dump(self.j,f)

@@ -10,8 +10,8 @@ from scripts.apuestas import Apuestas
 
 if __name__=='__main__':
     a=Apuestas()
-    # a.buscar_partidos()
-    a.cargar_partidos()
+    a.buscar_partidos()
+    # a.cargar_partidos()
     a.comparar()
     a.buscar_apuestas_seguras()
     # a.actualizar_json()

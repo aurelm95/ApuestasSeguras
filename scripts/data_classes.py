@@ -12,6 +12,7 @@ class CasaDeApuestas():
 		self.respuesta=None
 
 	def guardar_html(self):
+		logger.debug("html de "+self.nombre+" guardado en /htmls")
 		f=open(os.path.dirname(__file__)+'/htmls/'+self.nombre+'.html','w', encoding="utf-8")
 		f.write(self.respuesta.text)
 		f.close()
@@ -85,7 +86,7 @@ class CasaDeApuestas():
 					odds2=Fraction(d['odds2']['numerator'],d['odds2']['denominator']),
 					dobles=d['dobles']
 				))
-		logger.debug("Datos cargados para "+self.nombre)
+		logger.debug(str(len(self.DATA))+" datos cargados para "+self.nombre)
 
 	def print(self):
 		print("\n"+self.nombre+":",len(self.DATA),"partidos\n")
@@ -147,12 +148,13 @@ class Equipo():
 		return self.j1==other.j1
 
 class Dato():
-	def __init__(self,e1,e2,odds1,odds2,dobles=False):
+	def __init__(self,e1,e2,odds1,odds2,dobles=False,timestamp=None):
 		self.e1=e1
 		self.e2=e2
 		self.odds1=odds1
 		self.odds2=odds2
 		self.dobles=dobles
+		self.timestamp=timestamp
 
 	def reverse(self):
 		return Dato(self.e2,self.e1,self.odds2,self.odds1,dobles=self.dobles)
@@ -174,6 +176,7 @@ class Evento():
 
 		self.segura=False
 		self.esperanza=0
+		self.timestamp=dato.timestamp
 
 		# Los guardo como unas odds de la web
 		self.odds={web:[dato.odds1,dato.odds2]}

@@ -1,0 +1,72 @@
+
+Partidos                                     | williamhill      | betstars         | betfair          | bwin            
+---------------------------------------------+------------------+------------------+------------------+-----------------
+Benoit Paire vs Stefanos Tsitsipas           | 6 vs 1/10        |                  | 15/2 vs 27/25    | 7 vs 109/100    
+Christopher O'Connell vs Maxime Cressy       | 3/2 vs 8/15      |                  | 47/20 vs 79/50   | 49/20 vs 153/100
+Daniel Evans vs Felix Auger-Aliassime        | 19/20 vs 17/20   |                  | 2 vs 9/5         | 39/20 vs 183/100
+Taro Daniel vs Jannik Sinner                 | 7 vs 1/14        |                  | 10 vs 21/20      | 35/4 vs 53/50   
+Tamara Zidansek vs Alize Cornet              | 6/5 vs 2/3       |                  | 9/4 vs 41/25     | 11/5 vs 33/20   
+Kaia Kanepi vs Maddison Inglis               | 2/7 vs 13/5      |                  | 32/25 vs 37/10   |                 
+Marketa Vondrousova vs Aryna Sabalenka       | 2/3 vs 6/5       |                  | 41/25 vs 9/4     | 167/100 vs 43/20
+Simona Halep vs Danka Kovinic                | 1/25 vs 10       |                  | 21/20 vs 10      | 26/25 vs 39/4   
+Elise Mertens vs Shuai Zhang                 | 2/7 vs 13/5      |                  |                  |                 
+Koepfer/Struff vs Behar/Escobar              | 10/11 vs 4/5     |                  | 19/10 vs 9/5     |                 
+Klaasen/McLachlan vs Inglot/Skupski          | 2/3 vs 11/10     |                  |                  |                 
+Carballés/Gaston vs Puetz/Venus             | 7/2 vs 1/6       |                  |                  |                 
+Bolelli/Fognini vs Dodig/Melo                | 5/6 vs 5/6       |                  | 19/10 vs 9/5     |                 
+Daniell/Nielsen vs Ram/Salisbury             | 5/2 vs 2/7       |                  | 19/5 vs 6/5      |                 
+Nedovyesov/Qureshi vs Giron/Kwon             | 4/11 vs 2        |                  | 7/5 vs 3         |                 
+Ebden/Purcell vs Cabal/Farah                 | 3/2 vs 1/2       |                  | 5/2 vs 29/20     |                 
+Bolsova/Eikeri vs Bouzkova/Hradecka          | 7/2 vs 1/6       |                  | 9/2 vs 29/25     |                 
+Flipkens/Tormo vs Dabrowski/Olmos            | 3 vs 2/9         |                  | 17/4 vs 59/50    |                 
+Martic/Rogers vs Kichenok/Ostapenko          | 5/4 vs 4/7       |                  | 43/20 vs 81/50   |                 
+Watson/Paolini vs Kostyuk/Yastremska         | 7/4 vs 2/5       |                  |                  |                 
+Kuzmova/Zvonareva vs Hibino/Rosolska         | 2/9 vs 3         |                  | 59/50 vs 17/4    |                 
+Juvan/Zidansek vs Cristian/Petkovic          | 4/5 vs 10/11     |                  | 9/5 vs 19/10     |                 
+Collins/Krawczyk vs Muhammad/Pegula          | 3/2 vs 1/2       |                  | 47/20 vs 38/25   |                 
+Krejcikova/Siniakova vs Adamczak/Han         | 1/16 vs 7        |                  | 103/100 vs 9     |                 
+Kubler/Fourlis vs Pavic/Stojanovic           | 7/2 vs 1/6       |                  |                  |                 
+Koolhof/Pera vs Nys/Dabrowski                | 10/11 vs 4/5     |                  |                  |                 
+Mclachlan/Shibahara vs Skupski/Sanders       | 10/11 vs 4/5     |                  |                  |                 
+Vliegen/Klepac vs Peers/Zhang                | 5/4 vs 4/7       |                  |                  |                 
+Dodig/Mladenovic vs Gille/Flipkens           | 2/5 vs 7/4       |                  |                  |                 
+Krajicek/Pegula vs Quresh/Ninomiya           | 1/2 vs 3/2       |                  |                  |                 
+Ebden/Stosur vs Martin/Muhammad              | 2/3 vs 11/10     |                  |                  |                 
+Bopanna/Schreiber vs Golubev/Kichenok        | 4/7 vs 5/4       |                  |                  |                 
+Facundo Mena vs Gonzalo Lama                 | 6/5 vs 8/13      |                  |                  |                 
+Carballes Baena/Gaston vs Puetz/Venus        |                  |                  | 19/4 vs 57/50    |                 
+Tauson vs Collins                            |                  |                  | 7/4 vs 41/20     | 183/100 vs 39/20
+Klaasen/Mclachlan vs Inglot/Skupski          |                  |                  | 33/20 vs 21/10   |                 
+Paolini/Watson vs Kostyuk/Yastremska         |                  |                  | 14/5 vs 69/50    |                 
+Mertens vs Sorribes Zhang                    |                  |                  | 63/50 vs 19/5    |                 
+Fourlis/Kubler vs Stojanovic/Pavic           |                  |                  | 9/2 vs 57/50     |                 
+Sharma/Smith vs Hradecka/Escobar             |                  |                  | 17/10 vs 2       |                 
+Pera/Koolhof vs Dabrowski/Nys                |                  |                  | 19/10 vs 9/5     |                 
+Shibahara/Mclachlan vs Sanders/Skupski       |                  |                  | 183/100 vs 183/100 |                 
+Bautista Agut vs Fritz                       |                  |                  | 7/4 vs 41/20     |                 
+Klepac/Vliegen vs Zhang/Peers                |                  |                  | 9/4 vs 79/50     |                 
+Mladenovic/Dodig vs Flipkens/Gille           |                  |                  | 7/5 vs 11/4      |                 
+Pegula/Krajicek vs Ninomiya/Qureshi          |                  |                  | 38/25 vs 47/20   |                 
+Stosur/Ebden vs Muhammad/Martin              |                  |                  | 8/5 vs 11/5      |                 
+Jurak Schreiber/Bopanna vs Kichenok/Golubev  |                  |                  | 79/50 vs 9/4     |                 
+Swiatek vs Kasatkina                         |                  |                  | 67/50 vs 16/5    | 34/25 vs 31/10  
+Andujar vs De Minaur                         |                  |                  | 15/2 vs 27/25    |                 
+Rublev vs Cilic                              |                  |                  | 32/25 vs 37/10   | 13/10 vs 17/5   
+Cirstea vs Pavlyuchenkova                    |                  |                  | 14/5 vs 36/25    |                 
+Ferreira Silva vs Ferreira Kotov             |                  |                  | 23/10 vs 153/100 |                 
+Stebe vs Halys                               |                  |                  | 2 vs 17/10       |                 
+Routliffe/Venus vs Guarachi/Puetz            |                  |                  | 43/20 vs 81/50   |                 
+Kecmanovic vs Monfils                        |                  |                  | 19/4 vs 29/25    |                 
+Krejcikova vs Azarenka                       |                  |                  | 49/20 vs 77/50   |                 
+Pegula vs Sakkari                            |                  |                  | 14/5 vs 71/50    |                 
+Keys vs Badosa                               |                  |                  | 49/20 vs 77/50   |                 
+Krawietz/Mies vs Peers/Polasek               |                  |                  | 12/5 vs 3/2      |                 
+A Zverev vs Shapovalov                       |                  |                  | 6/5 vs 9/2       | 6/5 vs 22/5     
+Perez/Middelkoop vs Mirza/Ram                |                  |                  | 12/5 vs 3/2      |                 
+Carreno Busta vs Berrettini                  |                  |                  | 29/10 vs 7/5     |                 
+Peterson/Potapova vs Linette/Pera            |                  |                  | 19/4 vs 57/50    |                 
+Kudermetova/Mertens vs Xu/Yang               |                  |                  | 71/50 vs 13/5    |                 
+Barty vs Anisimova                           |                  |                  | 61/50 vs 17/4    |                 
+Granollers/Zeballos vs Andujar/Martinez      |                  |                  | 28/25 vs 21/4    |                 
+B van de Zandschulp vs D Medvedev            |                  |                  |                  | 11 vs 103/100   
+R Bautista-Agut vs T Fritz                   |                  |                  |                  | 89/50 vs 2      
