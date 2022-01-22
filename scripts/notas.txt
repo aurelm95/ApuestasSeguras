@@ -1,9 +1,12 @@
 cosas por hacer:
 
-    - euristica apuesta segura
-    - pensar que hacer con el tema del bot de telgram
-    - usar logs en lugar de prints?
     - bet365 hay que acabarlo o que??
     - mejorar readme y demas
-    - ver como organizar el tema del tegram bot (no deberia estar en este paquete de apuestas). hacer mi propio paquete??
     - añadir hora del evento
+    - añadir hora de leida de datos (scrapping)
+
+    telegram bot:
+        - no deberia estar en este repo
+        - entonces deberia hacer mi propio paquete para tegram?
+        - ese paquete importarlo desde cada proyecto ?
+        - Los proyectos no deben tener/importar "mi paquete de telegram". eso debe hacerlo una unica vez el main

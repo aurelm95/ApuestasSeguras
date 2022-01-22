@@ -85,7 +85,7 @@ class CasaDeApuestas():
 					odds2=Fraction(d['odds2']['numerator'],d['odds2']['denominator']),
 					dobles=d['dobles']
 				))
-		logger.debug("Datos cargados")
+		logger.debug("Datos cargados para "+self.nombre)
 
 	def print(self):
 		print("\n"+self.nombre+":",len(self.DATA),"partidos\n")

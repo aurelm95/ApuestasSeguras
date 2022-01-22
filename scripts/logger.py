@@ -13,7 +13,7 @@ class MyFormatter(logging.Formatter):
 
     BASE_FORMAT='%(asctime)s: %(name)s.py: [%(levelname)s]: %(message)s'
     BASE_FORMAT='%(name)s.py: [%(levelname)s]: %(message)s'
-    BASE_FORMAT='%(pathname)-8s: [%(levelname)s]: %(message)s'
+    BASE_FORMAT='%(pathname)-40s: [%(levelname)s]: %(message)s'
 
     def __init__(self, fmt=''):
         logging.Formatter.__init__(self, fmt)
@@ -21,12 +21,9 @@ class MyFormatter(logging.Formatter):
     def format(self, record):
         colored_base_format=MyFormatter.BASE_FORMAT
 
-        # TODO acabar esto
-        list_path=os.path.realpath(os.getcwd()+'/apuestas.py').split(os.sep)
+        list_path=os.path.realpath(record.pathname).split(os.sep)
         list_path=list_path[list_path.index('ApuestasSeguras'):]
-        path=os.path.join(*list_path)
-        # https://stackify.dev/323830-python-logging-how-do-i-truncate-the-pathname-to-just-the-last-few-characters
-        # record.args['pathname'] = path
+        record.pathname=os.path.join(*list_path)
 
         if record.levelno == logging.DEBUG:
             colored_base_format = MyFormatter.AZUL+MyFormatter.BASE_FORMAT+MyFormatter.RESET
