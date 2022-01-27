@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from fractions import Fraction
 import json
+from datetime import datetime
 
 
 from .data_classes import Dato, Jugador, Equipo, CasaDeApuestas
@@ -53,14 +54,18 @@ class Williamhill(CasaDeApuestas):
 				b=e.find_all('button')
 				precio1=Fraction(b[0]['data-odds'])
 				precio2=Fraction(b[1]['data-odds'])
+
+				# fecha
+				fecha=e.find('time')['datetime']
+				fecha=datetime.strptime(fecha, '%Y-%m-%dT%H:%M:%S+00:00')
+				# fecha=datetime.strptime(fecha, '%Y-%m-%dT%H:%M:%S+%z') # no se como lidiar con el offset
 				self.DATA.append(Dato(equipo1,equipo2,precio1,precio2,dobles=dobles))
 			except Exception as e:
 				"""
 				Falla cuando el nombre tiene dos palabras (por ejemplo: juan antonio lopez)
 				Falla cuando las odds es una string: 'EVS'
 				"""
-				# print("ERROR: un partido no se ha podido parsear")
-				# print(e)
+				logger.warning("Un partido no se ha podido parsear bien: "+str(e))
 				pass
 		logger.debug("Partidos parseados")
 

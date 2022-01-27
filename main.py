@@ -11,13 +11,13 @@ from scripts.williamhill import Williamhill
 
 
 
-if __name__=='__main__' and False:
+if __name__=='__main__' and True:
     a=Apuestas()
-    # a.buscar_partidos()
-    a.cargar_partidos()
+    a.buscar_partidos()
+    # a.cargar_partidos()
     a.comparar()
     a.buscar_apuestas_seguras()
-    # a.actualizar_json()
+    a.actualizar_json()
     # a.ordenar_eventos_alfabeticamente()
     # a.pretty_print()
     df=a.to_dataframe()
@@ -25,6 +25,6 @@ if __name__=='__main__' and False:
     seguras=df[df['Esperanza']>1]
     print("ApuestasSeguras:",seguras.values.shape[0])
 
-if __name__=='__main__':
-    w=Williamhill
-    w.cargar_html()
+# if __name__=='__main__':
+#     w=Williamhill()
+#     w.cargar_html()

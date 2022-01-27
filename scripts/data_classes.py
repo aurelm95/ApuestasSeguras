@@ -18,6 +18,7 @@ class CasaDeApuestas():
 		f.close()
 	
 	def cargar_html(self):
+		logger.info("Cargando html para "+self.nombre)
 		f=open(os.path.dirname(__file__)+'/htmls/'+self.nombre+'.html','r', encoding="utf-8")
 		self.respuesta_text=f.read()
 		f.close()
