@@ -58,7 +58,7 @@ class Betstars(CasaDeApuestas):
 						e2=Equipo(Jugador(nombre=e2n1,apellido=e2a1))
 						
 					# print("e1:",e1,"e2:",e2,"dobles:",doble)
-					d=Dato(e1,e2,Fraction(odds1),Fraction(odds2),dobles=doble)
+					d=Dato(e1,e2,Fraction(odds1)+1,Fraction(odds2)+1,dobles=doble) # les sumo 1 a las odds
 					self.DATA.append(d)
 				except Exception as e:
 					logger.warning("e1: "+str(e1)+" e2: "+str(e2)+" dobles: "+str(doble)+" ERROR: "+str(e))

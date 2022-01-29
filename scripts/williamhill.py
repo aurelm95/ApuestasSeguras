@@ -52,8 +52,8 @@ class Williamhill(CasaDeApuestas):
 				
 				# odds
 				b=e.find_all('button')
-				precio1=Fraction(b[0]['data-odds'])
-				precio2=Fraction(b[1]['data-odds'])
+				precio1=Fraction(b[0]['data-odds'])+1 # le sumo 1
+				precio2=Fraction(b[1]['data-odds'])+1 # le sumo 1
 
 				# fecha
 				fecha=e.find('time')['datetime']

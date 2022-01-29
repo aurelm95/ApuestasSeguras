@@ -191,8 +191,8 @@ class Evento():
 				if web1==web2: continue # asumo que nunca pasara
 				esperanza=(self.odds[web1][0]-1)*(self.odds[web2][1]-1)
 				self.esperanza=max(self.esperanza,float(esperanza))
-				if esperanza>1:
-					self.segura=True
+		if self.esperanza>1:
+			self.segura=True
 
 
 	def nuevo_dato(self,dato,web):
