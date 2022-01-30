@@ -131,6 +131,8 @@ class Jugador():
 			if self.nombre is not None:
 				if self.nombre[0]==other.inicial_nombre:
 					return True
+			if (self.inicial_nombre is None and self.nombre is None) or (self.inicial_nombre is None and self.nombre is None):
+				return True
 		return False
 
 class Equipo():
@@ -202,11 +204,12 @@ class Evento():
 		if self.esperanza>1:
 			self.segura=True
 
-
 	def nuevo_dato(self,dato,web):
 		if self.e1==dato.e1 and self.e2==dato.e2:
 			self.odds[web]=[dato.odds1,dato.odds2]
 			return True
+		if self.e1==dato.e2 and self.e2==dato.e1:
+			self.odds[web]=[dato.odds2,dato.odds1]
 		return False
 
 	def to_dict(self):
