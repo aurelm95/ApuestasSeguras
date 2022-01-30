@@ -13,7 +13,11 @@ class CasaDeApuestas():
 
 	def guardar_html(self):
 		logger.debug("html de "+self.nombre+" guardado en /htmls")
-		f=open(os.path.dirname(__file__)+'/htmls/'+self.nombre+'.html','w', encoding="utf-8")
+		htmls_folder_path=os.path.dirname(__file__)+'/htmls/'
+		if not os.path.exists(htmls_folder_path):
+			os.mkdir(htmls_folder_path)
+			logger.debug("Creando carpeta: "+htmls_folder_path)
+		f=open(htmls_folder_path+self.nombre+'.html','w', encoding="utf-8")
 		f.write(self.respuesta.text)
 		f.close()
 	
@@ -26,7 +30,11 @@ class CasaDeApuestas():
 	def guardar_data_en_json(self):
 		self.j={'timestamp':time.time(),'web':self.nombre}
 		self.j['DATA']=[dato.to_dict() for dato in self.DATA]
-		f=open(os.path.dirname(__file__)+'/jsons/'+self.nombre+'.json','w')
+		jsons_folder_path=os.path.dirname(__file__)+'/jsons/'
+		if not os.path.exists(jsons_folder_path):
+			os.mkdir(jsons_folder_path)
+			logger.debug("Creando carpeta: "+jsons_folder_path)
+		f=open(jsons_folder_path+self.nombre+'.json','w')
 		json.dump(self.j,f)
 		f.close()
 	
