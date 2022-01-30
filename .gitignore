@@ -5,3 +5,7 @@ scripts/jsons
 __pycache__
 poetry.lock
 pyproject.toml
+main.py
+web.py
+telegram_bot.py
+pretty_print.txt

@@ -30,8 +30,8 @@ class Betstars(CasaDeApuestas):
 				try:
 					e1=p['participants']['participant'][0]['names']['longName']
 					e2=p['participants']['participant'][1]['names']['longName']
-					odds1=p['markets'][0]['selection'][1]['odds']['frac']
-					odds2=p['markets'][0]['selection'][0]['odds']['frac']
+					odds1=p['markets'][0]['selection'][0]['odds']['frac']
+					odds2=p['markets'][0]['selection'][1]['odds']['frac']
 					# Miramos si son dobles
 					doble=True if ' / ' in e1 else False
 					if doble:

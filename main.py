@@ -13,8 +13,8 @@ from scripts.williamhill import Williamhill
 
 if __name__=='__main__' and True:
     a=Apuestas()
-    # a.buscar_partidos()
-    a.cargar_partidos()
+    a.buscar_partidos()
+    # a.cargar_partidos()
     a.comparar()
     a.buscar_apuestas_seguras()
     a.actualizar_json()
