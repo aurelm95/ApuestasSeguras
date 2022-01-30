@@ -23,7 +23,8 @@ class Betstars(CasaDeApuestas):
 		self.count=30
 		t=time.gmtime()
 		self.date=str(t.tm_year)+'-'+str("%02d" % t.tm_mon)+'-'+str("%02d" % t.tm_mday)
-		self.respuesta=self.s.get("https://sports.pokerstarssports.es/sportsbook/v1/api/getCompetitionsForDay?sport=TENNIS&date="+self.date+"&count="+str(self.count)+"&utcOffset=1&locale=es-es&channelId=18&siteId=1024")
+		self.url="https://sports.pokerstarssports.es/sportsbook/v1/api/getCompetitionsForDay?sport=TENNIS&date="+self.date+"&count="+str(self.count)+"&utcOffset=1&locale=es-es&channelId=18&siteId=1024"
+		self.respuesta=self.s.get(self.url)
 
 		self.j=self.respuesta.json()
 		for torneo in self.j:
@@ -33,6 +34,9 @@ class Betstars(CasaDeApuestas):
 					e2=p['participants']['participant'][1]['names']['longName']
 					odds1=p['markets'][0]['selection'][0]['odds']['frac']
 					odds2=p['markets'][0]['selection'][1]['odds']['frac']
+					if p['markets'][0]['selection'][0]['competitorId']==p['participants']['participant'][1]['id']:
+						# si pasa esto significa que estan giradas las odds
+						odds1, odds2=odds2, odds1
 					# Miramos si son dobles
 					doble=True if ' / ' in e1 else False
 					if doble:

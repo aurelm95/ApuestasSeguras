@@ -16,7 +16,8 @@ class Williamhill(CasaDeApuestas):
 		self.DATA=[]	
 
 	def buscar_partidos(self):
-		self.respuesta=self.s.get("https://sports.williamhill.es/betting/es-es/tenis/partidos/competici%C3%B3n/hoy")
+		self.url="https://sports.williamhill.es/betting/es-es/tenis/partidos/competici%C3%B3n/hoy"
+		self.respuesta=self.s.get(self.url)
 		if self.respuesta.status_code!=200:
 			logger.error("Response Code: "+str(self.respuesta.status_code))
 			return 0
