@@ -37,9 +37,10 @@ class Bwin(CasaDeApuestas):
 		self.data = '{"sportIds":"5","fixtureCategories":"Gridable,NonGridable,Other","offerMapping":"Filtered","offerCategories":"Gridable,Other","scoreboardMode":"Slim","marqueeRequest":{"marqueeData":[],"take":8},"fixtureTypes":"Standard"}'
 
 	def buscar_partidos(self):
+		self.DATA=[]
 		self.respuesta = self.s.post('https://cds-api.bwin.es/bettingoffer/lobby/sport', headers=self.headers, params=self.params, data=self.data)
 		self.j=self.respuesta.json()
-		
+
 		for p in self.j['highlights']:
 			e1=p['games'][0]['results'][0]
 			# Note that due to the usual issues with binary floating-point (see Floating Point Arithmetic: Issues and Limitations), the argument to Fraction(1.1) is not exactly equal to 11/10, and so Fraction(1.1) does not return Fraction(11, 10) as one might expect.

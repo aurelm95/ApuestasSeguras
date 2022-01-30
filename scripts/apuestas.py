@@ -67,6 +67,7 @@ class Apuestas():
 
 	def comparar(self):
 		logger.debug("Comienza la comparación")
+		self.DATA=[]
 		for dato in self.williamhill.DATA:
 			self.DATA.append(Evento(dato,'williamhill'))
 		casas=[self.betstars,self.betfair,self.bwin]
@@ -83,10 +84,15 @@ class Apuestas():
 
 	# deprecated
 	def ordenar_eventos_alfabeticamente(self):
+		logger.warning("El metodo ordenar_eventos_alfabeticamente() esta obsoleto")
+		return
 		# https://stackoverflow.com/questions/403421/how-to-sort-a-list-of-objects-based-on-an-attribute-of-the-objects
 		self.DATA.sort(key=lambda x: x.j1)
-
+	
+	# deprecated
 	def actualizar_json(self):
+		logger.warning("El metodo ordenar_eventos_alfabeticamente() esta obsoleto")
+		return
 		self.j={'timestamp':self.fecha_ultima_busqueda}
 		self.j['DATA']=[evento.to_dict() for evento in self.DATA]
 		f=open(os.path.dirname(__file__)+'/jsons/tenis.json','w')
@@ -172,9 +178,6 @@ if __name__=='__main__':
 	a.cargar_partidos()
 	a.comparar()
 	a.buscar_apuestas_seguras()
-	# a.actualizar_json()
-	# a.ordenar_eventos_alfabeticamente()
-	# a.pretty_print()
 	df=a.to_dataframe()
 	pass
 

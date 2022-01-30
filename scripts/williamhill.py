@@ -24,6 +24,7 @@ class Williamhill(CasaDeApuestas):
 		logger.debug("Response code: "+str(self.respuesta.status_code))
 	
 	def parsear_partidos(self):
+		self.DATA=[]
 		self.soup=BeautifulSoup(self.respuesta_text,'html.parser')
 		# eventos es una lista con cadauno de "los partidos"
 		self.eventos=self.soup.find_all('div',{'class':'event'})
