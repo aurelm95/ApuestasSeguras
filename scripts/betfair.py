@@ -89,7 +89,7 @@ class Betfair(CasaDeApuestas):
 					if ' ' in nombre2:
 						n2,a2=nombre2.split(' ')
 						if len(n2)==1:
-							j2=Jugador(inicial_nombre=n1,apellido=a2)
+							j2=Jugador(inicial_nombre=n2,apellido=a2)
 						else:
 							j2=Jugador(nombre=n2,apellido=a2)
 					else:
