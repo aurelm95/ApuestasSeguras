@@ -210,6 +210,7 @@ class Evento():
 			return True
 		if self.e1==dato.e2 and self.e2==dato.e1:
 			self.odds[web]=[dato.odds2,dato.odds1]
+			return True
 		return False
 
 	def to_dict(self):
