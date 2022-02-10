@@ -1,6 +1,7 @@
 import requests
 import json
 import re
+import time
 
 def guardar_json(d):
     f=open("cookies.json","w")
@@ -13,19 +14,25 @@ def leer_json():
     f.close()
     return d
 
+def guardar_archivo(txt):
+    f=open("respuesta.txt","w")
+    print("guardar_archivo(): txt:",txt)
+    f.write(txt)
+    f.close()
+
 # cookies de las 21h del 30-01-22
 cookies = {
-    'pstk': '2669CE9B907264859AA3D6C68684346B000003', # expires in 1 week
+    'pstk': '2669CE9B907264859AA3D6C68684346B000003', # expires in 10 years
     'rmbs': '3', # expires in 6 months
     'aps03': 'cf=N&cg=4&cst=0&ct=171&hd=N&lng=3&oty=2&tzi=4', # expires in 10 years
-    '__cf_bm': 'dHu4rUmjxVzmf9ytfEMVA0Fpx7v1xrOieWERk_FUqvY-1643586632-0-ASJ3JPBbI6nqdD+ds364EotFuw100o+02ouoo+CYqKwJ6yV7NlgRJzACsbee95dhk9iYzu6lAJ6FLq7EK9m0eBH+5hPRdNFcthu5jw60kFSj5J2uG7lCw14C9YLdyNdgELae0jhx0Wg+Uon1hIgxHs3q/1XJ7CLhrxMJM8ZzadWM', #expires in 1 day
+    '__cf_bm': 'tpZcKGWJcNaSN7FSPF9cIL7_X28PWR8CHLh8zpwqN7E', #expires in 1 day
 }
 
 cookies={
-    'pstk': '2669CE9B907264859AA3D6C68684346B000003',
+    'pstk': '356E06D9D92D249194837E09FDA4B467000003', # expires in 1 week
     'rmbs': '3',
     'aps03': 'cf=N&cg=4&cst=0&ct=171&hd=N&lng=3&oty=2&tzi=4',
-    '__cf_bm': '30.cXVqL3y8wiq0SGa8FqIp6f2xp3ZAvi8EPNPl0KIc-1643590041-0-AXQoa35pkM+jyb0d5EFU6rLWJAUgHfHbCdyAVFwP54ZX21NlWsxjJMjmGFcnYiCsB+fgpax+9Qjty7sH51RMgaI='
+    '__cf_bm': 'zPUQ1SK3IaaOP47Xdm.6Eyp.7NRhmypYJiN65VHWWTk-1643740145-0-AS16kfXFB/RLukYI6GhMdOSxNp4O7KOHR2v9+2UPWbpN8ecN4Yef6IhPtSn6DhvsTt/IqkoBo4dwrCgQKVpxklTmDA11F4dsFyu/28+w9qe3CrW2ygMKjNwZZnlMZOyj3dUmgbTcjHWtnNNf54YnvfeJxU6VDG9B9bXGuFv1FqkG'
 }
 
 
@@ -67,6 +74,9 @@ assert response.status_code==200
 if not s.cookies.get_dict()==leer_json():
     guardar_json(s.cookies.get_dict())
     print("ACTUALIZO COOKIES")
+
+guardar_archivo(response.text)
+
 
 # Los nombres de los partidos son de la forma:
 # EX=Dougaz/Mansouri v Hemery/Meraut;

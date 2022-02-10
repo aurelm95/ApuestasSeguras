@@ -1,0 +1,4 @@
+aqui parece que se habla de como generar una cookie comun
+
+    https://community.cloudflare.com/t/cf-bm-cookie/56696/3
+
