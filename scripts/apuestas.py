@@ -66,7 +66,7 @@ class Apuestas():
 		logger.debug("Datos cargados")
 
 	def comparar(self):
-		logger.debug("Comienza la comparación")
+		logger.debug("Comparando...")
 		self.DATA=[]
 		for dato in self.williamhill.DATA:
 			self.DATA.append(Evento(dato,'williamhill'))
@@ -91,7 +91,7 @@ class Apuestas():
 	
 	# deprecated
 	def actualizar_json(self):
-		logger.warning("El metodo ordenar_eventos_alfabeticamente() esta obsoleto")
+		logger.warning("El metodo actualizar_json() esta obsoleto")
 		return
 		self.j={'timestamp':self.fecha_ultima_busqueda}
 		self.j['DATA']=[evento.to_dict() for evento in self.DATA]
@@ -106,6 +106,7 @@ class Apuestas():
 		self.bwin.guardar_html()
 
 	def buscar_apuestas_seguras(self):
+		logger.debug("Buscando apuestas seguras...")
 		for evento in self.DATA:
 			evento.comprobar_apuesta_segura()
 

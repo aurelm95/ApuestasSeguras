@@ -82,7 +82,7 @@ class Bwin(CasaDeApuestas):
 
 					self.DATA.append(Dato(Equipo(j1),Equipo(j2),odds1,odds2,dobles=dobles))
 			except Exception as e:
-				logger.warning("No se ha podido parsear: "+str(e))
+				logger.warning("No se ha podido parsear: "+str(e)+" J1: "+str(j1)+" J2: "+str(j2)+" line: "+str(e.__traceback__.tb_lineno))
 				pass
 
 

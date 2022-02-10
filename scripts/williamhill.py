@@ -42,9 +42,9 @@ class Williamhill(CasaDeApuestas):
 					if seleccion:
 						logger.warning("se ha omitido un partido de selecciones: "+str(n1))
 						continue
-					n1,a1=n1.split(' ')
+					n1,a1=n1.rsplit(' ',1)
 					equipo1=Equipo(Jugador(nombre=n1,apellido=a1))
-					n2,a2=n2.split(' ')
+					n2,a2=n2.rsplit(' ',1)
 					equipo2=Equipo(Jugador(nombre=n2,apellido=a2))
 				else:
 					e1j1,e1j2=n1.split("/")
@@ -58,16 +58,20 @@ class Williamhill(CasaDeApuestas):
 				precio2=Fraction(b[1]['data-odds'])+1 # le sumo 1
 
 				# fecha
-				fecha=e.find('time')['datetime']
-				fecha=datetime.strptime(fecha, '%Y-%m-%dT%H:%M:%S+00:00')
+				# fecha=e.find('time')['datetime']
+				# fecha=datetime.strptime(fecha, '%Y-%m-%dT%H:%M:%S+00:00')
 				# fecha=datetime.strptime(fecha, '%Y-%m-%dT%H:%M:%S+%z') # no se como lidiar con el offset
 				self.DATA.append(Dato(equipo1,equipo2,precio1,precio2,dobles=dobles))
+			# except TypeError as e:
+			# 	pass
+			# except ValueError as e:
+			# 	pass
 			except Exception as e:
 				"""
 				Falla cuando el nombre tiene dos palabras (por ejemplo: juan antonio lopez)
 				Falla cuando las odds es una string: 'EVS'
 				"""
-				logger.warning("Un partido no se ha podido parsear bien: "+str(e))
+				logger.warning("Un partido no se ha podido parsear bien: "+str(e)+" line: "+str(e.__traceback__.tb_lineno))
 				pass
 		logger.debug("Partidos parseados")
 

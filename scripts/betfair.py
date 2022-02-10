@@ -37,13 +37,21 @@ class Betfair(CasaDeApuestas):
 				nombre1,nombre2=partido.find_all('span',{'class':'team-name'})
 				nombre1=nombre1['title']
 				nombre2=nombre2['title']
-				p1=Fraction(partido.find('li',{'class':'selection sel-0'}).find('span').text.replace('\n',''))
-				p2=Fraction(partido.find('li',{'class':'selection sel-1'}).find('span').text.replace('\n',''))
+				p1=partido.find('li',{'class':'selection sel-0'}).find('span').text.replace('\n','')
+				p2=partido.find('li',{'class':'selection sel-1'}).find('span').text.replace('\n','')
+				if p1==' ' or p1=='\xa0' or p2==' ' or p2=='\xa0':
+					logger.debug("Un partido no tenia datos de sus odds")
+					continue
+				p1=Fraction(p1)
+				p2=Fraction(p2)
 
 				dobles=True if '/' in nombre1 else False
 				# print("\tnombre1",nombre1,"nombre2:",nombre2,"dobles:",dobles)
 				if dobles:
 					e1j1,e1j2=nombre1.split('/')
+					if e1j1[-1]==' ':e1j1=e1j1[:-1] # Para quitar el espacio que hay entre el apellido y la barra /
+					if e1j2[0]==' ':e1j2=e1j2[1:] # Para quitar el espacio que hay entre la barra / y el nombre
+
 					if ' ' in e1j1:
 						n1,a1=e1j1.split(' ')
 						if len(n1)==1:
@@ -60,7 +68,11 @@ class Betfair(CasaDeApuestas):
 							e1j2=Jugador(nombre=n1,apellido=a1)
 					else:
 						e1j2=Jugador(apellido=e1j2)
+					
 					e2j1,e2j2=nombre2.split('/')
+					if e2j1[-1]==' ':e2j1=e2j1[:-1] # Para quitar el espacio que hay entre el apellido y la barra /
+					if e2j2[0]==' ':e2j2=e2j2[1:] # Para quitar el espacio que hay entre la barra / y el nombre
+
 					if ' ' in e2j1:
 						n1,a1=e2j1.split(' ')
 						if len(n1)==1:
@@ -97,9 +109,15 @@ class Betfair(CasaDeApuestas):
 					else:
 						j2=Jugador(apellido=nombre2)
 					self.DATA.append(Dato(Equipo(j1),Equipo(j2),p1,p2,dobles=dobles))
-				
+			except ValueError as e:
+				if 'Fraction' in e.__repr__():
+					logger.warning("Una de las fracciones de se ha podido leer: "+partido.find('li',{'class':'selection sel-0'}).find('span').text.replace('\n','')+" "+partido.find('li',{'class':'selection sel-1'}).find('span').text.replace('\n','')+" line: "+str(e.__traceback__.tb_lineno))
+				else:
+					logger.warning("Los nombres de los jugadores no han podido parsearse bien. line: "+str(e.__traceback__.tb_lineno))
+
+				logger.exception("ERROR:")
 			except Exception as e:
-				logger.warning("Un partido no se ha podido parsear bien: "+str(e))
+				logger.warning("Un partido no se ha podido parsear bien: "+str(e)+" line: "+str(e.__traceback__.tb_lineno))
 
 if __name__=='__main__':
 	b=Betfair()
