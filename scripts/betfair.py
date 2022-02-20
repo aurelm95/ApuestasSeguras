@@ -113,9 +113,7 @@ class Betfair(CasaDeApuestas):
 				if 'Fraction' in e.__repr__():
 					logger.warning("Una de las fracciones de se ha podido leer: "+partido.find('li',{'class':'selection sel-0'}).find('span').text.replace('\n','')+" "+partido.find('li',{'class':'selection sel-1'}).find('span').text.replace('\n','')+" line: "+str(e.__traceback__.tb_lineno))
 				else:
-					logger.warning("Los nombres de los jugadores no han podido parsearse bien. line: "+str(e.__traceback__.tb_lineno))
-
-				logger.exception("ERROR:")
+					logger.warning("Los nombres de los jugadores no han podido parsearse bien. nombre1: "+str(nombre1)+" nombre2: "+str(nombre2)+" line: "+str(e.__traceback__.tb_lineno))
 			except Exception as e:
 				logger.warning("Un partido no se ha podido parsear bien: "+str(e)+" line: "+str(e.__traceback__.tb_lineno))
 
