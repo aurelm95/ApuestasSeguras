@@ -53,7 +53,7 @@ class Betfair(CasaDeApuestas):
 					if e1j2[0]==' ':e1j2=e1j2[1:] # Para quitar el espacio que hay entre la barra / y el nombre
 
 					if ' ' in e1j1:
-						n1,a1=e1j1.split(' ')
+						n1,a1=e1j1.rsplit(' ',1)
 						if len(n1)==1:
 							e1j1=Jugador(inicial_nombre=n1,apellido=a1)
 						else:
@@ -61,7 +61,7 @@ class Betfair(CasaDeApuestas):
 					else:
 						e1j1=Jugador(apellido=e1j1)
 					if ' ' in e1j2:
-						n1,a1=e1j2.split(' ')
+						n1,a1=e1j2.rsplit(' ',1)
 						if len(n1)==1:
 							e1j2=Jugador(inicial_nombre=n1,apellido=a1)
 						else:
@@ -74,7 +74,7 @@ class Betfair(CasaDeApuestas):
 					if e2j2[0]==' ':e2j2=e2j2[1:] # Para quitar el espacio que hay entre la barra / y el nombre
 
 					if ' ' in e2j1:
-						n1,a1=e2j1.split(' ')
+						n1,a1=e2j1.rsplit(' ',1)
 						if len(n1)==1:
 							e2j1=Jugador(inicial_nombre=n1,apellido=a1)
 						else:
@@ -82,7 +82,7 @@ class Betfair(CasaDeApuestas):
 					else:
 						e2j1=Jugador(apellido=e2j1)
 					if ' ' in e2j2:
-						n1,a1=e2j2.split(' ')
+						n1,a1=e2j2.rsplit(' ',1)
 						if len(n1)==1:
 							e2j2=Jugador(inicial_nombre=n1,apellido=a1)
 						else:
@@ -93,7 +93,7 @@ class Betfair(CasaDeApuestas):
 
 				else:
 					if ' ' in nombre1:
-						n1,a1=nombre1.split(' ')
+						n1,a1=nombre1.rsplit(' ',1)
 						if len(n1)==1:
 							j1=Jugador(inicial_nombre=n1,apellido=a1)
 						else:
@@ -101,7 +101,7 @@ class Betfair(CasaDeApuestas):
 					else:
 						j1=Jugador(apellido=nombre1)
 					if ' ' in nombre2:
-						n2,a2=nombre2.split(' ')
+						n2,a2=nombre2.rsplit(' ',1)
 						if len(n2)==1:
 							j2=Jugador(inicial_nombre=n2,apellido=a2)
 						else:
@@ -113,7 +113,7 @@ class Betfair(CasaDeApuestas):
 				if 'Fraction' in e.__repr__():
 					logger.warning("Una de las fracciones de se ha podido leer: "+partido.find('li',{'class':'selection sel-0'}).find('span').text.replace('\n','')+" "+partido.find('li',{'class':'selection sel-1'}).find('span').text.replace('\n','')+" line: "+str(e.__traceback__.tb_lineno))
 				else:
-					logger.warning("Los nombres de los jugadores no han podido parsearse bien. nombre1: "+str(nombre1)+" nombre2: "+str(nombre2)+" line: "+str(e.__traceback__.tb_lineno))
+					logger.warning("Los nombres de los jugadores no han podido parsearse bien: "+str(e)+" nombre1: "+str(nombre1)+" nombre2: "+str(nombre2)+" line: "+str(e.__traceback__.tb_lineno))
 			except Exception as e:
 				logger.warning("Un partido no se ha podido parsear bien: "+str(e)+" line: "+str(e.__traceback__.tb_lineno))
 

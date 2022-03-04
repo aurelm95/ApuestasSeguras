@@ -158,7 +158,7 @@ class Apuestas():
 		f.close()
 
 	def to_dataframe(self):
-		df = pd.DataFrame(columns=["Equipo 1","Equipo 2","williamhill 1","williamhill 2","betstars 1","betstars 2","betfair 1","betfair 2","bwin 1","bwin 2","Esperanza","Segura"])
+		df = pd.DataFrame(columns=["Equipo 1","Equipo 2","williamhill 1","williamhill 2","betstars 1","betstars 2","betfair 1","betfair 2","bwin 1","bwin 2","Esperanza","Segura","Ganancia"])
 		for evento in self.DATA:
 			linea={"Equipo 1":str(evento.e1),"Equipo 2":str(evento.e2)}
 			for web in list(evento.odds.keys()):
@@ -167,6 +167,7 @@ class Apuestas():
 			# print(evento.esperanza, type(evento.esperanza))
 			linea['Esperanza']=evento.esperanza
 			linea['Segura']=evento.segura
+			linea['Ganancia']=float(evento.ganancia_minima_asegurada)
 			df=df.append(linea,ignore_index=True)
 		return df
 

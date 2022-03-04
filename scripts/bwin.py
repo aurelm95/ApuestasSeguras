@@ -42,6 +42,7 @@ class Bwin(CasaDeApuestas):
 		self.j=self.respuesta.json()
 
 		for p in self.j['highlights']:
+			# logger.debug(f"{p['games']=}")
 			e1=p['games'][0]['results'][0]
 			# Note that due to the usual issues with binary floating-point (see Floating Point Arithmetic: Issues and Limitations), the argument to Fraction(1.1) is not exactly equal to 11/10, and so Fraction(1.1) does not return Fraction(11, 10) as one might expect.
 			# https://docs.python.org/2/library/fractions.html
@@ -74,11 +75,22 @@ class Bwin(CasaDeApuestas):
 				
 				else:
 					# print("singles: j1:",j1,"j2:",j2)
-					n1,a1=j1.split('. ')
-					j1=Jugador(inicial_nombre=n1,apellido=a1)
+					if "(" in j1: j1=j1[0].split("(") # A veces los nombres contienen entre parentesis la nacionalidad. por ejmeplo: Clement Tabur (FRA) o bien: Yuta Shimizu (JPN)
+					if ". " in j1:
+						n1,a1=j1.split('. ')
+						j1=Jugador(inicial_nombre=n1,apellido=a1)
+					else:
+						n1,a1=j1.rsplit(' ',1)
+						j1=Jugador(nombre=n1,apellido=a1)
+					
 
-					n2,a2=j2.split('. ')
-					j2=Jugador(inicial_nombre=n2,apellido=a2)
+					if "(" in j2: j2=j2[0].split("(")
+					if ". " in j2:
+						n2,a2=j2.split('. ')
+						j2=Jugador(inicial_nombre=n2,apellido=a2)
+					else:
+						n2,a2=j2.rsplit(' ',1)
+						j2=Jugador(nombre=n2,apellido=a2)
 
 					self.DATA.append(Dato(Equipo(j1),Equipo(j2),odds1,odds2,dobles=dobles))
 			except Exception as e:

@@ -120,19 +120,28 @@ class Jugador():
 		return self.apellido
 	
 	def __eq__(self, other):
-		if self.apellido==other.apellido:
+		if self.apellido.lower() in other.apellido.lower() or other.apellido.lower() in self.apellido.lower():
 			if self.nombre==other.nombre:
 				return True
-			if self.inicial_nombre==other.inicial_nombre:
-				return True
-			if other.nombre is not None:
-				if self.inicial_nombre==other.nombre[0]:
+			if self.inicial_nombre is not None and other.inicial_nombre is not None:			
+				if self.inicial_nombre.lower()==other.inicial_nombre.lower():
 					return True
-			if self.nombre is not None:
-				if self.nombre[0]==other.inicial_nombre:
+			if self.inicial_nombre is not None and other.nombre is not None:
+				if self.inicial_nombre.lower()==other.nombre[0].lower():
 					return True
-			if (self.inicial_nombre is None and self.nombre is None) or (self.inicial_nombre is None and self.nombre is None):
+			if self.nombre is not None and other.inicial_nombre is not None:
+				if self.nombre[0].lower()==other.inicial_nombre.lower():
+					return True
+			if (self.inicial_nombre is None and self.nombre is None) or (other.inicial_nombre is None and other.nombre is None):
 				return True
+			if self.nombre is not None and other.nombre is not None:
+				if self.nombre.lower() in other.nombre.lower() or other.nombre.lower() in self.nombre.lower():
+					logger.warning("Jugador: "+str(self)+" y Jugador: "+str(other)+" han coincidido por inclusion de nombres")
+					return True
+				if self.nombre.replace(" ","").lower()==other.nombre.replace(" ","").lower():
+					logger.warning("Jugador: "+str(self)+" y Jugador: "+str(other)+" han coincidido por omision de espacios en los nombres")
+					return True
+				
 		return False
 
 class Equipo():
@@ -184,10 +193,16 @@ class Evento():
 		self.e1=dato.e1
 		self.e2=dato.e2
 		self.dobles=dato.dobles
-
-		self.segura=False
-		self.esperanza=0
 		self.timestamp=dato.timestamp
+
+		# Datos sobre la seguridad de la apuesta del evento
+		self.segura=False
+		self.web_apuesta_segura1=None
+		self.web_apuesta_segura2=None
+		self.apuesta_a_web1=None
+		self.apuesta_a_web1=None
+		self.esperanza=0
+		self.ganancia_minima_asegurada=0
 
 		# Los guardo como unas odds de la web
 		self.odds={web:[dato.odds1,dato.odds2]}
@@ -199,10 +214,43 @@ class Evento():
 		for web1 in list(self.odds.keys()):
 			for web2 in list(self.odds.keys()):
 				if web1==web2: continue # asumo que nunca pasara
-				esperanza=(self.odds[web1][0]-1)*(self.odds[web2][1]-1)
-				self.esperanza=max(self.esperanza,float(esperanza))
+				esperanza=float((self.odds[web1][0]-1)*(self.odds[web2][1]-1)) # Paso de Fraction a float
+				# self.esperanza=max(self.esperanza,float(esperanza))
+				if esperanza>self.esperanza:
+					self.esperanza=esperanza
+					self.web_apuesta_segura1=web1
+					self.web_apuesta_segura2=web2
 		if self.esperanza>1:
 			self.segura=True
+			"""
+			Sea x lo que voy a apostar en la casa1 (y por lo tanto apostare 1-x en la casa2)
+			Digamos que a:=odds[web_apuesta_segura1][0] y b:=odds[web_apuesta_segura2][1]
+			
+			mi beneficio netos será o bien x*a-1 o bien (1-x)*b-1. Como estos beneficios (rectas)
+			tienen un crecimiento opuesto con respecto de x, con tal de maximizar las ganancias
+			(es decir maximizar min(x*a-1,(1-x)*b-1) ) tengo que resolver x*a-1=(1-x)*b-1.
+
+			x=b/(a+b)  por lo tanto  y=a/(a+b)
+			"""
+			a=self.odds[self.web_apuesta_segura1][0]
+			b=self.odds[self.web_apuesta_segura2][1]
+
+			self.apuesta_a_web1=b/(a+b)
+			self.apuesta_a_web2=a/(a+b)
+			self.ganancia_minima_asegurada=self.apuesta_a_web1*a-1
+
+			conclusion="Apostando "
+			conclusion+=str(self.apuesta_a_web1)+" en la web "+self.web_apuesta_segura1+" por "+str(self.e1)
+			conclusion+=" y "
+			conclusion+=str(self.apuesta_a_web2)+" en la web "+self.web_apuesta_segura2+" por "+str(self.e2)
+			conclusion+=" gano asegurados: "+str(self.ganancia_minima_asegurada)+"="+str(float(self.ganancia_minima_asegurada))
+
+			if not self.apuesta_a_web1*a-1==self.apuesta_a_web2*b-1:
+				logger.error("El calculo de: "+conclusion+" no cuadra")
+
+			logger.info(conclusion)
+
+
 
 	def nuevo_dato(self,dato,web):
 		if self.e1==dato.e1 and self.e2==dato.e2:

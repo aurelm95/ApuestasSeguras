@@ -9,3 +9,5 @@ main.py
 web.py
 telegram_bot.py
 pretty_print.txt
+partidos.csv
+partidos.html
