@@ -77,7 +77,7 @@ class Bwin(CasaDeApuestas):
 					# print("singles: j1:",j1,"j2:",j2)
 					if "(" in j1: j1=j1[0].split("(") # A veces los nombres contienen entre parentesis la nacionalidad. por ejmeplo: Clement Tabur (FRA) o bien: Yuta Shimizu (JPN)
 					if ". " in j1:
-						n1,a1=j1.split('. ')
+						n1,a1=j1.rsplit('. ',1)
 						j1=Jugador(inicial_nombre=n1,apellido=a1)
 					else:
 						n1,a1=j1.rsplit(' ',1)
@@ -86,7 +86,7 @@ class Bwin(CasaDeApuestas):
 
 					if "(" in j2: j2=j2[0].split("(")
 					if ". " in j2:
-						n2,a2=j2.split('. ')
+						n2,a2=j2.rsplit('. ',1)
 						j2=Jugador(inicial_nombre=n2,apellido=a2)
 					else:
 						n2,a2=j2.rsplit(' ',1)
