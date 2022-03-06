@@ -76,20 +76,26 @@ class Bwin(CasaDeApuestas):
 				else:
 					# print("singles: j1:",j1,"j2:",j2)
 					if "(" in j1: j1=j1.split("(")[0] # A veces los nombres contienen entre parentesis la nacionalidad. por ejmeplo: Clement Tabur (FRA) o bien: Yuta Shimizu (JPN)
+					if j1[-1]==' ': j1=j1[:-1] # posiblemente tras el split de arriba quede un espacio final. Lo quito.
 					if ". " in j1:
 						n1,a1=j1.rsplit('. ',1)
+						if a1=='': logger.error(str(e1['name']['value'])+' -> '+j1+' -> apellido=""')
 						j1=Jugador(inicial_nombre=n1,apellido=a1)
 					else:
 						n1,a1=j1.rsplit(' ',1)
+						if a1=='': logger.error(str(e1['name']['value'])+' -> '+j1+' -> apellido=""')
 						j1=Jugador(nombre=n1,apellido=a1)
 					
 
 					if "(" in j2: j2=j2.split("(")[0]
+					if j2[-1]==' ': j2=j2[:-1]
 					if ". " in j2:
 						n2,a2=j2.rsplit('. ',1)
+						if a2=='': logger.error(str(e2['name']['value'])+' -> '+j2+' -> apellido=""')
 						j2=Jugador(inicial_nombre=n2,apellido=a2)
 					else:
 						n2,a2=j2.rsplit(' ',1)
+						if a2=='': logger.error(str(e2['name']['value'])+' -> '+j2+' -> apellido=""')
 						j2=Jugador(nombre=n2,apellido=a2)
 
 					self.DATA.append(Dato(Equipo(j1),Equipo(j2),odds1,odds2,dobles=dobles))

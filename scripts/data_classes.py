@@ -101,6 +101,12 @@ class CasaDeApuestas():
 		print("\n"+self.nombre+":",len(self.DATA),"partidos\n")
 		for partido in self.DATA:
 			print(partido)
+	
+	def __repr__(self):
+		r="Nombre: "+str(self.nombre)+' Datos:'+str(len(self.DATA))+'\n\n'
+		for d in self.DATA:
+			r+=d.__repr__()+'\n'
+		return r
 
 class Jugador():
 	def __init__(self,apellido,nombre=None,inicial_nombre=None,inicial_apellido=None):
@@ -108,16 +114,25 @@ class Jugador():
 		self.apellido=apellido
 		self.inicial_nombre=inicial_nombre
 		self.inicial_apellido=inicial_apellido
+		if apellido=='' or apellido is None:
+			logger.error(self.__repr__()+" no tiene apellido")
 	
 	def to_dict(self):
 		return {'nombre':self.nombre,'apellido':self.apellido,'inicial_nombre':self.inicial_nombre,'inicial_apellido':self.inicial_apellido}
 	
-	def __repr__(self):
+	def __str__(self):
 		if self.nombre is not None:
 			return self.nombre+' '+self.apellido
 		if self.inicial_nombre is not None:
 			return self.inicial_nombre+' '+self.apellido
 		return self.apellido
+	
+	def __repr__(self):
+		if self.nombre is not None:
+			return 'Jugador(nombre='+self.nombre+', apellido='+self.apellido+')'
+		if self.inicial_nombre is not None:
+			return 'Jugador(inicial_nombre='+self.inicial_nombre+', apellido='+self.apellido+')'
+		return 'Jugador(apellido='+self.apellido+')'
 	
 	def __eq__(self, other):
 		if self.apellido.lower() in other.apellido.lower() or other.apellido.lower() in self.apellido.lower():
@@ -136,10 +151,10 @@ class Jugador():
 				return True
 			if self.nombre is not None and other.nombre is not None:
 				if self.nombre.lower() in other.nombre.lower() or other.nombre.lower() in self.nombre.lower():
-					logger.warning("Jugador: "+str(self)+" y Jugador: "+str(other)+" han coincidido por inclusion de nombres")
+					logger.warning(self.__repr__()+" y "+other.__repr__()+" han coincidido por inclusion de nombres")
 					return True
 				if self.nombre.replace(" ","").lower()==other.nombre.replace(" ","").lower():
-					logger.warning("Jugador: "+str(self)+" y Jugador: "+str(other)+" han coincidido por omision de espacios en los nombres")
+					logger.warning(self.__repr__()+" y "+other.__repr__()+" han coincidido por omision de espacios en los nombres")
 					return True
 				
 		return False
@@ -155,10 +170,15 @@ class Equipo():
 			return {'j1':self.j1.to_dict(),'j2':None}
 		return {'j1':self.j1.to_dict(),'j2':self.j2.to_dict()}
 	
-	def __repr__(self):
+	def __str__(self):
 		if not self.dobles:
-			return self.j1.__repr__()
-		return self.j1.__repr__()+'/'+self.j2.__repr__()
+			return self.j1.__str__()
+		return self.j1.__str__()+'/'+self.j2.__str__()
+	
+	def __repr__(self):
+		if self.dobles:
+			return 'Equipo(j1='+self.j1.__repr__()+', j2='+self.j2.__repr__()+')'
+		return 'Equipo(j1='+self.j1.__repr__()+')'
 
 	def __eq__(self, other):
 		if self.dobles:
@@ -182,10 +202,15 @@ class Dato():
 	def to_dict(self):
 		return {'e1':self.e1.to_dict(),'e2':self.e2.to_dict(),'odds1':{'numerator':self.odds1.numerator,'denominator':self.odds1.denominator},'odds2':{'numerator':self.odds2.numerator,'denominator':self.odds2.denominator},'dobles':self.dobles}
 
-	def __repr__(self):
+	def __str__(self):
 		if not self.dobles:
 			return str(self.e1)+' vs '+str(self.e2)+' | '+str(self.odds1)+' - '+str(self.odds2)
 		return str(self.e1)+' vs '+str(self.e2)+' | '+str(self.odds1)+' - '+str(self.odds2)
+	
+	def __repr__(self):
+		if self.timestamp is not None:
+			return 'Dato(e1='+self.e1.__repr__()+', e2='+self.e2.__repr__()+', odds1='+str(self.odds1)+', odds2='+str(self.odds2)+', timestamp='+str(self.timestamp)+')'
+		return 'Dato(e1='+self.e1.__repr__()+', e2='+self.e2.__repr__()+', odds1='+str(self.odds1)+', odds2='+str(self.odds2)+')'
 
 class Evento():
 	def __init__(self,dato,web):
@@ -203,6 +228,7 @@ class Evento():
 		self.apuesta_a_web1=None
 		self.esperanza=0
 		self.ganancia_minima_asegurada=0
+		self.conclusion=''
 
 		# Los guardo como unas odds de la web
 		self.odds={web:[dato.odds1,dato.odds2]}
@@ -239,18 +265,16 @@ class Evento():
 			self.apuesta_a_web2=a/(a+b)
 			self.ganancia_minima_asegurada=self.apuesta_a_web1*a-1
 
-			conclusion="Apostando "
-			conclusion+=str(self.apuesta_a_web1)+" en la web "+self.web_apuesta_segura1+" por "+str(self.e1)
-			conclusion+=" y "
-			conclusion+=str(self.apuesta_a_web2)+" en la web "+self.web_apuesta_segura2+" por "+str(self.e2)
-			conclusion+=" gano asegurados: "+str(self.ganancia_minima_asegurada)+"="+str(float(self.ganancia_minima_asegurada))
+			self.conclusion="Apostando "
+			self.conclusion+=str(self.apuesta_a_web1)+" en la web "+self.web_apuesta_segura1+" por "+str(self.e1)
+			self.conclusion+=" y "
+			self.conclusion+=str(self.apuesta_a_web2)+" en la web "+self.web_apuesta_segura2+" por "+str(self.e2)
+			self.conclusion+=" gano asegurados: "+str(self.ganancia_minima_asegurada)+"="+str(float(self.ganancia_minima_asegurada))
 
 			if not self.apuesta_a_web1*a-1==self.apuesta_a_web2*b-1:
-				logger.error("El calculo de: "+conclusion+" no cuadra")
+				logger.error("El calculo de: "+self.conclusion+" no cuadra: self.apuesta_a_web1*a-1="+str(self.apuesta_a_web1*a-1)+" self.apuesta_a_web2*b-1="+str(self.apuesta_a_web2*b-1))
 
-			logger.info(conclusion)
-
-
+			logger.info(self.conclusion)
 
 	def nuevo_dato(self,dato,web):
 		if self.e1==dato.e1 and self.e2==dato.e2:
