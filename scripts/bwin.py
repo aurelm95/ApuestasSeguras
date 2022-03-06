@@ -75,7 +75,7 @@ class Bwin(CasaDeApuestas):
 				
 				else:
 					# print("singles: j1:",j1,"j2:",j2)
-					if "(" in j1: j1=j1[0].split("(") # A veces los nombres contienen entre parentesis la nacionalidad. por ejmeplo: Clement Tabur (FRA) o bien: Yuta Shimizu (JPN)
+					if "(" in j1: j1=j1.split("(")[0] # A veces los nombres contienen entre parentesis la nacionalidad. por ejmeplo: Clement Tabur (FRA) o bien: Yuta Shimizu (JPN)
 					if ". " in j1:
 						n1,a1=j1.rsplit('. ',1)
 						j1=Jugador(inicial_nombre=n1,apellido=a1)
@@ -84,7 +84,7 @@ class Bwin(CasaDeApuestas):
 						j1=Jugador(nombre=n1,apellido=a1)
 					
 
-					if "(" in j2: j2=j2[0].split("(")
+					if "(" in j2: j2=j2.split("(")[0]
 					if ". " in j2:
 						n2,a2=j2.rsplit('. ',1)
 						j2=Jugador(inicial_nombre=n2,apellido=a2)
@@ -94,7 +94,7 @@ class Bwin(CasaDeApuestas):
 
 					self.DATA.append(Dato(Equipo(j1),Equipo(j2),odds1,odds2,dobles=dobles))
 			except Exception as e:
-				logger.warning("No se ha podido parsear: "+str(e)+" J1: "+str(j1)+" J2: "+str(j2)+" line: "+str(e.__traceback__.tb_lineno))
+				logger.warning("No se ha podido parsear: "+str(e)+" J1: "+str(j1)+" original: "+str(e1['name']['value'])+" J2: "+str(j2)+" original: "+str(e2['name']['value'])+" line: "+str(e.__traceback__.tb_lineno))
 				pass
 
 
