@@ -1,4 +1,6 @@
 import requests
+import json
+from datetime import datetime
 
 headers = {
     'authority': 'www.leovegas.es',
@@ -43,12 +45,50 @@ json_data = {
                 'group',
             ],
             'useKambiPopularity': False,
-            'timeStamp': '20220306T210000+01:00',
+            #'timeStamp': '20220306T210000+01:00',
         },
     },
 }
 
 response = requests.post('https://www.leovegas.es/api/gql', headers=headers, json=json_data)
+j=response.json()
+with open("respuesta.json","w") as f: json.dump(j,f)
+
+DATA=[]
+
+eventos_por_dias=j['data']['eventsByGroup']['results']
+for dia in eventos_por_dias:
+    eventos=dia['eventsSubGroup']
+    for evento in eventos:
+        evento=evento['eventsSubGroup'][0]['eventsSubGroup'][0]['data']
+        for partido in evento:
+            j1=partido['homeName']
+            if '. ' in j1:
+                n1,a1=j1.rsplit('. ',1)
+            elif ' ' in j1:
+                n1,a1=j1.rsplit(' ',1)
+            else:
+                a1=j1
+            j2=partido['awayName']
+            if '. ' in j2:
+                n2,a2=j2.rsplit('. ',1)
+            elif ' ' in j2:
+                n2,a2=j1.rsplit(' ',1)
+            else:
+                a2=j2
+            unix_timestamp=int(partido['start'])//1000
+            odds1=partido['betOffers'][0]['outcomes'][0]['oddsFractional']
+            odds2=partido['betOffers'][0]['outcomes'][1]['oddsFractional']
+            if partido['betOffers'][0]['outcomes'][0]['label']==j2:
+                # cambio de odds
+                odds1, odds2=odds2, odds1
+                print("cambio las odds")
+            print([j1,j2,odds1,odds2,datetime.utcfromtimestamp(unix_timestamp).strftime('%Y-%m-%d %H:%M:%S')])
+            DATA.append([j1,j2,odds1,odds2,datetime.utcfromtimestamp(unix_timestamp).strftime('%Y-%m-%d %H:%M:%S')])
+
+            
+
+
 
 
 # URL visitada por el usuario:
