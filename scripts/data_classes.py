@@ -277,11 +277,20 @@ class Evento():
 			logger.info(self.conclusion)
 
 	def nuevo_dato(self,dato,web):
+		metido=False
 		if self.e1==dato.e1 and self.e2==dato.e2:
 			self.odds[web]=[dato.odds1,dato.odds2]
-			return True
-		if self.e1==dato.e2 and self.e2==dato.e1:
+			metido=True
+		elif self.e1==dato.e2 and self.e2==dato.e1:
 			self.odds[web]=[dato.odds2,dato.odds1]
+			metido=True
+		
+		if metido:
+			if self.timestamp is None:
+				self.timestamp=dato.timestamp
+			else:
+				if self.timestamp!=dato.timestamp:
+					logger.warning("El evento: "+self.__repr__()+" coincide con el dato: "+dato.__repr__()+" pero difieren en timestamp!")
 			return True
 		return False
 
@@ -299,5 +308,5 @@ class Evento():
 		return j
 
 	def __repr__(self):
-		return str(self.e1)+' vs '+str(self.e2)+' | '+str(self.odds)+' || '+str(self.esperanza) 
+		return str(self.e1)+' vs '+str(self.e2)+' | '+str(self.odds)+' || '+str(self.esperanza)+' | timestamp: '+str(self.timestamp)
 		

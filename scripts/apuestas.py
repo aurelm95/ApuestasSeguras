@@ -2,6 +2,7 @@ from . import williamhill
 from . import betstars
 from . import betfair
 from . import bwin
+from . import leovegas
 #import telegram_bot
 
 from .data_classes import Dato, Evento
@@ -12,6 +13,7 @@ import json
 import time
 from fractions import Fraction
 import pandas as pd
+from datetime import datetime
 
 
 class Apuestas():
@@ -20,9 +22,10 @@ class Apuestas():
 		self.betstars=betstars.Betstars()
 		self.betfair=betfair.Betfair()
 		self.bwin=bwin.Bwin()
+		self.leovegas=leovegas.Leovegas()
 		
 		self.DATA=[]
-		self.webs=['williamhill','betstars','betfair','bwin']
+		self.webs=['williamhill','betstars','betfair','bwin','leovegas']
 		self.fecha_ultima_busqueda=None
 		
 	def buscar_partidos(self):
@@ -56,11 +59,18 @@ class Apuestas():
 		self.bwin.guardar_data_en_json()
 		logger.info(str(len(self.bwin.DATA))+" partidos encontrados")
 
+		logger.info("Buscando y parseando partidos en leovegas...")
+		self.leovegas.buscar_partidos()
+		self.leovegas.guardar_html()
+		logger.info("Guardando datos de leovegas en /json...")
+		self.leovegas.guardar_data_en_json()
+		logger.info(str(len(self.leovegas.DATA))+" partidos encontrados")
+
 		self.fecha_ultima_busqueda=time.time()
 
 	# para development/debug
 	def cargar_partidos(self):
-		for casa in [self.williamhill, self.betstars, self.betfair, self.bwin]:
+		for casa in [self.williamhill, self.betstars, self.betfair, self.bwin, self.leovegas]:
 			logger.info("Cargando partidos de "+casa.nombre+"...")
 			casa.cargar_data_de_json()
 		logger.debug("Datos cargados")
@@ -70,7 +80,7 @@ class Apuestas():
 		self.DATA=[]
 		for dato in self.williamhill.DATA:
 			self.DATA.append(Evento(dato,'williamhill'))
-		casas=[self.betstars,self.betfair,self.bwin]
+		casas=[self.betstars,self.betfair,self.bwin,self.leovegas]
 		for casa in casas:
 			for dato in casa.DATA:
 				# if dato.dobles: continue
@@ -104,6 +114,7 @@ class Apuestas():
 		self.betstars.guardar_html()
 		self.betfair.guardar_html()
 		self.bwin.guardar_html()
+		self.leovegas.guardar_html()
 
 	def buscar_apuestas_seguras(self):
 		logger.debug("Buscando apuestas seguras...")
@@ -122,6 +133,9 @@ class Apuestas():
 
 		print("\n\nPrinteando partidos en bwin...")
 		self.bwin.print()
+
+		print("\n\nPrinteando partidos en leovegas...")
+		self.leovegas.print()
 
 	def pretty_print(self,archivo="pretty_print.txt"):
 		TEXT="\n"
@@ -158,8 +172,9 @@ class Apuestas():
 		f.close()
 
 	def to_dataframe(self):
-		df = pd.DataFrame(columns=["Equipo 1","Equipo 2","williamhill 1","williamhill 2","betstars 1","betstars 2","betfair 1","betfair 2","bwin 1","bwin 2","Esperanza","Segura","Ganancia","Conclusion"])
+		df = pd.DataFrame(columns=["Fecha","Equipo 1","Equipo 2","williamhill 1","williamhill 2","betstars 1","betstars 2","betfair 1","betfair 2","bwin 1","bwin 2","leovegas 1","leovegas 2","Esperanza","Segura","Ganancia","Conclusion"])
 		for evento in self.DATA:
+			linea={} if evento.timestamp is None else {"Fecha":datetime.utcfromtimestamp(evento.timestamp).strftime('%Y-%m-%d %H:%M:%S (UTC)')}
 			linea={"Equipo 1":str(evento.e1),"Equipo 2":str(evento.e2)}
 			for web in list(evento.odds.keys()):
 				# linea|={web+' 1':round(float(evento.odds[web][0]),2),web+' 2':round(float(evento.odds[web][1]),2)}

@@ -10,7 +10,7 @@ from .logger import apuestas_logger as logger
 
 class Leovegas(CasaDeApuestas):
     def __init__(self):
-        self.nombre='Leovegas'
+        self.nombre='leovegas'
         self.DATA=[]
         self.headers = {
             'authority': 'www.leovegas.es',
@@ -61,8 +61,11 @@ class Leovegas(CasaDeApuestas):
         }
     
     def buscar_partidos(self):
-        response = requests.post('https://www.leovegas.es/api/gql', headers=headers, json=json_data)
-        j=response.json()
+        self.DATA=[]
+        self.respuesta = requests.post('https://www.leovegas.es/api/gql', headers=self.headers, json=self.json_data)
+        j=self.respuesta.json()
+
+        logger.warning("Aun no esta implementado el tema de los partidos dobles!!")
 
         eventos_por_dias=j['data']['eventsByGroup']['results']
         for dia in eventos_por_dias:
@@ -70,29 +73,46 @@ class Leovegas(CasaDeApuestas):
             for evento in eventos:
                 evento=evento['eventsSubGroup'][0]['eventsSubGroup'][0]['data']
                 for partido in evento:
-                    j1=partido['homeName']
-                    if '. ' in j1:
-                        n1,a1=j1,rsplit('. ',1)
-                    elif ' ' in j1:
-                        n1,a1=j1,rsplit(' ',1)
-                    else:
-                        a1=j1
-                    j2=partido['awayName']
-                    if '. ' in j2:
-                        n2,a2=j2,rsplit('. ',1)
-                    elif ' ' in j2:
-                        n2,a2=j1,rsplit(' ',1)
-                    else:
-                        a2=j2
-                    unix_timestamp=int(partido['start'])//1000
-                    odds1=partido['betOffers'][0]['outcomes'][0]['oddsFractional']
-                    odds2=partido['betOffers'][0]['outcomes'][1]['oddsFractional']
-                    if partido['betOffers'][0]['outcomes'][0]['label']==j2:
-                        # cambio de odds
-                        odds1, odds2=odds2, odds1
-                        print("cambio las odds")
-                    print([j1,j2,odds1,odds2,unix_timestamp])
-                    self.DATA.append([j1,j2,odds1,odds2,unix_timestamp])
+                    try:
+                        j1=partido['homeName']
+                        if ', ' in j1:
+                            n1,a1=j1.rsplit(', ',1)
+                            j1=Jugador(nombre=n1,apellido=a1)
+                        elif ' ' in j1:
+                            n1,a1=j1.rsplit(' ',1)
+                            j1=Jugador(nombre=n1,apellido=a1)
+                        else:
+                            j1=Jugador(apellido=j1)
+                        j2=partido['awayName']
+                        if ', ' in j2:
+                            n2,a2=j2.rsplit(', ',1)
+                            j2=Jugador(nombre=n2,apellido=a2)
+                        elif ' ' in j2:
+                            n2,a2=j2.rsplit(' ',1)
+                            j2=Jugador(nombre=n2,apellido=a2)
+                        else:
+                            j2=Jugador(apellido=j2)
+                        unix_timestamp=int(partido['start'])//1000
+                        odds1=Fraction(partido['betOffers'][0]['outcomes'][0]['oddsFractional'])
+                        odds2=Fraction(partido['betOffers'][0]['outcomes'][1]['oddsFractional'])
+                        if partido['betOffers'][0]['outcomes'][0]['label']==partido['awayName']:
+                            # cambio de odds
+                            odds1, odds2=odds2, odds1
+                            logger.debug("Intercambio las odds")
+                        # print([j1,j2,odds1,odds2,unix_timestamp])
+                        # self.DATA.append([j1,j2,odds1,odds2,unix_timestamp])
+                        self.DATA.append(Dato(Equipo(j1),Equipo(j2),odds1,odds2,dobles=False,timestamp=unix_timestamp))
+                    except Exception as e:
+                        if "Invalid literal for Fraction: 'Evens'" in str(e):
+                            logger.debug("Exception que ignoro: "+str(e))
+                            continue
+                        if "argument should be a string or a Rational instance" in str(e):
+                            logger.debug("Exception que ignoro: "+str(e)+" Se debe a que una de las odds es 'None'")
+                            continue
+                        try:
+                            logger.warning("No se ha podido parsear: "+str(e)+" J1: "+str(j1)+" original: "+partido['homeName']+" J2: "+str(j2)+" original: "+partido['awayName']+" line: "+str(e.__traceback__.tb_lineno))
+                        except Exception as e2:
+                            logger.warning("No se ha podido parsear: "+str(e)+" Exception durante el log: "+str(e2))
 
             
 
