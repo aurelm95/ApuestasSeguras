@@ -76,7 +76,7 @@ class Leovegas(CasaDeApuestas):
                     try:
                         j1=partido['homeName']
                         if ', ' in j1:
-                            n1,a1=j1.rsplit(', ',1)
+                            a1,n1=j1.rsplit(', ',1)
                             j1=Jugador(nombre=n1,apellido=a1)
                         elif ' ' in j1:
                             n1,a1=j1.rsplit(' ',1)
@@ -85,7 +85,7 @@ class Leovegas(CasaDeApuestas):
                             j1=Jugador(apellido=j1)
                         j2=partido['awayName']
                         if ', ' in j2:
-                            n2,a2=j2.rsplit(', ',1)
+                            a2,n2=j2.rsplit(', ',1)
                             j2=Jugador(nombre=n2,apellido=a2)
                         elif ' ' in j2:
                             n2,a2=j2.rsplit(' ',1)
