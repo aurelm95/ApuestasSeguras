@@ -58,21 +58,24 @@ class Williamhill(CasaDeApuestas):
 				precio2=Fraction(b[1]['data-odds'])+1 # le sumo 1
 
 				# fecha
-				# fecha=e.find('time')['datetime']
-				# fecha=datetime.strptime(fecha, '%Y-%m-%dT%H:%M:%S+00:00')
-				# fecha=datetime.strptime(fecha, '%Y-%m-%dT%H:%M:%S+%z') # no se como lidiar con el offset
-				self.DATA.append(Dato(equipo1,equipo2,precio1,precio2,dobles=dobles))
-			# except TypeError as e:
-			# 	pass
-			# except ValueError as e:
-			# 	pass
+				unix_timestamp=None
+				try:
+					fecha_ISOSTRING=e.find('time')['datetime']
+					# https://stackoverflow.com/questions/969285/how-do-i-translate-an-iso-8601-datetime-string-into-a-python-datetime-object
+					unix_timestamp=int(datetime.strptime(fecha_ISOSTRING, "%Y-%m-%dT%H:%M:%S%z").timestamp())
+				except Exception as e:
+					logger.warning("No se ha podido parsear la fecha: "+str(e))
+
+				self.DATA.append(Dato(equipo1,equipo2,precio1,precio2,dobles=dobles,timestamp=unix_timestamp))	
+
 			except Exception as e:
 				"""
-				Falla cuando el nombre tiene dos palabras (por ejemplo: juan antonio lopez)
 				Falla cuando las odds es una string: 'EVS'
 				"""
+				if 'EVS' in str(e):
+					logger.debug("Warning ignorado: "+str(e))
+					continue
 				logger.warning("Un partido no se ha podido parsear bien: "+str(e)+" line: "+str(e.__traceback__.tb_lineno))
-				pass
 		logger.debug("Partidos parseados")
 
 		

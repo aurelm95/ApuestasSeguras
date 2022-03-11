@@ -93,6 +93,9 @@ class Leovegas(CasaDeApuestas):
                         else:
                             j2=Jugador(apellido=j2)
                         unix_timestamp=int(partido['start'])//1000
+                        if 100*(unix_timestamp//100)!=unix_timestamp:
+                            logger.warning("timestamp: "+str(unix_timestamp)+" descartado por no tener un minuto exacto")
+                            unix_timestamp=None
                         odds1=Fraction(partido['betOffers'][0]['outcomes'][0]['oddsFractional'])
                         odds2=Fraction(partido['betOffers'][0]['outcomes'][1]['oddsFractional'])
                         if partido['betOffers'][0]['outcomes'][0]['label']==partido['awayName']:

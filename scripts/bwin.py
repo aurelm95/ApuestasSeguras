@@ -1,6 +1,7 @@
 #bwin
 import requests
 from fractions import Fraction
+from datetime import datetime
 
 from .data_classes import Dato, Jugador, Equipo, CasaDeApuestas
 from .logger import apuestas_logger as logger
@@ -52,6 +53,13 @@ class Bwin(CasaDeApuestas):
 			e2=p['games'][0]['results'][1]
 			odds2=Fraction(int(e2['odds']*100))/100
 			j2=e2['name']['value']
+			unix_timestamp=None
+			try:
+				unix_timestamp=int(datetime.strptime(p['startDate'], "%Y-%m-%dT%H:%M:%S").timestamp())
+			except Exception as e:
+				logger.warning("No se ha podido parsear la fecha: "+str(e))
+				
+
 			dobles=True if '/' in j1 else False
 			try:
 				if dobles:
@@ -81,10 +89,12 @@ class Bwin(CasaDeApuestas):
 						n1,a1=j1.rsplit('. ',1)
 						if a1=='': logger.error(str(e1['name']['value'])+' -> '+j1+' -> apellido=""')
 						j1=Jugador(inicial_nombre=n1,apellido=a1)
-					else:
+					elif " " in j1:
 						n1,a1=j1.rsplit(' ',1)
 						if a1=='': logger.error(str(e1['name']['value'])+' -> '+j1+' -> apellido=""')
 						j1=Jugador(nombre=n1,apellido=a1)
+					else:
+						j1=Jugador(apellido=j1)
 					
 
 					if "(" in j2: j2=j2.split("(")[0]
@@ -93,10 +103,12 @@ class Bwin(CasaDeApuestas):
 						n2,a2=j2.rsplit('. ',1)
 						if a2=='': logger.error(str(e2['name']['value'])+' -> '+j2+' -> apellido=""')
 						j2=Jugador(inicial_nombre=n2,apellido=a2)
-					else:
+					elif " " in j2:
 						n2,a2=j2.rsplit(' ',1)
 						if a2=='': logger.error(str(e2['name']['value'])+' -> '+j2+' -> apellido=""')
 						j2=Jugador(nombre=n2,apellido=a2)
+					else:
+						j2=Jugador(apellido=j2)
 
 					self.DATA.append(Dato(Equipo(j1),Equipo(j2),odds1,odds2,dobles=dobles))
 			except Exception as e:

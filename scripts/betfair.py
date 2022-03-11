@@ -49,8 +49,8 @@ class Betfair(CasaDeApuestas):
 				# print("\tnombre1",nombre1,"nombre2:",nombre2,"dobles:",dobles)
 				if dobles:
 					e1j1,e1j2=nombre1.split('/')
-					if e1j1[-1]==' ':e1j1=e1j1[:-1] # Para quitar el espacio que hay entre el apellido y la barra /
-					if e1j2[0]==' ':e1j2=e1j2[1:] # Para quitar el espacio que hay entre la barra / y el nombre
+					e1j1=e1j1.strip() # Para quitar el espacio que hay entre el apellido y la barra / y el espacio que hay entre la barra / y el nombre
+					e1j2=e1j2.strip()
 
 					if ' ' in e1j1:
 						n1,a1=e1j1.rsplit(' ',1)
@@ -70,8 +70,8 @@ class Betfair(CasaDeApuestas):
 						e1j2=Jugador(apellido=e1j2)
 					
 					e2j1,e2j2=nombre2.split('/')
-					if e2j1[-1]==' ':e2j1=e2j1[:-1] # Para quitar el espacio que hay entre el apellido y la barra /
-					if e2j2[0]==' ':e2j2=e2j2[1:] # Para quitar el espacio que hay entre la barra / y el nombre
+					e2j1=e2j1.strip() # Para quitar el espacio que hay entre el apellido y la barra / y el espacio que hay entre la barra / y el nombre
+					e2j2=e2j2.strip()
 
 					if ' ' in e2j1:
 						n1,a1=e2j1.rsplit(' ',1)

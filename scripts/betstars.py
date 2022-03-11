@@ -3,6 +3,7 @@
 import requests
 import time
 from fractions import Fraction
+from datetime import datetime
 
 from .data_classes import Dato, Jugador, Equipo, CasaDeApuestas
 from .logger import apuestas_logger as logger
@@ -63,9 +64,14 @@ class Betstars(CasaDeApuestas):
 
 						e2n1,e2a1=e2.rsplit(' ',1)
 						e2=Equipo(Jugador(nombre=e2n1,apellido=e2a1))
-						
-					# print("e1:",e1,"e2:",e2,"dobles:",doble)
-					d=Dato(e1,e2,Fraction(odds1)+1,Fraction(odds2)+1,dobles=doble) # les sumo 1 a las odds
+
+					unix_timestamp=None	
+					try:
+						unix_timestamp=int(p['eventTime'])//1000
+					except Exception as e:
+						logger.warning("No se ha podido parsear la fecha: "+str(e))
+
+					d=Dato(e1,e2,Fraction(odds1)+1,Fraction(odds2)+1,dobles=doble,timestamp=unix_timestamp) # les sumo 1 a las odds
 					self.DATA.append(d)
 				except KeyError as e:
 					logger.warning("Torneo: "+str(self.j.index(torneo))+" Evento: "+str(torneo['event'].index(p))+" KeyError: "+str(e)+" line: "+str(e.__traceback__.tb_lineno))
