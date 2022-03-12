@@ -3,8 +3,8 @@ import requests
 from fractions import Fraction
 from datetime import datetime
 
-from .data_classes import Dato, Jugador, Equipo, CasaDeApuestas
-from .logger import apuestas_logger as logger
+from .utils.data_classes import Dato, Jugador, Equipo, CasaDeApuestas
+from .utils.logger import apuestas_logger as logger
 
 class Bwin(CasaDeApuestas):
 	def __init__(self):
@@ -14,6 +14,7 @@ class Bwin(CasaDeApuestas):
 		# la respuesta bien codificada
 		self.s=requests.Session()
 		self.nombre="bwin"
+		CasaDeApuestas.__init__(self,self.nombre)
 		self.DATA=[]
 		self.headers = {
 		    'origin': 'https://sports.m.bwin.es',

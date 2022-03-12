@@ -5,13 +5,14 @@ import time
 from fractions import Fraction
 from datetime import datetime
 
-from .data_classes import Dato, Jugador, Equipo, CasaDeApuestas
-from .logger import apuestas_logger as logger
+from .utils.data_classes import Dato, Jugador, Equipo, CasaDeApuestas
+from .utils.logger import apuestas_logger as logger
 
 class Betstars(CasaDeApuestas):
 	def __init__(self):
 		self.s=requests.Session()
 		self.nombre='betstars'
+		CasaDeApuestas.__init__(self,self.nombre)
 		self.DATA=[]
 
 	def buscar_partidos(self):
@@ -33,13 +34,23 @@ class Betstars(CasaDeApuestas):
 				try:
 					e1=p['participants']['participant'][0]['names']['longName']
 					e2=p['participants']['participant'][1]['names']['longName']
-					odds1=p['markets'][0]['selection'][0]['odds']['frac']
-					odds2=p['markets'][0]['selection'][1]['odds']['frac']
-					# if p['markets'][0]['selection'][0]['competitorId']==p['participants']['participant'][1]['id']:
-					if p['markets'][0]['selection'][0]['name']==p['participants']['participant'][1]['name']:
-						# si pasa esto significa que estan giradas las odds
-						logger.debug("Torneo: "+str(self.j.index(torneo))+" Evento: "+str(torneo['event'].index(p))+" Odds cambiadas")
-						odds1, odds2=odds2, odds1
+
+					odds1=None
+					odds2=None
+
+					for mercado in p['markets']:
+						if mercado['name']=='Ganador del partido':
+							logger.debug("Torneo: "+str(self.j.index(torneo))+" Evento: "+str(torneo['event'].index(p))+" Odds encontradas")
+							if mercado['selection'][0]['name']==p['participants']['participant'][0]['name']:
+								odds1=mercado['selection'][0]['odds']['frac']
+								odds2=mercado['selection'][0]['odds']['frac']
+							else:
+								odds1=mercado['selection'][1]['odds']['frac']
+								odds2=mercado['selection'][0]['odds']['frac']
+							break
+					
+					assert odds1 is not None and odds2 is not None
+
 					# Miramos si son dobles
 					doble=True if ' / ' in e1 else False
 					if doble:

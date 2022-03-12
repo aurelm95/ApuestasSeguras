@@ -5,8 +5,8 @@ from . import bwin
 from . import leovegas
 #import telegram_bot
 
-from .data_classes import Dato, Evento
-from .logger import apuestas_logger as logger
+from .utils.data_classes import Dato, Evento
+from .utils.logger import apuestas_logger as logger
 
 import os
 import json
@@ -29,42 +29,56 @@ class Apuestas():
 		self.fecha_ultima_busqueda=None
 		
 	def buscar_partidos(self):
-		logger.info("Buscando y parseando partidos en williamhill...")
-		self.williamhill.buscar_partidos()
-		self.williamhill.guardar_html()
-		self.williamhill.parsear_partidos()
-		logger.info("Guardando datos de williamhill en /json...")
-		self.williamhill.guardar_data_en_json()
+		try:
+			logger.info("Buscando y parseando partidos en williamhill...")
+			self.williamhill.buscar_partidos()
+			self.williamhill.guardar_html()
+			self.williamhill.parsear_partidos()
+			logger.info("Guardando datos de williamhill en /json...")
+			self.williamhill.guardar_data_en_json()
+			logger.info(str(len(self.williamhill.DATA))+" partidos encontrados")
+		except Exception as e:
+			logger.error("No se han podido buscar o parsear los partidos de williamhill: "+str(e))
 		
-		logger.info(str(len(self.williamhill.DATA))+" partidos encontrados")
+		try:
+			logger.info("Buscando y parseando partidos en betstars...")
+			self.betstars.buscar_partidos()
+			self.betstars.guardar_html()
+			logger.info("Guardando datos de betstars en /json...")
+			self.betstars.guardar_data_en_json()
+			logger.info(str(len(self.betstars.DATA))+" partidos encontrados")
+		except Exception as e:
+			logger.error("No se han podido buscar o parsear los partidos de betstars: "+str(e))
 
-		logger.info("Buscando y parseando partidos en betstars...")
-		self.betstars.buscar_partidos()
-		self.betstars.guardar_html()
-		logger.info("Guardando datos de betstars en /json...")
-		self.betstars.guardar_data_en_json()
-		logger.info(str(len(self.betstars.DATA))+" partidos encontrados")
+		try:
+			logger.info("Buscando y parseando partidos en betfair...")
+			self.betfair.buscar_partidos()
+			self.betfair.guardar_html()
+			logger.info("Guardando datos de betfair en /json...")
+			self.betfair.guardar_data_en_json()
+			logger.info(str(len(self.betfair.DATA))+" partidos encontrados")
+		except Exception as e:
+			logger.error("No se han podido buscar o parsear los partidos de betfair: "+str(e))
 
-		logger.info("Buscando y parseando partidos en betfair...")
-		self.betfair.buscar_partidos()
-		self.betfair.guardar_html()
-		logger.info("Guardando datos de betfair en /json...")
-		self.betfair.guardar_data_en_json()
-		logger.info(str(len(self.betfair.DATA))+" partidos encontrados")
+		try:
+			logger.info("Buscando y parseando partidos en bwin...")
+			self.bwin.buscar_partidos()
+			self.bwin.guardar_html()
+			logger.info("Guardando datos de bwin en /json...")
+			self.bwin.guardar_data_en_json()
+			logger.info(str(len(self.bwin.DATA))+" partidos encontrados")
+		except Exception as e:
+			logger.error("No se han podido buscar o parsear los partidos de bwin: "+str(e))
 
-		logger.info("Buscando y parseando partidos en bwin...")
-		self.bwin.buscar_partidos()
-		self.bwin.guardar_html()
-		logger.info("Guardando datos de bwin en /json...")
-		self.bwin.guardar_data_en_json()
-		logger.info(str(len(self.bwin.DATA))+" partidos encontrados")
-
-		logger.info("Buscando y parseando partidos en leovegas...")
-		self.leovegas.buscar_partidos()
-		self.leovegas.guardar_html()
-		logger.info("Guardando datos de leovegas en /json...")
-		self.leovegas.guardar_data_en_json()
-		logger.info(str(len(self.leovegas.DATA))+" partidos encontrados")
+		try:
+			logger.info("Buscando y parseando partidos en leovegas...")
+			self.leovegas.buscar_partidos()
+			self.leovegas.guardar_html()
+			logger.info("Guardando datos de leovegas en /json...")
+			self.leovegas.guardar_data_en_json()
+			logger.info(str(len(self.leovegas.DATA))+" partidos encontrados")
+		except Exception as e:
+			logger.error("No se han podido buscar o parsear los partidos de leovegas: "+str(e))
 
 		self.fecha_ultima_busqueda=time.time()
 
@@ -117,7 +131,7 @@ class Apuestas():
 		self.leovegas.guardar_html()
 
 	def buscar_apuestas_seguras(self):
-		logger.debug("Buscando apuestas seguras...")
+		logger.info("Buscando apuestas seguras...")
 		for evento in self.DATA:
 			evento.comprobar_apuesta_segura()
 

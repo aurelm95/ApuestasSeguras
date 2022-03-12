@@ -4,13 +4,14 @@ import json
 from datetime import datetime
 
 
-from .data_classes import Dato, Jugador, Equipo, CasaDeApuestas
-from .logger import apuestas_logger as logger
+from .utils.data_classes import Dato, Jugador, Equipo, CasaDeApuestas
+from .utils.logger import apuestas_logger as logger
 
 
 class Leovegas(CasaDeApuestas):
     def __init__(self):
         self.nombre='leovegas'
+        CasaDeApuestas.__init__(self,self.nombre)
         self.DATA=[]
         self.headers = {
             'authority': 'www.leovegas.es',

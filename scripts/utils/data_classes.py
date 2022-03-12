@@ -6,40 +6,47 @@ from fractions import Fraction
 from .logger import apuestas_logger as logger
 
 class CasaDeApuestas():
-	def __init__(self):
-		self.nombre=None
+	def __init__(self, nombre):
+		self.nombre=nombre
 		self.DATA=[]
 		self.respuesta=None
 
+		# Para guardar/cargar data
+		self.htmls_folder_path=os.path.abspath(os.path.join(os.path.dirname(__file__),'..','data/htmls'))
+		self.html_file_path=os.path.join(self.htmls_folder_path,self.nombre+'.html')
+		# print(f"{self.htmls_folder_path=}")
+		# print(f"{self.html_file_path=}")
+		self.jsons_folder_path=os.path.abspath(os.path.join(os.path.dirname(__file__),'..','data/jsons'))
+		self.json_file_path=os.path.join(self.jsons_folder_path,self.nombre+'.json')
+
 	def guardar_html(self):
-		logger.debug("html de "+self.nombre+" guardado en /htmls")
-		htmls_folder_path=os.path.dirname(__file__)+'/htmls/'
-		if not os.path.exists(htmls_folder_path):
-			os.mkdir(htmls_folder_path)
-			logger.debug("Creando carpeta: "+htmls_folder_path)
-		f=open(htmls_folder_path+self.nombre+'.html','w', encoding="utf-8")
+		if not os.path.exists(self.htmls_folder_path):
+			os.mkdir(self.htmls_folder_path)
+			logger.info("Creando carpeta: "+self.htmls_folder_path)
+		f=open(self.html_file_path,'w', encoding="utf-8")
 		f.write(self.respuesta.text)
 		f.close()
+		logger.info("html de "+self.nombre+" guardado en data/htmls")
 	
 	def cargar_html(self):
 		logger.info("Cargando html para "+self.nombre)
-		f=open(os.path.dirname(__file__)+'/htmls/'+self.nombre+'.html','r', encoding="utf-8")
+		f=open(self.html_file_path,'r', encoding="utf-8")
 		self.respuesta_text=f.read()
 		f.close()
 
 	def guardar_data_en_json(self):
 		self.j={'timestamp':time.time(),'web':self.nombre}
 		self.j['DATA']=[dato.to_dict() for dato in self.DATA]
-		jsons_folder_path=os.path.dirname(__file__)+'/jsons/'
-		if not os.path.exists(jsons_folder_path):
-			os.mkdir(jsons_folder_path)
-			logger.debug("Creando carpeta: "+jsons_folder_path)
-		f=open(jsons_folder_path+self.nombre+'.json','w')
+		if not os.path.exists(self.jsons_folder_path):
+			os.mkdir(self.jsons_folder_path)
+			logger.info("Creando carpeta: "+self.jsons_folder_path)
+		f=open(self.json_file_path,'w')
 		json.dump(self.j,f)
 		f.close()
+		logger.info("json de "+self.nombre+" guardado en data/jsons")
 	
 	def cargar_data_de_json(self):
-		f=open(os.path.dirname(__file__)+'/jsons/'+self.nombre+".json","r")
+		f=open(self.json_file_path,"r")
 		j=json.load(f)
 		f.close()
 		for d in j['DATA']:
@@ -95,7 +102,7 @@ class CasaDeApuestas():
 					odds2=Fraction(d['odds2']['numerator'],d['odds2']['denominator']),
 					dobles=d['dobles']
 				))
-		logger.debug(str(len(self.DATA))+" datos cargados para "+self.nombre)
+		logger.info(str(len(self.DATA))+" datos cargados para "+self.nombre)
 
 	def print(self):
 		print("\n"+self.nombre+":",len(self.DATA),"partidos\n")

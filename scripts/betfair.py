@@ -2,13 +2,14 @@ import requests
 from bs4 import BeautifulSoup
 from fractions import Fraction
 
-from .data_classes import Dato, Jugador, Equipo, CasaDeApuestas
-from .logger import apuestas_logger as logger
+from .utils.data_classes import Dato, Jugador, Equipo, CasaDeApuestas
+from .utils.logger import apuestas_logger as logger
 
 class Betfair(CasaDeApuestas):
 	def __init__(self):
 		self.s=requests.Session()
 		self.nombre='betfair'
+		CasaDeApuestas.__init__(self,self.nombre)
 		self.DATA=[]
 	
 	def buscar_partidos(self):
