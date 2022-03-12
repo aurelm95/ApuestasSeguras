@@ -143,18 +143,23 @@ class Jugador():
 	
 	def __eq__(self, other):
 		if self.apellido.lower() in other.apellido.lower() or other.apellido.lower() in self.apellido.lower():
-			if self.nombre==other.nombre:
-				return True
+			if self.apellido.lower()!=other.apellido.lower():
+				logger.debug(self.__repr__()+" y "+other.__repr__()+" no tienen exactamente el mismo apellido")
+			if self.nombre is not None and other.nombre is not None:
+				if self.nombre.lower()==other.nombre.lower():
+					return True
 			if self.inicial_nombre is not None and other.inicial_nombre is not None:			
 				if self.inicial_nombre.lower()==other.inicial_nombre.lower():
 					return True
 			if self.inicial_nombre is not None and other.nombre is not None:
 				if self.inicial_nombre.lower()==other.nombre[0].lower():
+					# self.nombre
 					return True
 			if self.nombre is not None and other.inicial_nombre is not None:
 				if self.nombre[0].lower()==other.inicial_nombre.lower():
 					return True
 			if (self.inicial_nombre is None and self.nombre is None) or (other.inicial_nombre is None and other.nombre is None):
+				logger.warning(self.__repr__()+" y "+other.__repr__()+" han coincidido por falta de nombres/iniciales")
 				return True
 			if self.nombre is not None and other.nombre is not None:
 				if self.nombre.lower() in other.nombre.lower() or other.nombre.lower() in self.nombre.lower():
@@ -163,8 +168,9 @@ class Jugador():
 				if self.nombre.replace(" ","").lower()==other.nombre.replace(" ","").lower():
 					logger.warning(self.__repr__()+" y "+other.__repr__()+" han coincidido por omision de espacios en los nombres")
 					return True
-				
+			logger.debug(self.__repr__()+" y "+other.__repr__()+" coinciden en apellido pero no en nombre")
 		return False
+	
 
 class Equipo():
 	def __init__(self,j1,j2=None):

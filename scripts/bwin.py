@@ -67,18 +67,18 @@ class Bwin(CasaDeApuestas):
 					e1j1,e1j2=j1.split('/')
 
 					e1n1,e1a1=e1j1.rsplit('. ',1)
-					e1j1=Jugador(inicial_nombre=e1n1,apellido=e1a1)
+					e1j1=Jugador(inicial_nombre=e1n1,apellido=e1a1) if len(e1n1)==1 else Jugador(nombre=e1n1,apellido=e1a1)
 
 					e1n2,e1a2=e1j2.rsplit('. ',1)
-					e1j2=Jugador(inicial_nombre=e1n2,apellido=e1a2)
+					e1j2=Jugador(inicial_nombre=e1n2,apellido=e1a2) if len(e1n2)==1 else Jugador(nombre=e1n2,apellido=e1a2)
 
 					e2j1,e2j2=j2.split('/')
 
 					e2n1,e2a1=e2j1.rsplit('. ',1)
-					e2j1=Jugador(inicial_nombre=e2n1,apellido=e2a1)
+					e2j1=Jugador(inicial_nombre=e2n1,apellido=e2a1) if len(e2n1)==1 else Jugador(nombre=e2n1,apellido=e2a1)
 
 					e2n2,e2a2=e2j2.rsplit('. ',1)
-					e2j2=Jugador(inicial_nombre=e2n2,apellido=e2a2)
+					e2j2=Jugador(inicial_nombre=e2n2,apellido=e2a2) if len(e2n2)==1 else Jugador(nombre=e2n2,apellido=e2a2)
 
 					self.DATA.append(Dato(Equipo(e1j1,e1j2),Equipo(e2j1,e2j2),odds1,odds2,dobles=dobles))
 				
@@ -89,7 +89,7 @@ class Bwin(CasaDeApuestas):
 					if ". " in j1:
 						n1,a1=j1.rsplit('. ',1)
 						if a1=='': logger.error(str(e1['name']['value'])+' -> '+j1+' -> apellido=""')
-						j1=Jugador(inicial_nombre=n1,apellido=a1)
+						j1=Jugador(inicial_nombre=n1,apellido=a1) if len(n1)==1 else Jugador(nombre=n1,apellido=a1)
 					elif " " in j1:
 						n1,a1=j1.rsplit(' ',1)
 						if a1=='': logger.error(str(e1['name']['value'])+' -> '+j1+' -> apellido=""')
@@ -103,11 +103,11 @@ class Bwin(CasaDeApuestas):
 					if ". " in j2:
 						n2,a2=j2.rsplit('. ',1)
 						if a2=='': logger.error(str(e2['name']['value'])+' -> '+j2+' -> apellido=""')
-						j2=Jugador(inicial_nombre=n2,apellido=a2)
+						j2=Jugador(inicial_nombre=n2,apellido=a2) if len(n2)==1 else Jugador(nombre=n2,apellido=a2)
 					elif " " in j2:
 						n2,a2=j2.rsplit(' ',1)
 						if a2=='': logger.error(str(e2['name']['value'])+' -> '+j2+' -> apellido=""')
-						j2=Jugador(nombre=n2,apellido=a2)
+						j2=Jugador(nombre=n2,apellido=a2) 
 					else:
 						j2=Jugador(apellido=j2)
 

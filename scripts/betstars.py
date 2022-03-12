@@ -57,17 +57,18 @@ class Betstars(CasaDeApuestas):
 						e1j1,e1j2=e1.split(' / ')
 						e1n1,e1a1=e1j1.strip().rsplit(' ',1)
 						e1n2,e1a2=e1j2.strip().rsplit(' ',1)
+
 						e1=Equipo(
-							Jugador(inicial_nombre=e1n1,apellido=e1a1),
-							Jugador(inicial_nombre=e1n2,apellido=e1a2)
+							Jugador(inicial_nombre=e1n1,apellido=e1a1) if len(e1j1)==1 else Jugador(nombre=e1n1,apellido=e1a1),
+							Jugador(inicial_nombre=e1n2,apellido=e1a2) if len(e1j2)==1 else Jugador(nombre=e1n2,apellido=e1a2)
 						)
 
 						e2j1,e2j2=e2.split(' / ')
 						e2n1,e2a1=e2j1.strip().rsplit(' ',1)
 						e2n2,e2a2=e2j2.strip().rsplit(' ',1)
 						e2=Equipo(
-							Jugador(inicial_nombre=e2n1,apellido=e2a1),
-							Jugador(inicial_nombre=e2n2,apellido=e2a2)
+							Jugador(inicial_nombre=e2n1,apellido=e2a1) if len(e2j1)==1 else Jugador(nombre=e2n1,apellido=e2a1),
+							Jugador(inicial_nombre=e2n2,apellido=e2a2) if len(e2j2)==1 else Jugador(nombre=e2n2,apellido=e2a2)
 						)
 					else:
 						e1n1,e1a1=e1.rsplit(' ',1)

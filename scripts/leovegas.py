@@ -72,8 +72,8 @@ class Leovegas(CasaDeApuestas):
         for dia in eventos_por_dias:
             eventos=dia['eventsSubGroup']
             for evento in eventos:
-                evento=evento['eventsSubGroup'][0]['eventsSubGroup'][0]['data']
-                for partido in evento:
+                data=evento['eventsSubGroup'][0]['eventsSubGroup'][0]['data']
+                for partido in data:
                     try:
                         dobles=True if '/' in partido['homeName'] else False
                         if dobles:
@@ -99,6 +99,8 @@ class Leovegas(CasaDeApuestas):
                             e1j2=parsear_juagador_doble(e1j2)
                             e2j1=parsear_juagador_doble(e2j1)
                             e2j2=parsear_juagador_doble(e2j2)
+                            e1=Equipo(j1=e1j1,j2=e1j2)
+                            e2=Equipo(j1=e2j1,j2=e2j2)
                         
                         else:
                             j1=partido['homeName']
@@ -120,6 +122,9 @@ class Leovegas(CasaDeApuestas):
                                 j2=Jugador(nombre=n2,apellido=a2)
                             else:
                                 j2=Jugador(apellido=j2)
+                            
+                            e1=Equipo(j1=j1)
+                            e2=Equipo(j1=j2)
                         
                         # Timestamp
                         unix_timestamp=int(partido['start'])//1000
@@ -137,7 +142,10 @@ class Leovegas(CasaDeApuestas):
                         
                         # print([j1,j2,odds1,odds2,unix_timestamp])
                         # self.DATA.append([j1,j2,odds1,odds2,unix_timestamp])
-                        self.DATA.append(Dato(Equipo(j1),Equipo(j2),odds1,odds2,dobles=False,timestamp=unix_timestamp))
+                        # logger.debug("Dia: "+str(eventos_por_dias.index(dia))+" evento: "+str(eventos.index(evento))+" partido: "+str(data.index(partido)))
+                        self.DATA.append(Dato(e1,e2,odds1,odds2,dobles=False,timestamp=unix_timestamp))
+                    except IndexError:
+                        logger.debug("Exception que ignoro: no se han podido leer bien unas odds")
                     except Exception as e:
                         if "Invalid literal for Fraction: 'Evens'" in str(e):
                             logger.debug("Exception que ignoro: "+str(e))

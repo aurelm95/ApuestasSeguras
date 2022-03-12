@@ -205,8 +205,21 @@ class Apuestas():
 			df=df.append(linea,ignore_index=True)
 		return df
 
-
-	
+	def buscar_jugadores_con_apellido(self,apellido):
+		resultado={}
+		for casa in [self.williamhill, self.betstars, self.betfair, self.bwin, self.leovegas]:
+			encontrados=[]
+			for d in casa.DATA:
+				if apellido in d.e1.j1.apellido:
+					encontrados.append(d.e1.j1)
+				if d.e1.j2 is not None and apellido in d.e1.j2.apellido:
+					encontrados.append(d.e1.j2)
+				if apellido in d.e2.j1.apellido:
+					encontrados.append(d.e2.j1)
+				if d.e2.j2 is not None and apellido in d.e2.j2.apellido:
+					encontrados.append(d.e2.j2)
+			resultado[casa.nombre]=encontrados
+		return resultado
 
 if __name__=='__main__':
 	a=Apuestas()
