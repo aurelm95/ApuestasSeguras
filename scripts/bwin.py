@@ -65,18 +65,18 @@ class Bwin(CasaDeApuestas):
 				if dobles:
 					e1j1,e1j2=j1.split('/')
 
-					e1n1,e1a1=e1j1.split('. ')
+					e1n1,e1a1=e1j1.rsplit('. ',1)
 					e1j1=Jugador(inicial_nombre=e1n1,apellido=e1a1)
 
-					e1n2,e1a2=e1j2.split('. ')
+					e1n2,e1a2=e1j2.rsplit('. ',1)
 					e1j2=Jugador(inicial_nombre=e1n2,apellido=e1a2)
 
 					e2j1,e2j2=j2.split('/')
 
-					e2n1,e2a1=e2j1.split('. ')
+					e2n1,e2a1=e2j1.rsplit('. ',1)
 					e2j1=Jugador(inicial_nombre=e2n1,apellido=e2a1)
 
-					e2n2,e2a2=e2j2.split('. ')
+					e2n2,e2a2=e2j2.rsplit('. ',1)
 					e2j2=Jugador(inicial_nombre=e2n2,apellido=e2a2)
 
 					self.DATA.append(Dato(Equipo(e1j1,e1j2),Equipo(e2j1,e2j2),odds1,odds2,dobles=dobles))
