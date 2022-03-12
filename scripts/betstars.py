@@ -43,7 +43,7 @@ class Betstars(CasaDeApuestas):
 							logger.debug("Torneo: "+str(self.j.index(torneo))+" Evento: "+str(torneo['event'].index(p))+" Odds encontradas")
 							if mercado['selection'][0]['name']==p['participants']['participant'][0]['name']:
 								odds1=mercado['selection'][0]['odds']['frac']
-								odds2=mercado['selection'][0]['odds']['frac']
+								odds2=mercado['selection'][1]['odds']['frac']
 							else:
 								odds1=mercado['selection'][1]['odds']['frac']
 								odds2=mercado['selection'][0]['odds']['frac']

@@ -66,7 +66,7 @@ class Leovegas(CasaDeApuestas):
         self.respuesta = requests.post('https://www.leovegas.es/api/gql', headers=self.headers, json=self.json_data)
         j=self.respuesta.json()
 
-        logger.warning("Aun no esta implementado el tema de los partidos dobles!!")
+        # logger.warning("Aun no esta implementado el tema de los partidos dobles!!")
 
         eventos_por_dias=j['data']['eventsByGroup']['results']
         for dia in eventos_por_dias:
@@ -75,34 +75,66 @@ class Leovegas(CasaDeApuestas):
                 evento=evento['eventsSubGroup'][0]['eventsSubGroup'][0]['data']
                 for partido in evento:
                     try:
-                        j1=partido['homeName']
-                        if ', ' in j1:
-                            a1,n1=j1.rsplit(', ',1)
-                            j1=Jugador(nombre=n1,apellido=a1)
-                        elif ' ' in j1:
-                            n1,a1=j1.rsplit(' ',1)
-                            j1=Jugador(nombre=n1,apellido=a1)
+                        dobles=True if '/' in partido['homeName'] else False
+                        if dobles:
+                            e1j1,e1j2=partido['homeName'].split('/')
+                            e2j1,e2j2=partido['awayName'].split('/')
+
+                            def parsear_juagador_doble(s):
+                                s=s.strip()
+                                nombre=apellido=None
+                                if ', ' in s:
+                                    apellido,nombre=s.rsplit(', ',1)
+                                elif ' ' in s:
+                                    apellido,nombre=s.rsplit(' ',1)
+                                else:
+                                    apellido=s
+                                # print(f"{nombre=}, {apellido=}")
+
+                                if nombre is not None and len(nombre)==1:
+                                    return Jugador(inicial_nombre=nombre,apellido=apellido)
+                                return Jugador(nombre=nombre,apellido=apellido)
+                            
+                            e1j1=parsear_juagador_doble(e1j1)
+                            e1j2=parsear_juagador_doble(e1j2)
+                            e2j1=parsear_juagador_doble(e2j1)
+                            e2j2=parsear_juagador_doble(e2j2)
+                        
                         else:
-                            j1=Jugador(apellido=j1)
-                        j2=partido['awayName']
-                        if ', ' in j2:
-                            a2,n2=j2.rsplit(', ',1)
-                            j2=Jugador(nombre=n2,apellido=a2)
-                        elif ' ' in j2:
-                            n2,a2=j2.rsplit(' ',1)
-                            j2=Jugador(nombre=n2,apellido=a2)
-                        else:
-                            j2=Jugador(apellido=j2)
+                            j1=partido['homeName']
+                            if ', ' in j1:
+                                a1,n1=j1.rsplit(', ',1)
+
+                                j1=Jugador(nombre=n1,apellido=a1)
+                            elif ' ' in j1:
+                                n1,a1=j1.rsplit(' ',1)
+                                j1=Jugador(nombre=n1,apellido=a1)
+                            else:
+                                j1=Jugador(apellido=j1)
+                            j2=partido['awayName']
+                            if ', ' in j2:
+                                a2,n2=j2.rsplit(', ',1)
+                                j2=Jugador(nombre=n2,apellido=a2)
+                            elif ' ' in j2:
+                                n2,a2=j2.rsplit(' ',1)
+                                j2=Jugador(nombre=n2,apellido=a2)
+                            else:
+                                j2=Jugador(apellido=j2)
+                        
+                        # Timestamp
                         unix_timestamp=int(partido['start'])//1000
                         if 100*(unix_timestamp//100)!=unix_timestamp:
                             logger.warning("timestamp: "+str(unix_timestamp)+" descartado por no tener un minuto exacto")
                             unix_timestamp=None
-                        odds1=Fraction(partido['betOffers'][0]['outcomes'][0]['oddsFractional'])
-                        odds2=Fraction(partido['betOffers'][0]['outcomes'][1]['oddsFractional'])
+                        
+                        # odds
+                        odds1=Fraction(partido['betOffers'][0]['outcomes'][0]['oddsFractional'])+1
+                        odds2=Fraction(partido['betOffers'][0]['outcomes'][1]['oddsFractional'])+1
                         if partido['betOffers'][0]['outcomes'][0]['label']==partido['awayName']:
                             # cambio de odds
                             odds1, odds2=odds2, odds1
                             logger.debug("Intercambio las odds")
+                        
                         # print([j1,j2,odds1,odds2,unix_timestamp])
                         # self.DATA.append([j1,j2,odds1,odds2,unix_timestamp])
                         self.DATA.append(Dato(Equipo(j1),Equipo(j2),odds1,odds2,dobles=False,timestamp=unix_timestamp))
@@ -116,7 +148,7 @@ class Leovegas(CasaDeApuestas):
                         try:
                             logger.warning("No se ha podido parsear: "+str(e)+" J1: "+str(j1)+" original: "+partido['homeName']+" J2: "+str(j2)+" original: "+partido['awayName']+" line: "+str(e.__traceback__.tb_lineno))
                         except Exception as e2:
-                            logger.warning("No se ha podido parsear: "+str(e)+" Exception durante el log: "+str(e2))
+                            logger.error("No se ha podido parsear: "+str(e)+". ERROR: Exception durante el log: "+str(e2))
 
             
 

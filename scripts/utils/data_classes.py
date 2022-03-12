@@ -292,12 +292,13 @@ class Evento():
 			self.odds[web]=[dato.odds2,dato.odds1]
 			metido=True
 		
-		if metido and dato.timestamp is not None:
-			if self.timestamp is None:
-				self.timestamp=dato.timestamp
-			else:
-				if self.timestamp!=dato.timestamp:
-					logger.error("El evento: "+self.__repr__()+" coincide con el dato: "+dato.__repr__()+"de la web "+web+" pero difieren en "+time.strftime('%H:%M:%S', time.gmtime(abs(self.timestamp-dato.timestamp)))+" en timestamp!")
+		if metido:
+			if dato.timestamp is not None:
+				if self.timestamp is None:
+					self.timestamp=dato.timestamp
+				else:
+					if self.timestamp!=dato.timestamp:
+						logger.error("El evento: "+self.__repr__()+" coincide con el dato: "+dato.__repr__()+"de la web "+web+" pero difieren en "+time.strftime('%H:%M:%S', time.gmtime(abs(self.timestamp-dato.timestamp)))+" en timestamp!")
 			return True
 		return False
 

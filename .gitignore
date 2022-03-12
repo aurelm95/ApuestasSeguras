@@ -1,13 +1,22 @@
-scripts/__pycache__
-scripts/htmls
-scripts/jsons
-.replit
+# pycache
 __pycache__
-poetry.lock
-pyproject.toml
+
+# Archivos para desarrollo
 main.py
 web.py
-telegram_bot.py
+run_leovegas.py
+
+# Archivos de datos/backups
+scripts/data/
 pretty_print.txt
 partidos.csv
 partidos.html
+partidos_seguros.html
+
+# Archivos de deploy
+.replit
+poetry.lock
+pyproject.toml
+
+# Archivos sin relacion
+telegram_bot.py
