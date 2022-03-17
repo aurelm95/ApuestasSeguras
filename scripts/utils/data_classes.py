@@ -126,7 +126,20 @@ class Jugador():
 	
 	def to_dict(self):
 		return {'nombre':self.nombre,'apellido':self.apellido,'inicial_nombre':self.inicial_nombre,'inicial_apellido':self.inicial_apellido}
-	
+
+	def completar_con(self,other):
+		if self.inicial_nombre is None:
+			self.inicial_nombre=other.inicial_nombre
+		else:
+			if self.inicial_nombre!=other.inicial_nombre:
+				pass # poner un diccionario con entrada la web de donde viene y tal
+		
+		if self.nombre is None:
+			self.nombre=other.nombre
+		
+		if self.apellido is None:
+			self.inicial_nombre=other.inicial_nombre
+
 	def __str__(self):
 		if self.nombre is not None:
 			return self.nombre+' '+self.apellido

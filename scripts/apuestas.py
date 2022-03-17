@@ -188,8 +188,11 @@ class Apuestas():
 	def to_dataframe(self):
 		df = pd.DataFrame(columns=["Fecha","Equipo 1","Equipo 2","williamhill 1","williamhill 2","betstars 1","betstars 2","betfair 1","betfair 2","bwin 1","bwin 2","leovegas 1","leovegas 2","Esperanza","Segura","Ganancia","Conclusion"])
 		for evento in self.DATA:
-			linea={} if evento.timestamp is None else {"Fecha":datetime.utcfromtimestamp(evento.timestamp).strftime('%Y-%m-%d %H:%M:%S (UTC)')}
-			# linea={"Equipo 1":str(evento.e1),"Equipo 2":str(evento.e2)}
+			linea={}
+			if evento.live:
+				linea["Fecha"]="EN JUEGO"
+			elif evento.timestamp is not None:
+				linea["Fecha"]=datetime.utcfromtimestamp(evento.timestamp).strftime('%Y-%m-%d %H:%M:%S (UTC)')
 			linea["Equipo 1"]=str(evento.e1)
 			linea["Equipo 2"]=str(evento.e2)
 			for web in list(evento.odds.keys()):
