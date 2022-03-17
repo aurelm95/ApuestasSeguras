@@ -56,9 +56,9 @@ class Bwin(CasaDeApuestas):
 			j2=e2['name']['value']
 			unix_timestamp=None
 			try:
-				unix_timestamp=int(datetime.strptime(p['startDate'], "%Y-%m-%dT%H:%M:%S").timestamp())
+				unix_timestamp=int(datetime.strptime(p['startDate'], "%Y-%m-%dT%H:%M:%SZ").timestamp())
 			except Exception as e:
-				logger.warning("No se ha podido parsear la fecha: "+str(e))
+				logger.warning("No se ha podido parsear la fecha: "+str(e)+" string original: "+p['startDate'])
 				
 
 			dobles=True if '/' in j1 else False
@@ -80,7 +80,7 @@ class Bwin(CasaDeApuestas):
 					e2n2,e2a2=e2j2.rsplit('. ',1)
 					e2j2=Jugador(inicial_nombre=e2n2,apellido=e2a2) if len(e2n2)==1 else Jugador(nombre=e2n2,apellido=e2a2)
 
-					self.DATA.append(Dato(Equipo(e1j1,e1j2),Equipo(e2j1,e2j2),odds1,odds2,dobles=dobles))
+					self.DATA.append(Dato(Equipo(e1j1,e1j2),Equipo(e2j1,e2j2),odds1,odds2,dobles=dobles,timestamp=unix_timestamp))
 				
 				else:
 					# print("singles: j1:",j1,"j2:",j2)
@@ -111,7 +111,7 @@ class Bwin(CasaDeApuestas):
 					else:
 						j2=Jugador(apellido=j2)
 
-					self.DATA.append(Dato(Equipo(j1),Equipo(j2),odds1,odds2,dobles=dobles))
+					self.DATA.append(Dato(Equipo(j1),Equipo(j2),odds1,odds2,dobles=dobles,timestamp=unix_timestamp))
 			except Exception as e:
 				logger.warning("No se ha podido parsear: "+str(e)+" J1: "+str(j1)+" original: "+str(e1['name']['value'])+" J2: "+str(j2)+" original: "+str(e2['name']['value'])+" line: "+str(e.__traceback__.tb_lineno))
 				pass
