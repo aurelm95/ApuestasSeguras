@@ -171,7 +171,6 @@ class Jugador():
 			logger.debug(self.__repr__()+" y "+other.__repr__()+" coinciden en apellido pero no en nombre")
 		return False
 	
-
 class Equipo():
 	def __init__(self,j1,j2=None):
 		self.j1=j1
@@ -232,6 +231,12 @@ class Evento():
 		self.e2=dato.e2
 		self.dobles=dato.dobles
 		self.timestamp=dato.timestamp
+		self.timestamps=[]
+		self.live=False
+		if dato.timestamp is not None:
+			self.timestamps.append(dato.timestamp)
+			if dato.timestamp<time.time():
+				self.live=True
 
 		# Datos sobre la seguridad de la apuesta del evento
 		self.segura=False
@@ -300,11 +305,16 @@ class Evento():
 		
 		if metido:
 			if dato.timestamp is not None:
+				self.timestamps.append(dato.timestamp)
 				if self.timestamp is None:
 					self.timestamp=dato.timestamp
 				else:
 					if self.timestamp!=dato.timestamp:
-						logger.error("El evento: "+self.__repr__()+" coincide con el dato: "+dato.__repr__()+"de la web "+web+" pero difieren en "+time.strftime('%H:%M:%S', time.gmtime(abs(self.timestamp-dato.timestamp)))+" en timestamp!")
+						if self.timestamp<time.time():
+							logger.debug("El evento: "+self.__repr__()+" coincide con el dato: "+dato.__repr__()+" de la web "+web+" pero difieren en "+time.strftime('%H:%M:%S', time.gmtime(abs(self.timestamp-dato.timestamp)))+" en timestamp! Esto se debe a que el partido se está jugando en directo!")
+							self.live=True
+						else:
+							logger.error("El evento: "+self.__repr__()+" coincide con el dato: "+dato.__repr__()+" de la web "+web+" pero difieren en "+time.strftime('%H:%M:%S', time.gmtime(abs(self.timestamp-dato.timestamp)))+" en timestamp! Estos son los timestamps hasta el momento: "+str(self.timestamps))
 			return True
 		return False
 
@@ -322,5 +332,7 @@ class Evento():
 		return j
 
 	def __repr__(self):
+		if self.live:
+			return str(self.e1)+' vs '+str(self.e2)+' | '+str(self.odds)+' || '+str(self.esperanza)+' | timestamp: EN CURSO'	
 		return str(self.e1)+' vs '+str(self.e2)+' | '+str(self.odds)+' || '+str(self.esperanza)+' | timestamp: '+str(self.timestamp)
 		

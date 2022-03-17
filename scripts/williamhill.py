@@ -64,6 +64,9 @@ class Williamhill(CasaDeApuestas):
 					fecha_ISOSTRING=e.find('time')['datetime']
 					# https://stackoverflow.com/questions/969285/how-do-i-translate-an-iso-8601-datetime-string-into-a-python-datetime-object
 					unix_timestamp=int(datetime.strptime(fecha_ISOSTRING, "%Y-%m-%dT%H:%M:%S%z").timestamp())
+				except TypeError as e:
+					logger.debug("warning que ignoro: no se ha podido parsear la fecha: "+str(e))
+
 				except Exception as e:
 					logger.warning("No se ha podido parsear la fecha: "+str(e))
 
