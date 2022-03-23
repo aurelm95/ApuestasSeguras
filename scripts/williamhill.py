@@ -68,7 +68,7 @@ class Williamhill(CasaDeApuestas):
 					logger.debug("warning que ignoro: no se ha podido parsear la fecha: "+str(e))
 
 				except Exception as e:
-					logger.warning("No se ha podido parsear la fecha: "+str(e))
+					logger.timestamp_warning("No se ha podido parsear la fecha: "+str(e))
 
 				self.DATA.append(Dato(equipo1,equipo2,precio1,precio2,dobles=dobles,timestamp=unix_timestamp))	
 

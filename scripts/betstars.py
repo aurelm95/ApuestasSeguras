@@ -81,7 +81,7 @@ class Betstars(CasaDeApuestas):
 					try:
 						unix_timestamp=int(p['eventTime'])//1000
 					except Exception as e:
-						logger.warning("No se ha podido parsear la fecha: "+str(e))
+						logger.timestamp_warning("No se ha podido parsear la fecha: "+str(e))
 
 					d=Dato(e1,e2,Fraction(odds1)+1,Fraction(odds2)+1,dobles=doble,timestamp=unix_timestamp) # les sumo 1 a las odds
 					self.DATA.append(d)

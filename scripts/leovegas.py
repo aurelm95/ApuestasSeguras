@@ -130,9 +130,9 @@ class Leovegas(CasaDeApuestas):
                         unix_timestamp=int(partido['start'])//1000
                         if 100*(unix_timestamp//100)!=unix_timestamp:
                             if dia['header']=='LIVE':
-                                logger.debug("timestamp: "+str(unix_timestamp)+" descartado por no tener un minuto exacto. El partido es del dia: "+dia['header'])
+                                logger.timestamp_warning("timestamp: "+str(unix_timestamp)+" descartado por no tener un minuto exacto. El partido es del dia: "+dia['header'])
                             else:
-                                logger.warning("timestamp: "+str(unix_timestamp)+" descartado por no tener un minuto exacto. El partido es del dia: "+dia['header'])
+                                logger.timestamp_warning("timestamp: "+str(unix_timestamp)+" descartado por no tener un minuto exacto. El partido es del dia: "+dia['header'])
                             unix_timestamp=None
                         
                         # odds

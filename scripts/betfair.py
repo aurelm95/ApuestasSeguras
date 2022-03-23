@@ -90,6 +90,9 @@ class Betfair(CasaDeApuestas):
 							e2j2=Jugador(nombre=n1,apellido=a1)
 					else:
 						e2j2=Jugador(apellido=e2j2)
+					
+					if e1j2.apellido=='': logger.debug("nombre del equipo1: "+nombre1+" originales: "+partido.find_all('span',{'class':'team-name'})[0]['title'])
+					if e2j2.apellido=='': logger.debug("nombre del equipo2: "+nombre2+" originales: "+partido.find_all('span',{'class':'team-name'})[1]['title'])
 					self.DATA.append(Dato(Equipo(e1j1,e1j2),Equipo(e2j1,e2j2),p1,p2,dobles=dobles))
 
 				else:

@@ -58,7 +58,7 @@ class Bwin(CasaDeApuestas):
 			try:
 				unix_timestamp=int(datetime.strptime(p['startDate'], "%Y-%m-%dT%H:%M:%SZ").timestamp())
 			except Exception as e:
-				logger.warning("No se ha podido parsear la fecha: "+str(e)+" string original: "+p['startDate'])
+				logger.timestamp_warning("No se ha podido parsear la fecha: "+str(e)+" string original: "+p['startDate'])
 				
 
 			dobles=True if '/' in j1 else False

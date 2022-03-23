@@ -110,7 +110,7 @@ class CasaDeApuestas():
 			print(partido)
 	
 	def __repr__(self):
-		r="Nombre: "+str(self.nombre)+' Datos:'+str(len(self.DATA))+'\n\n'
+		r="Nombre: "+str(self.nombre)+' Cantidad de datos: '+str(len(self.DATA))+'\n\n'
 		for d in self.DATA:
 			r+=d.__repr__()+'\n'
 		return r
@@ -133,7 +133,7 @@ class Jugador():
 		else:
 			if self.inicial_nombre!=other.inicial_nombre:
 				pass # poner un diccionario con entrada la web de donde viene y tal
-		
+						
 		if self.nombre is None:
 			self.nombre=other.nombre
 		
@@ -225,7 +225,7 @@ class Dato():
 		return Dato(self.e2,self.e1,self.odds2,self.odds1,dobles=self.dobles)
 	
 	def to_dict(self):
-		return {'e1':self.e1.to_dict(),'e2':self.e2.to_dict(),'odds1':{'numerator':self.odds1.numerator,'denominator':self.odds1.denominator},'odds2':{'numerator':self.odds2.numerator,'denominator':self.odds2.denominator},'dobles':self.dobles}
+		return {'timestamp':self.timestamp,'e1':self.e1.to_dict(),'e2':self.e2.to_dict(),'odds1':{'numerator':self.odds1.numerator,'denominator':self.odds1.denominator},'odds2':{'numerator':self.odds2.numerator,'denominator':self.odds2.denominator},'dobles':self.dobles}
 
 	def __str__(self):
 		if not self.dobles:
@@ -324,10 +324,10 @@ class Evento():
 				else:
 					if self.timestamp!=dato.timestamp:
 						if self.timestamp<time.time():
-							logger.debug("El evento: "+self.__repr__()+" coincide con el dato: "+dato.__repr__()+" de la web "+web+" pero difieren en "+time.strftime('%H:%M:%S', time.gmtime(abs(self.timestamp-dato.timestamp)))+" en timestamp! Esto se debe a que el partido se está jugando en directo!")
+							logger.timestamp_warning("El evento: "+self.__repr__()+" coincide con el dato: "+dato.__repr__()+" de la web "+web+" pero difieren en "+time.strftime('%H:%M:%S', time.gmtime(abs(self.timestamp-dato.timestamp)))+" en timestamp! Esto se debe a que el partido se está jugando en directo!")
 							self.live=True
 						else:
-							logger.error("El evento: "+self.__repr__()+" coincide con el dato: "+dato.__repr__()+" de la web "+web+" pero difieren en "+time.strftime('%H:%M:%S', time.gmtime(abs(self.timestamp-dato.timestamp)))+" en timestamp! Estos son los timestamps hasta el momento: "+str(self.timestamps))
+							logger.timestamp_warning("El evento: "+self.__repr__()+" coincide con el dato: "+dato.__repr__()+" de la web "+web+" pero difieren en "+time.strftime('%H:%M:%S', time.gmtime(abs(self.timestamp-dato.timestamp)))+" en timestamp! Estos son los timestamps hasta el momento: "+str(self.timestamps))
 			return True
 		return False
 
