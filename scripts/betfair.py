@@ -46,72 +46,34 @@ class Betfair(CasaDeApuestas):
 				p1=Fraction(p1)
 				p2=Fraction(p2)
 
+				def parsear_jugador(s):
+					s=s.strip() # Para quitar el espacio que hay entre el apellido y la barra / y el espacio que hay entre la barra / y el nombre en el caso de los dobles
+					if ' ' in s:
+						nombre,apellido=s.rsplit(' ',1)
+						if len(nombre)==1:
+							return Jugador(inicial_nombre=nombre,apellido=apellido,web=self.nombre)
+						return Jugador(nombre=nombre,apellido=apellido,web=self.nombre)
+					return Jugador(apellido=s,web=self.nombre)
+
 				dobles=True if '/' in nombre1 else False
 				# print("\tnombre1",nombre1,"nombre2:",nombre2,"dobles:",dobles)
 				if dobles:
 					e1j1,e1j2=nombre1.split('/')
-					e1j1=e1j1.strip() # Para quitar el espacio que hay entre el apellido y la barra / y el espacio que hay entre la barra / y el nombre
-					e1j2=e1j2.strip()
-
-					if ' ' in e1j1:
-						n1,a1=e1j1.rsplit(' ',1)
-						if len(n1)==1:
-							e1j1=Jugador(inicial_nombre=n1,apellido=a1)
-						else:
-							e1j1=Jugador(nombre=n1,apellido=a1)
-					else:
-						e1j1=Jugador(apellido=e1j1)
-					if ' ' in e1j2:
-						n1,a1=e1j2.rsplit(' ',1)
-						if len(n1)==1:
-							e1j2=Jugador(inicial_nombre=n1,apellido=a1)
-						else:
-							e1j2=Jugador(nombre=n1,apellido=a1)
-					else:
-						e1j2=Jugador(apellido=e1j2)
-					
 					e2j1,e2j2=nombre2.split('/')
-					e2j1=e2j1.strip() # Para quitar el espacio que hay entre el apellido y la barra / y el espacio que hay entre la barra / y el nombre
-					e2j2=e2j2.strip()
 
-					if ' ' in e2j1:
-						n1,a1=e2j1.rsplit(' ',1)
-						if len(n1)==1:
-							e2j1=Jugador(inicial_nombre=n1,apellido=a1)
-						else:
-							e2j1=Jugador(nombre=n1,apellido=a1)
-					else:
-						e2j1=Jugador(apellido=e2j1)
-					if ' ' in e2j2:
-						n1,a1=e2j2.rsplit(' ',1)
-						if len(n1)==1:
-							e2j2=Jugador(inicial_nombre=n1,apellido=a1)
-						else:
-							e2j2=Jugador(nombre=n1,apellido=a1)
-					else:
-						e2j2=Jugador(apellido=e2j2)
-					
+					e1j1=parsear_jugador(e1j1)
+					e1j2=parsear_jugador(e1j2)
+					e2j1=parsear_jugador(e2j1)
+					e2j2=parsear_jugador(e2j2)
+				
 					if e1j2.apellido=='': logger.debug("nombre del equipo1: "+nombre1+" originales: "+partido.find_all('span',{'class':'team-name'})[0]['title'])
 					if e2j2.apellido=='': logger.debug("nombre del equipo2: "+nombre2+" originales: "+partido.find_all('span',{'class':'team-name'})[1]['title'])
 					self.DATA.append(Dato(Equipo(e1j1,e1j2),Equipo(e2j1,e2j2),p1,p2,dobles=dobles))
 
 				else:
-					if ' ' in nombre1:
-						n1,a1=nombre1.rsplit(' ',1)
-						if len(n1)==1:
-							j1=Jugador(inicial_nombre=n1,apellido=a1)
-						else:
-							j1=Jugador(nombre=n1,apellido=a1)
-					else:
-						j1=Jugador(apellido=nombre1)
-					if ' ' in nombre2:
-						n2,a2=nombre2.rsplit(' ',1)
-						if len(n2)==1:
-							j2=Jugador(inicial_nombre=n2,apellido=a2)
-						else:
-							j2=Jugador(nombre=n2,apellido=a2)
-					else:
-						j2=Jugador(apellido=nombre2)
+					j1=parsear_jugador(nombre1)
+					j2=parsear_jugador(nombre2)
+
 					self.DATA.append(Dato(Equipo(j1),Equipo(j2),p1,p2,dobles=dobles))
 			except ValueError as e:
 				if 'Fraction' in e.__repr__():

@@ -116,30 +116,44 @@ class CasaDeApuestas():
 		return r
 
 class Jugador():
-	def __init__(self,apellido,nombre=None,inicial_nombre=None,inicial_apellido=None):
+	def __init__(self,apellido,nombre=None,inicial_nombre=None,inicial_apellido=None,web=None):
 		self.nombre=nombre
 		self.apellido=apellido
 		self.inicial_nombre=inicial_nombre
 		self.inicial_apellido=inicial_apellido
-		if apellido=='' or apellido is None:
+		if inicial_nombre is not None and len(inicial_nombre)>1:
+			logger.error(self.__repr__()+" tiene una inicial con mas de una letra")
+		if apellido=='' or apellido==' ' or apellido is None:
 			logger.error(self.__repr__()+" no tiene apellido")
-	
+		
+		self.web=web
+		self.otros_nombres={}
+		if web is not None:
+			self.otros_nombres[web]={'inicial_nombre':inicial_nombre, 'nombre':nombre,'apellido':apellido}
+			
 	def to_dict(self):
 		return {'nombre':self.nombre,'apellido':self.apellido,'inicial_nombre':self.inicial_nombre,'inicial_apellido':self.inicial_apellido}
 
 	def completar_con(self,other):
-		if self.inicial_nombre is None:
-			self.inicial_nombre=other.inicial_nombre
-		else:
-			if self.inicial_nombre!=other.inicial_nombre:
-				pass # poner un diccionario con entrada la web de donde viene y tal
-						
-		if self.nombre is None:
-			self.nombre=other.nombre
+		if other.web is not None:
+			self.otros_nombres[other.web]={'inicial_nombre':other.inicial_nombre, 'nombre':other.nombre,'apellido':other.apellido}
 		
-		if self.apellido is None:
-			self.inicial_nombre=other.inicial_nombre
+		if other.inicial_nombre is not None:
+			if self.inicial_nombre is None:
+				logger.debug("Añadiendo inicial_nombre a "+self.__repr__()+" de "+other.__repr__())
+				self.inicial_nombre=other.inicial_nombre
+			else:
+				if self.inicial_nombre!=other.inicial_nombre:
+					logger.error(self.__repr__()+" completandose con "+other.__repr__()+" pero tienen distinta inicial")
 
+		if other.nombre is not None:
+			if self.nombre is None:
+				logger.debug("Añadiendo nombre a "+self.__repr__()+" de "+other.__repr__())
+				self.nombre=other.nombre
+			elif self.nombre!=other.nombre and self.nombre in other.nombre:
+				logger.warning("Completando nombre de "+self.__repr__()+" con "+other.__repr__())
+				self.nombre=other.nombre
+		
 	def __str__(self):
 		if self.nombre is not None:
 			return self.nombre+' '+self.apellido
@@ -148,11 +162,15 @@ class Jugador():
 		return self.apellido
 	
 	def __repr__(self):
-		if self.nombre is not None:
-			return 'Jugador(nombre='+self.nombre+', apellido='+self.apellido+')'
+		r='Jugador('
 		if self.inicial_nombre is not None:
-			return 'Jugador(inicial_nombre='+self.inicial_nombre+', apellido='+self.apellido+')'
-		return 'Jugador(apellido='+self.apellido+')'
+			r+='inicial_nombre='+self.inicial_nombre+', '
+			# return 'Jugador(inicial_nombre='+self.inicial_nombre+', apellido='+self.apellido+')'
+		if self.nombre is not None:
+			r+='nombre='+self.nombre+', '
+			# return 'Jugador(nombre='+self.nombre+', apellido='+self.apellido+')'
+		return r+'apellido='+self.apellido+')'
+		# return 'Jugador(apellido='+self.apellido+')'
 	
 	def __eq__(self, other):
 		if self.apellido.lower() in other.apellido.lower() or other.apellido.lower() in self.apellido.lower():
@@ -206,10 +224,12 @@ class Equipo():
 		return 'Equipo(j1='+self.j1.__repr__()+')'
 
 	def __eq__(self, other):
-		if self.dobles:
-			if not other.dobles:
-				return False
-			return self.j1==other.j1 and self.j2==other.j2
+		if self.dobles==other.dobles:
+			iguales1=self.j1==other.j1
+			if iguales1: self.j1.completar_con(other.j1)
+			iguales2=self.j2==other.j2
+			if iguales2 and self.j2 is not None: self.j2.completar_con(other.j2)
+			return iguales1 and iguales2
 		return self.j1==other.j1
 
 class Dato():
