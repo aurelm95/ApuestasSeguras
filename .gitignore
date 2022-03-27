@@ -17,6 +17,7 @@ partidos_seguros.html
 .replit
 poetry.lock
 pyproject.toml
+enlaces.txt
 
 # Archivos sin relacion
 telegram_bot.py
