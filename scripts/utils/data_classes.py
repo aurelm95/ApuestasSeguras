@@ -2,6 +2,8 @@ import os
 import time
 import json
 from fractions import Fraction
+import unicodedata
+import re
 
 from .logger import apuestas_logger as logger
 
@@ -133,6 +135,14 @@ class Jugador():
 			
 	def to_dict(self):
 		return {'nombre':self.nombre,'apellido':self.apellido,'inicial_nombre':self.inicial_nombre,'inicial_apellido':self.inicial_apellido}
+
+	def _normalize(self,s):
+		# https://es.stackoverflow.com/questions/135707/c%C3%B3mo-puedo-reemplazar-las-letras-con-tildes-por-las-mismas-sin-tilde-pero-no-l
+		# -> NFD y eliminar diacríticos
+		s = re.sub(r"([^n\u0300-\u036f]|n(?!\u0303(?![\u0300-\u036f])))[\u0300-\u036f]+", r"\1", normalize( "NFD", s), 0, re.I)
+		# -> NFC
+		s=normalize( 'NFC', s)
+		return s.lower()
 
 	def completar_con(self,other):
 		if other.web is not None:

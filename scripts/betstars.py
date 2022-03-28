@@ -75,7 +75,7 @@ class Betstars(CasaDeApuestas):
 						e1=Equipo(e1j1)
 
 						e2j1=parsear_juagador(e2)
-						e2=Equipo(e1j1)
+						e2=Equipo(e2j1)
 
 					unix_timestamp=None	
 					try:

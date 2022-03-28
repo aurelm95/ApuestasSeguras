@@ -30,6 +30,7 @@ class Williamhill(CasaDeApuestas):
 		self.soup=BeautifulSoup(self.respuesta_text,'html.parser')
 		# eventos es una lista con cadauno de "los partidos"
 		self.eventos=self.soup.find_all('div',{'class':'event'})
+
 		for e in self.eventos:
 			try:
 				# Equipo
@@ -44,14 +45,14 @@ class Williamhill(CasaDeApuestas):
 						logger.warning("se ha omitido un partido de selecciones: "+str(n1))
 						continue
 					n1,a1=n1.rsplit(' ',1)
-					equipo1=Equipo(Jugador(nombre=n1,apellido=a1))
+					equipo1=Equipo(Jugador(nombre=n1,apellido=a1,web=self.nombre))
 					n2,a2=n2.rsplit(' ',1)
-					equipo2=Equipo(Jugador(nombre=n2,apellido=a2))
+					equipo2=Equipo(Jugador(nombre=n2,apellido=a2,web=self.nombre))
 				else:
 					e1j1,e1j2=n1.split("/")
-					equipo1=Equipo(Jugador(apellido=e1j1),Jugador(apellido=e1j2))
+					equipo1=Equipo(Jugador(apellido=e1j1,web=self.nombre),Jugador(apellido=e1j2,web=self.nombre))
 					e2j1,e2j2=n2.split("/")
-					equipo2=Equipo(Jugador(apellido=e2j1),Jugador(apellido=e2j2))
+					equipo2=Equipo(Jugador(apellido=e2j1,web=self.nombre),Jugador(apellido=e2j2,web=self.nombre))
 				
 				# odds
 				b=e.find_all('button')

@@ -75,25 +75,36 @@ class Leovegas(CasaDeApuestas):
                 data=evento['eventsSubGroup'][0]['eventsSubGroup'][0]['data']
                 for partido in data:
                     try:
+
+                        def parsear_juagador_doble(s):
+                            s=s.strip()
+                            nombre=apellido=None
+                            if ', ' in s:
+                                apellido,nombre=s.rsplit(', ',1)
+                            elif ' ' in s:
+                                apellido,nombre=s.rsplit(' ',1)
+                            else:
+                                apellido=s
+                            # print(f"{nombre=}, {apellido=}")
+
+                            if nombre is not None and len(nombre)==1:
+                                return Jugador(inicial_nombre=nombre,apellido=apellido,web=self.nombre)
+                            return Jugador(nombre=nombre,apellido=apellido,web=self.nombre)
+                        
+                        def parsear_juagador(s):
+                            if ', ' in s:
+                                apellido,nombre=s.rsplit(', ',1)
+                                return Jugador(nombre=nombre,apellido=apellido,web=self.nombre)
+                            elif ' ' in s:
+                                nombre,apellido=s.rsplit(' ',1)
+                                return Jugador(nombre=nombre,apellido=apellido,web=self.nombre)
+                            else:
+                                return Jugador(apellido=j1,web=self.nombre)
+                        
                         dobles=True if '/' in partido['homeName'] else False
                         if dobles:
                             e1j1,e1j2=partido['homeName'].split('/')
                             e2j1,e2j2=partido['awayName'].split('/')
-
-                            def parsear_juagador_doble(s):
-                                s=s.strip()
-                                nombre=apellido=None
-                                if ', ' in s:
-                                    apellido,nombre=s.rsplit(', ',1)
-                                elif ' ' in s:
-                                    apellido,nombre=s.rsplit(' ',1)
-                                else:
-                                    apellido=s
-                                # print(f"{nombre=}, {apellido=}")
-
-                                if nombre is not None and len(nombre)==1:
-                                    return Jugador(inicial_nombre=nombre,apellido=apellido)
-                                return Jugador(nombre=nombre,apellido=apellido)
                             
                             e1j1=parsear_juagador_doble(e1j1)
                             e1j2=parsear_juagador_doble(e1j2)
@@ -104,24 +115,10 @@ class Leovegas(CasaDeApuestas):
                         
                         else:
                             j1=partido['homeName']
-                            if ', ' in j1:
-                                a1,n1=j1.rsplit(', ',1)
+                            j1=parsear_juagador(j1)
 
-                                j1=Jugador(nombre=n1,apellido=a1)
-                            elif ' ' in j1:
-                                n1,a1=j1.rsplit(' ',1)
-                                j1=Jugador(nombre=n1,apellido=a1)
-                            else:
-                                j1=Jugador(apellido=j1)
                             j2=partido['awayName']
-                            if ', ' in j2:
-                                a2,n2=j2.rsplit(', ',1)
-                                j2=Jugador(nombre=n2,apellido=a2)
-                            elif ' ' in j2:
-                                n2,a2=j2.rsplit(' ',1)
-                                j2=Jugador(nombre=n2,apellido=a2)
-                            else:
-                                j2=Jugador(apellido=j2)
+                            j2=parsear_juagador(j2)
                             
                             e1=Equipo(j1=j1)
                             e2=Equipo(j1=j2)

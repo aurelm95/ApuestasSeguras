@@ -59,57 +59,48 @@ class Bwin(CasaDeApuestas):
 				unix_timestamp=int(datetime.strptime(p['startDate'], "%Y-%m-%dT%H:%M:%SZ").timestamp())
 			except Exception as e:
 				logger.timestamp_warning("No se ha podido parsear la fecha: "+str(e)+" string original: "+p['startDate'])
-				
+			
+			def parsear_juagador_dobles(s):
+				nombre,apellido=s.rsplit('. ',1)
+				if len(nombre)==1:
+					return Jugador(inicial_nombre=nombre,apellido=apellido,web=self.nombre)
+				return Jugador(nombre=nombre,apellido=apellido,web=self.nombre)
+			
+			def parsear_juagador(s):
+				if '(' in s:
+					s=s.split('(')[0] # A veces los nombres contienen entre parentesis la nacionalidad. por ejmeplo: Clement Tabur (FRA) o bien: Yuta Shimizu (JPN)
+				if s[-1]==' ':
+					s=s[:-1] # posiblemente tras el split de arriba quede un espacio final. Lo quito.
+				if '. ' in s:
+					nombre,apellido=s.rsplit('. ',1)
+					if apellido=='': logger.error(s+" -> apellido=''")
+					if len(nombre)==1:
+						return Jugador(inicial_nombre=nombre,apellido=apellido,web=self.nombre)
+					return Jugador(nombre=nombre,apellido=apellido,web=self.nombre)
+				elif ' ' in s:
+					nombre,apellido=s.rsplit(' ',1)
+					if apellido=='': logger.error(s+" -> apellido=''")
+					return Jugador(nombre=nombre,apellido=apellido,web=self.nombre)
+				return Jugador(apellido=s,web=self.nombre)
+
+
 
 			dobles=True if '/' in j1 else False
 			try:
 				if dobles:
 					e1j1,e1j2=j1.split('/')
-
-					e1n1,e1a1=e1j1.rsplit('. ',1)
-					e1j1=Jugador(inicial_nombre=e1n1,apellido=e1a1) if len(e1n1)==1 else Jugador(nombre=e1n1,apellido=e1a1)
-
-					e1n2,e1a2=e1j2.rsplit('. ',1)
-					e1j2=Jugador(inicial_nombre=e1n2,apellido=e1a2) if len(e1n2)==1 else Jugador(nombre=e1n2,apellido=e1a2)
-
 					e2j1,e2j2=j2.split('/')
 
-					e2n1,e2a1=e2j1.rsplit('. ',1)
-					e2j1=Jugador(inicial_nombre=e2n1,apellido=e2a1) if len(e2n1)==1 else Jugador(nombre=e2n1,apellido=e2a1)
-
-					e2n2,e2a2=e2j2.rsplit('. ',1)
-					e2j2=Jugador(inicial_nombre=e2n2,apellido=e2a2) if len(e2n2)==1 else Jugador(nombre=e2n2,apellido=e2a2)
+					e1j1=parsear_juagador_dobles(e1j1)
+					e1j2=parsear_juagador_dobles(e1j2)
+					e2j1=parsear_juagador_dobles(e2j1)
+					e2j2=parsear_juagador_dobles(e2j2)
 
 					self.DATA.append(Dato(Equipo(e1j1,e1j2),Equipo(e2j1,e2j2),odds1,odds2,dobles=dobles,timestamp=unix_timestamp))
 				
 				else:
-					# print("singles: j1:",j1,"j2:",j2)
-					if "(" in j1: j1=j1.split("(")[0] # A veces los nombres contienen entre parentesis la nacionalidad. por ejmeplo: Clement Tabur (FRA) o bien: Yuta Shimizu (JPN)
-					if j1[-1]==' ': j1=j1[:-1] # posiblemente tras el split de arriba quede un espacio final. Lo quito.
-					if ". " in j1:
-						n1,a1=j1.rsplit('. ',1)
-						if a1=='': logger.error(str(e1['name']['value'])+' -> '+j1+' -> apellido=""')
-						j1=Jugador(inicial_nombre=n1,apellido=a1) if len(n1)==1 else Jugador(nombre=n1,apellido=a1)
-					elif " " in j1:
-						n1,a1=j1.rsplit(' ',1)
-						if a1=='': logger.error(str(e1['name']['value'])+' -> '+j1+' -> apellido=""')
-						j1=Jugador(nombre=n1,apellido=a1)
-					else:
-						j1=Jugador(apellido=j1)
-					
-
-					if "(" in j2: j2=j2.split("(")[0]
-					if j2[-1]==' ': j2=j2[:-1]
-					if ". " in j2:
-						n2,a2=j2.rsplit('. ',1)
-						if a2=='': logger.error(str(e2['name']['value'])+' -> '+j2+' -> apellido=""')
-						j2=Jugador(inicial_nombre=n2,apellido=a2) if len(n2)==1 else Jugador(nombre=n2,apellido=a2)
-					elif " " in j2:
-						n2,a2=j2.rsplit(' ',1)
-						if a2=='': logger.error(str(e2['name']['value'])+' -> '+j2+' -> apellido=""')
-						j2=Jugador(nombre=n2,apellido=a2) 
-					else:
-						j2=Jugador(apellido=j2)
+					j1=parsear_juagador(j1)
+					j2=parsear_juagador(j2)
 
 					self.DATA.append(Dato(Equipo(j1),Equipo(j2),odds1,odds2,dobles=dobles,timestamp=unix_timestamp))
 			except Exception as e:
