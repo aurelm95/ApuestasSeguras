@@ -16,7 +16,7 @@ Se puede ver una demostración del proyecto en: https://aure.aurelm.repl.co/apue
 
 ![](visualizacion.png)
 
-## Condición matemática de las apuestas seguras <a name="condicion_matematica"></a>
+# Condición matemática de las apuestas seguras <a name="condicion_matematica"></a>
 
 ## Ejemplo 1
 
