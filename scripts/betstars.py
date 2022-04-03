@@ -49,7 +49,9 @@ class Betstars(CasaDeApuestas):
 								odds2=mercado['selection'][0]['odds']['frac']
 							break
 					
-					assert odds1 is not None and odds2 is not None
+					# assert odds1 is not None and odds2 is not None
+					if odds1 is None or odds2 is None:
+						logger.warning("Unas odds no han podido parsearse")
 
 					def parsear_juagador(s):
 						nombre,apellido=s.strip().rsplit(' ',1)

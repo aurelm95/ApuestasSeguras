@@ -103,7 +103,10 @@ class Bwin(CasaDeApuestas):
 
 					self.DATA.append(Dato(Equipo(j1),Equipo(j2),odds1,odds2,dobles=dobles,timestamp=unix_timestamp))
 			except Exception as e:
-				logger.warning("No se ha podido parsear: "+str(e)+" J1: "+str(j1)+" original: "+str(e1['name']['value'])+" J2: "+str(j2)+" original: "+str(e2['name']['value'])+" line: "+str(e.__traceback__.tb_lineno))
+				try:
+					logger.warning("No se ha podido parsear: "+str(e)+" J1: "+str(j1)+" original: "+str(e1['name']['value'])+" J2: "+str(j2)+" original: "+str(e2['name']['value'])+" line: "+str(e.__traceback__.tb_lineno))
+				except:
+					logger.warning("No se ha podido parsear un partido: "+str(e)+" line: "+str(e.__traceback__.tb_lineno))
 				pass
 
 
