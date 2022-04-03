@@ -4,6 +4,7 @@ import json
 from fractions import Fraction
 import unicodedata
 import re
+import pandas as pd
 
 from .logger import apuestas_logger as logger
 
@@ -233,14 +234,17 @@ class Equipo():
 			return 'Equipo(j1='+self.j1.__repr__()+', j2='+self.j2.__repr__()+')'
 		return 'Equipo(j1='+self.j1.__repr__()+')'
 
-	def __eq__(self, other):
+	def __eq__(self,other):
 		if self.dobles==other.dobles:
-			iguales1=self.j1==other.j1
-			if iguales1: self.j1.completar_con(other.j1)
-			iguales2=self.j2==other.j2
-			if iguales2 and self.j2 is not None: self.j2.completar_con(other.j2)
-			return iguales1 and iguales2
-		return self.j1==other.j1
+			if self.dobles==True:
+				if self.j1==other.j1 and self.j2==other.j2:
+					self.j1.completar_con(other.j1)
+					self.j2.completar_con(other.j2)
+					return True
+			elif self.j1==other.j1:
+				self.j1.completar_con(other.j1)
+				return True
+		return False
 
 class Dato():
 	def __init__(self,e1,e2,odds1,odds2,dobles=False,timestamp=None):
@@ -340,9 +344,11 @@ class Evento():
 	def nuevo_dato(self,dato,web):
 		metido=False
 		if self.e1==dato.e1 and self.e2==dato.e2:
+			if web in list(self.odds.keys()): logger.error("El evento "+self.__repr__()+" ya tiene odds de "+web+" y va a volver a meter el dato "+dato.__repr__())
 			self.odds[web]=[dato.odds1,dato.odds2]
 			metido=True
 		elif self.e1==dato.e2 and self.e2==dato.e1:
+			if web in list(self.odds.keys()): logger.error("El evento "+self.__repr__()+" ya tiene odds de "+web+" y va a volver a meter el dato "+dato.__repr__())
 			self.odds[web]=[dato.odds2,dato.odds1]
 			metido=True
 		
@@ -378,4 +384,6 @@ class Evento():
 		if self.live:
 			return str(self.e1)+' vs '+str(self.e2)+' | '+str(self.odds)+' || '+str(self.esperanza)+' | timestamp: EN CURSO'	
 		return str(self.e1)+' vs '+str(self.e2)+' | '+str(self.odds)+' || '+str(self.esperanza)+' | timestamp: '+str(self.timestamp)
+
+
 		
