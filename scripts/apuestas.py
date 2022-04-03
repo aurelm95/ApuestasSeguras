@@ -186,7 +186,7 @@ class Apuestas():
 		f.close()
 
 	def to_dataframe(self):
-		df = pd.DataFrame(columns=["Fecha","Equipo 1","Equipo 2","williamhill 1","williamhill 2","betstars 1","betstars 2","betfair 1","betfair 2","bwin 1","bwin 2","leovegas 1","leovegas 2","Esperanza","Segura","Ganancia","Conclusion"])
+		lista=[]
 		for evento in self.DATA:
 			linea={}
 			if evento.live:
@@ -196,17 +196,14 @@ class Apuestas():
 			linea["Equipo 1"]=str(evento.e1)
 			linea["Equipo 2"]=str(evento.e2)
 			for web in list(evento.odds.keys()):
-				# linea|={web+' 1':round(float(evento.odds[web][0]),2),web+' 2':round(float(evento.odds[web][1]),2)}
-				# linea.update({web+' 1':round(float(evento.odds[web][0]),2),web+' 2':round(float(evento.odds[web][1]),2)})
 				linea[web+' 1']=round(float(evento.odds[web][0]),2)
 				linea[web+' 2']=round(float(evento.odds[web][1]),2)
-			# print(evento.esperanza, type(evento.esperanza))
 			linea['Esperanza']=evento.esperanza
 			linea['Segura']=evento.segura
 			linea['Ganancia']=float(evento.ganancia_minima_asegurada)
 			linea['Conclusion']=evento.conclusion
-			df=df.append(linea,ignore_index=True)
-		return df
+			lista.append(linea)
+		return pd.DataFrame(lista)
 
 	# para development/debug
 	def buscar_jugadores_con_apellido(self,apellido):

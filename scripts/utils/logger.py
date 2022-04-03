@@ -69,7 +69,7 @@ setattr(logging, methodName, logToRoot)
 
 # Inicializacion
 apuestas_logger = logging.getLogger(__name__)
-apuestas_logger.setLevel(logging.DEBUG)
+apuestas_logger.setLevel(logging.INFO)
 # formatter = logging.Formatter('%(asctime)s: %(name)s.py: [%(levelname)s]: %(message)s',"%H:%M:%S")
 
 # Custom formatter
