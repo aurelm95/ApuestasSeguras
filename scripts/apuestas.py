@@ -203,7 +203,9 @@ class Apuestas():
 			linea['Ganancia']=float(evento.ganancia_minima_asegurada)
 			linea['Conclusion']=evento.conclusion
 			lista.append(linea)
-		return pd.DataFrame(lista)
+		df=pd.DataFrame(lista)
+		df=df[["Fecha","Equipo 1","Equipo 2","williamhill 1","williamhill 2","betstars 1","betstars 2","betfair 1","betfair 2","bwin 1","bwin 2","leovegas 1","leovegas 2","Esperanza","Segura","Ganancia","Conclusion"]]
+		return df
 
 	# para development/debug
 	def buscar_jugadores_con_apellido(self,apellido):
