@@ -1,10 +1,22 @@
 # ApuestasSeguras
 
-_Este proyecto tiene como objetivo encontrar [apuestas seguras](https://es.wikipedia.org/wiki/Surebet) comparando diferentes casas de apuestas deportivas online._
+Este proyecto tiene como objetivo encontrar [apuestas seguras](https://es.wikipedia.org/wiki/Surebet) comparando diferentes casas de apuestas deportivas online.
 
-Se puede ver una demostración del proyecto en: https://webappapuestas2.aurelm.repl.co/
+## Idea del algoritmo:
+- Mediante webscrapping se obtienen las odds de [distintas casas de apuestas](#casas_de_apuestas)
 
-## Introducción
+- Un algoritmo diseñado por mi se encarga de enparejar los partidos de cada casa de apuestas en función de su nombre.
+
+- Se aplica una búsqueda de [la condición matemática](#condicion_matematica) con tal de encontrar apuestas seguras.
+
+- Para cada apuesta segura, se calcula cual es la apuesta ideal para maximizar las ganancias.
+
+## Resultados del algoritmo
+Se puede ver una demostración del proyecto en: https://aure.aurelm.repl.co/apuestasseguras/
+
+![](visualizacion.png)
+
+## Condición matemática de las apuestas seguras <a name="condicion_matematica"></a>
 
 ## Ejemplo 1
 
@@ -57,18 +69,20 @@ Por otro lado, la misma condición $(B-1)(A-1)-1>0$ sería suficiente para asegu
 - Si gana jugador2: (B-1)(A-1)-1>0
 
 
-# Casas de apuestas
+# Casas de apuestas <a name="casas_de_apuestas"></a>
 _Se lleva a cabo web scraping a las webs:_
 
 - williamhill
 - betfair
 - betstars
 - bwin
+- leovegas
 
+# Autor ✒️<a name="autor"></a>
 
-# Autor ✒️
-
-* **Aurelio Losquiño**  - aurelm95@gmail.com
+**Aurelio Losquiño** 
+- email: aurelm95@gmail.com
+- [Linkedin](https://es.linkedin.com/in/aurelio-losqui%C3%B1o-mu%C3%B1oz-b7284b204)
 
 [//]: # (Plantilla para el readme: https://gist.github.com/Villanuevand/6386899f70346d4580c723232524d35a) 
 
