@@ -204,7 +204,10 @@ class Apuestas():
 			linea['Conclusion']=evento.conclusion
 			lista.append(linea)
 		df=pd.DataFrame(lista)
-		df=df[["Fecha","Equipo 1","Equipo 2","williamhill 1","williamhill 2","betstars 1","betstars 2","betfair 1","betfair 2","bwin 1","bwin 2","leovegas 1","leovegas 2","Esperanza","Segura","Ganancia","Conclusion"]]
+		
+		orden_columnas=["Fecha","Equipo 1","Equipo 2","williamhill 1","williamhill 2","betstars 1","betstars 2","betfair 1","betfair 2","bwin 1","bwin 2","leovegas 1","leovegas 2","Esperanza","Segura","Ganancia","Conclusion"]
+		orden_columnas=[col for col in orden_columnas if col in list(df)]
+		df=df[orden_columnas]
 		return df
 
 	# para development/debug
