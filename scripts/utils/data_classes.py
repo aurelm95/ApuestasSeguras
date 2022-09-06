@@ -391,7 +391,10 @@ class Evento():
 				'numerator':None if self.apuesta_a_web2 is None else self.apuesta_a_web2.numerator,
 				'denominator':None if self.apuesta_a_web2 is None else self.apuesta_a_web2.denominator,
 				},
-			'ganancia_minima_asegurada':self.ganancia_minima_asegurada,
+			'ganancia_minima_asegurada':{
+				'numerator':0 if self.ganancia_minima_asegurada==0 else self.ganancia_minima_asegurada.numerator,
+				'denominator':1 if self.ganancia_minima_asegurada==0 else self.ganancia_minima_asegurada.denominator,
+				},
 			'conclusion':self.conclusion
 		}
 		return j
