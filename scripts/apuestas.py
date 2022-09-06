@@ -210,6 +210,11 @@ class Apuestas():
 		df=df[orden_columnas]
 		return df
 
+	def to_dict(self):
+		self.j={'timestamp':self.fecha_ultima_busqueda}
+		self.j['DATA']=[evento.to_dict() for evento in self.DATA]
+		return self.j
+
 	# para development/debug
 	def buscar_jugadores_con_apellido(self,apellido):
 		resultado={}

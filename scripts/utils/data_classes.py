@@ -2,9 +2,9 @@ import os
 import time
 import json
 from fractions import Fraction
-import unicodedata
 import re
 import pandas as pd
+from datetime import datetime
 
 from .logger import apuestas_logger as logger
 
@@ -290,7 +290,7 @@ class Evento():
 		self.web_apuesta_segura1=None
 		self.web_apuesta_segura2=None
 		self.apuesta_a_web1=None
-		self.apuesta_a_web1=None
+		self.apuesta_a_web2=None
 		self.esperanza=0
 		self.ganancia_minima_asegurada=0
 		self.conclusion=''
@@ -369,6 +369,8 @@ class Evento():
 
 	def to_dict(self):
 		j={'e1':self.e1.to_dict(),'e2':self.e2.to_dict()}
+		j['timestamp']=self.timestamp
+		j['Fecha']=datetime.utcfromtimestamp(self.timestamp).strftime('%Y-%m-%d %H:%M:%S (UTC)') if self.timestamp is not None else None
 		odds={}
 		for web in list(self.odds.keys()):
 			odds[web]={
@@ -378,6 +380,20 @@ class Evento():
 		# j|={'odds':odds,'dobles:':self.dobles,'segura':self.segura}
 		j.update({'odds':odds,'dobles:':self.dobles,'segura':self.segura})
 		j['esperanza']=self.esperanza
+		j['mejor_apuesta']={
+			'web_apuesta_segura1':self.web_apuesta_segura1,
+			'web_apuesta_segura2':self.web_apuesta_segura2,
+			'apuesta_a_web1':{
+				'numerator':None if self.apuesta_a_web1 is None else self.apuesta_a_web1.numerator,
+				'denominator':None if self.apuesta_a_web1 is None else self.apuesta_a_web1.denominator,
+				},
+			'apuesta_a_web2':{
+				'numerator':None if self.apuesta_a_web2 is None else self.apuesta_a_web2.numerator,
+				'denominator':None if self.apuesta_a_web2 is None else self.apuesta_a_web2.denominator,
+				},
+			'ganancia_minima_asegurada':self.ganancia_minima_asegurada,
+			'conclusion':self.conclusion
+		}
 		return j
 
 	def __repr__(self):
