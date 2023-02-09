@@ -2,6 +2,11 @@
 
 Este proyecto tiene como objetivo encontrar [apuestas seguras](https://es.wikipedia.org/wiki/Surebet) comparando diferentes casas de apuestas deportivas online.
 
+**CONTACTO: MUCHA GENTE ESTÁ TRATANDO DE CONTACTAR CONMIGO. SI ESTÁS INTERESADO EN LAS INSTRUCCIONES PARA USAR EL PROGRAMA ESCRÍBEME A aurelm95@gmail.com**
+
+**CONTACT: A LOT OF PEOPLE ARE TRYING TO CONTACT ME. IF YOU ARE INTERESTED IN THE INSTRUCTIONS TO USE THE PROGRAM, WRITE ME AT aurelm95@gmail.com**
+
+
 ## Idea del algoritmo:
 - Mediante webscrapping se obtienen las odds de [distintas casas de apuestas](#casas_de_apuestas)
 
